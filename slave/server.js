@@ -11,6 +11,7 @@ var config = JSON.parse(fs.readFileSync(process.argv[2]));
 
 var app = express();
 
+
 //handle post/put
 app.use(function (req, res, next) {
   getRawBody(req, {
@@ -41,7 +42,6 @@ app.get("/tags/", function(req, res) {
 
 function commit(callback) {
   fs.writeFile(config.tagFile, JSON.stringify(state), callback)
-
 }
 
 app.put(/^\/tags\/[A-z:.-]+$/, function(req, res, next) {

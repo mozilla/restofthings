@@ -10,5 +10,5 @@
 # bits.
 #
 # By default this script does nothing.
-(cd ~taras/restofthings/slave/ &&  /usr/local/bin/node server.js  config.json)  2>&1 |cat > /tmp/err &
+(cd ~rpodiuc/restofthings/slave/ &&  /usr/local/bin/node server.js  config.json)  2>&1 |cat > /tmp/err &
 exit 0
