@@ -5,8 +5,10 @@ slave - code that runs on pi
 
 
 install Webiopi
-# Remove auth
-sudo rm /etc/webiopi/passwd
+
+Remove auth
+
+`sudo rm /etc/webiopi/passwd`
 
 Install and configure nginx:
 
