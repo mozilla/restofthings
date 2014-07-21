@@ -43,6 +43,10 @@ app.get("/tags/", function(req, res) {
 
 function commit(callback) {
   fs.writeFile(config.tagFile, JSON.stringify(state), callback)
+<<<<<<< HEAD
+=======
+  console.log('i an in commit file');
+>>>>>>> 4af0ccab48a589f3b915dfc3e36959e99721c387
 }
 
 app.put(/^\/tags\/[A-z:.-]+$/, function(req, res, next) {

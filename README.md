@@ -19,7 +19,31 @@ Install and configure nginx:
 `copy default file from pi-config-files to /etc/nginx`
 
 
-Nginx if used as a CORS proxy in this case.
+Nginx if used as a CORS proxy in this case(nginx will by default run on port `80`).
+
+raspicam working example
+
+At this point we'll try to use as an example the raspicam and mjpg streamer
+
+
+
+
+For that you need to install raspistill:
+\\link
+
+For starting the camera: 
+
+`$ mkdir /tmp/stream`
+
+`$ raspistill --nopreview -w 640 -h 480 -q 5 -o /tmp/stream/pic.jpg -tl 100 -t 9999999 -th 0:0:0 &`
+
+You need to install mjpg streamer:
+
+http://blog.miguelgrinberg.com/post/stream-video-from-the-raspberry-pi-camera-to-web-browsers-even-on-ios-and-android
+
+Than run: 
+
+`LD_LIBRARY_PATH=/usr/local/lib mjpg_streamer -i "input_file.so -f /tmp/stream -n pic.jpg" -o "output_http.so -w /usr/local/www -p 9999"`
 
 ### Flow
 * obtain device & plug it into network/power
