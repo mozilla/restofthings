@@ -9,9 +9,12 @@ install Webiopi
 sudo rm /etc/webiopi/passwd
 
 Install and configure nginx:
-sudo apt-get update
-sudo apt-get install nginx
-copy default file from pi-config-files to /etc/nginx
+
+`sudo apt-get update`
+
+`sudo apt-get install nginx`
+
+`copy default file from pi-config-files to /etc/nginx`
 
 
 Nginx if used as a CORS proxy in this case.
