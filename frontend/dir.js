@@ -1,5 +1,4 @@
-var baseurl = "http://localhost:8080";
-console.log("FUCK");
+var baseurl = "http://10.0.0.6:8080";
 $.ajax({"url":baseurl + "/ls"}).done(function (data) {
 
   console.log("MUAUHAHAHA", data);
@@ -7,7 +6,6 @@ $.ajax({"url":baseurl + "/ls"}).done(function (data) {
   ls.forEach(function (thingid) {
     var url = baseurl + "/thing/" + thingid;
     console.log("thingid is ", thingid, "url is ", url);
-   // alert(url);
     $.ajax({"url":url}).done(function (data) {
       var entry = JSON.parse(data);
 

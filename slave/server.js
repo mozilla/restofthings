@@ -37,6 +37,7 @@ try {
 }
 
 app.get("/tags/", function(req, res) {
+  console.log('i am in get tags');
   res.json(state);
 })
 
@@ -46,6 +47,7 @@ function commit(callback) {
 
 app.put(/^\/tags\/[A-z:.-]+$/, function(req, res, next) {
   var tagName = req.path.substr("/tags/".length);
+  console.log('i am in put and i want to write a tag : ', tagName);
   state[tagName] = req.text;
   commit(function(err) {
     if (err)
@@ -91,7 +93,7 @@ function getUUID() {
 function getOwnAddress(port, hostname, callback) {
   var socket = net.createConnection(port, hostname);
   socket.on('connect', function () {
-    var self = "http://" + socket.address().address + ":" + config.port;
+    var self = "http://" + socket.address().address + ":" + 80;
     socket.destroy();
     callback(null, self)
   });
@@ -127,9 +129,9 @@ function registerWithDirectoryServer() {
     };
 
     var req = http.request(options, function(res) {
-      //console.log('STATUS: ' + res.statusCode);
-      //console.log('HEADERS: ' + JSON.stringify(res.headers));
-      //res.setEncoding('utf8');
+      console.log('STATUS: ' + res.statusCode);
+      console.log('HEADERS: ' + JSON.stringify(res.headers));
+      res.setEncoding('utf8');
       var ret = "";
       res.on('data', function (chunk) {
         ret += chunk;
