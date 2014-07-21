@@ -16,7 +16,7 @@ Install and configure nginx:
 
 `sudo apt-get install nginx`
 
-`copy default file from pi-config-files to /etc/nginx`
+`copy default file from pi-config-files to /etc/nginx/sites-*`
 
 `service nginx start`
 
