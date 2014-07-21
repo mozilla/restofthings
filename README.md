@@ -1,11 +1,20 @@
 directory_server - centralized endpoint behind restofthings.com
 frontend - some html code to make use of all of the CORS
+frontend - app that makes calls to directory_server on behalf of current ip
 slave - code that runs on pi
 
-##Webiopi
+
+install Webiopi
 # Remove auth
 sudo rm /etc/webiopi/passwd
 
+Install and configure nginx:
+sudo apt-get update
+sudo apt-get install nginx
+copy default file from pi-config-files to /etc/nginx
+
+
+Nginx if used as a CORS proxy in this case.
 
 ### Flow
 * obtain device & plug it into network/power
