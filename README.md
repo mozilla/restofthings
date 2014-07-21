@@ -18,6 +18,8 @@ Install and configure nginx:
 
 `copy default file from pi-config-files to /etc/nginx`
 
+`service nginx start`
+
 
 Nginx if used as a CORS proxy in this case(nginx will by default run on port `80`).
 
