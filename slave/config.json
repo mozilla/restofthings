@@ -1,8 +1,12 @@
 {
-    "directoryServer": "http://oldvps.glek.net:8080",
+    "directoryServer": "http://10.251.43.233:8080",
     "tagFile":"/tmp/tags.json",
     "port":3000,
     "features":{
         "gpio:webiopi": {"url":"/GPIO/"}
+    },
+    "devices":{
+      "camera" : {"tag":"raspi", "url" : "localhost:8090/?action=snapshot"},
+      "led" : {"tag": "led1", "url" : "i reside at this url"}
     }
 }

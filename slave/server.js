@@ -1,6 +1,5 @@
 var net = require("net");
 var http = require("http");
-var fs = require("fs");
 var crypto = require("crypto");
 var url = require("url");
 var express = require('express');
@@ -71,6 +70,22 @@ app.get("/features", function (req, res) {
   res.json(config.features);
 })
 
+app.get("/devices", function(req, res) {
+  var allDevices = [];
+  var typeOfdevices =  Object.keys(config.devices);
+  console.log("------", typeOfdevices);
+  for (var i = 0; i < typeOfdevices.length; i++) {
+    console.log("DAMN", typeOfdevices[i]);
+
+    allDevices.push(config.devices[typeOfdevices[i]]["tag"]);
+    console.log("config.devices.typeOf", config.devices[typeOfdevices[i]]["tag"]);
+    //console.log("config.devices.typeOfdevices[i] ",config.devices.typeOfdevices[i]);
+    //allDevices.push();
+  }
+  console.log("+++++++", allDevices);
+  res.json(allDevices);
+})
+
 var server = app.listen(config.port, function() {
     console.log('Listening on port %d', server.address().port);
 });
@@ -91,7 +106,8 @@ function getUUID() {
 function getOwnAddress(port, hostname, callback) {
   var socket = net.createConnection(port, hostname);
   socket.on('connect', function () {
-    var self = "http://" + socket.address().address + ":" + config.port;
+    //var self = "http://" + socket.address().address + ":" + config.port;
+    var self = "http://" + socket.address().address + ":" + 80;
     socket.destroy();
     callback(null, self)
   });
