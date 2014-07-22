@@ -1,4 +1,5 @@
 var baseurl = "http://10.251.43.233:8080";
+//var baseurl = "http://10.0.0.6:8080";
 $.ajax({"url":baseurl + "/ls"}).done(function (data) {
 
   console.log("date primite pe ls ", data);
