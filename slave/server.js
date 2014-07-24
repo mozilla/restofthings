@@ -95,11 +95,15 @@ var server = app.listen(config.port, function() {
 
 
 function getUUID() {
+  if (config.uuid !== undefined) {
+      return config.uuid;
+  }
+
   var dir = "/sys/class/net/";
   var interfaces = fs.readdirSync(dir);
   //interfaces.sort();
   var macs = interfaces.map(function (interface) {
-    return fs.readFileSync(dir + interface + "/address");
+       return fs.readFileSync(dir + interface + "/address");
   }).join("");
   var sha1 = crypto.createHash('sha1');
   sha1.update(macs);
@@ -110,7 +114,7 @@ function getOwnAddress(port, hostname, callback) {
   var socket = net.createConnection(port, hostname);
   socket.on('connect', function () {
     //var self = "http://" + socket.address().address + ":" + config.port;
-    var self = "http://" + socket.address().address + ":" + 80;
+    var self = "http://" + socket.address().address + ":" + config.proxyport;
     socket.destroy();
     callback(null, self)
   });

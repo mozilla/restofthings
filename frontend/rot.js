@@ -5,16 +5,7 @@ var baseurl = "http://localhost:8080";
 var allUuids = [];
 var allThings = {};  // { 'uuid1dc65c13': { uuid: 'uuid1dc65c13', localURL: 'http://slave:80' }}
 var allTags = {};
-var allFeatures = {
-    'uuid1': {
-	"factory-name-for-led1-C00FF33": {'url': 'localhost:1234'},  // use fakeLed
-	"useless-device-MQYOK7N1WA*#22": {'url': 'localhost:1235'},
-    },
-    'uuid2': {
-	"wat-is-dis-3493YAT1PL--24": {'url': 'pi2/lol1'},
-	"gigagator-ultra-leds-inqqpa2": {'url': 'pi2/led2'},
-    }
-}
+allFeatures = {}
 
 exports.init = function init(cb) {
     request.get(baseurl + "/ls", function(err, res) {
@@ -25,8 +16,21 @@ exports.init = function init(cb) {
 
         var uuids = JSON.parse(res.text);
 	console.log("got uuids: ", uuids);
+
 	allUuids = uuids;
-	getAllThings(uuids, cb);
+	getAllThings(uuids, function(err, things) {
+	    allThings = things;
+	    console.log("allThings: ", allThings);
+	    getAllTags(things, function(err, tags) {
+		allTags = tags;
+		console.log("allTags: ", allTags);
+		getAllFeatures(things, function(err, features) {
+		    allFeatures = features;
+		    console.log("allFeatures: ", allFeatures);
+		    cb();
+		});
+	    });
+	});
     });
 
 
@@ -46,26 +50,6 @@ exports.queryTags = function queryTags(tags, cb) {
     cb(resp);  // no error
 }
 
-// Simulate the internets
-var webDump = {
-    'pi1/led1': 'off', 
-    'pi2/led2': 'on',
-};
-
-function wget(url, cb) {
-    var data = webDump[url];
-    if (data === undefined) {
-	cb(undefined, "No data for url: " + url + " :(");
-    } else {
-	cb(data);  // no error
-    }
-}
-
-function wput(url, data, cb) {
-    webDump[url] = data;
-    cb('empty-wput-response');  // no error
-}
-
 exports.readTag = function readTag(tag, cb) {
     var tagData = allTags[tag];
     if (tagData === undefined) {
@@ -73,7 +57,7 @@ exports.readTag = function readTag(tag, cb) {
     } else if (tagData['url'] === undefined) {
 	cb(undefined, "No url for tag: " + tag + " :(");
     } else {
-	wget(tagData['url'], cb);
+	request(tagData['url'], function (err, req) { cb(req.text, err);}) ;
     }
 }
 
@@ -84,17 +68,18 @@ exports.writeTag = function writeTag(tag, data, cb) {
     } else if (tagData['url'] === undefined) {
 	cb(undefined, "No url for tag: " + tag + " :(");
     } else {
-	wput(tagData['url'], data, cb);
+	request.put(tagData['url'], data, function (err, req) { cb(req.text, err);});
     }
 }
 
 
 function getAllThings(uuids, cb) {
-    allThings = {};
+    var things = {};
     var errors = undefined;
+    var done = 0;
     for (var i = 0; i < uuids.length; i++) {
 	(function() {
-	    var uuid = allUuids[i];
+	    var uuid = uuids[i];
 	    request.get(baseurl + "/thing/" + uuid, function(err, res) {
 		if (err) {
 		    if (errors === undefined) 
@@ -102,43 +87,81 @@ function getAllThings(uuids, cb) {
 		    errors.push(err);
 		} else {
 		    var thing = JSON.parse(res.text);
-		    console.log("Got thing: ", thing, " for uuid: " + uuid);
-		    allThings[uuid] = thing;
+		    console.log("Got thing: ", thing, " for uuid: ", uuid);
+		    things[uuid] = thing;
 		}
-		if (Object.keys(allThings).length === allUuids.length)
-		    cb(errors, allThings);
+		done ++;
+		if (done === uuids.length)
+		    cb(errors, things);
 	   });
 	})();
     }
 }
 
-
-exports.getFeatures = function getFeatures(cb) {
-    allFeatures = {};
+function getAllTags(things, cb) {
+    var tags = {};
     var errors = undefined;
-    for (var i = 0; i < allUuids.length; i++) {
+    var done = 0;
+    for (var uuid in things) {
 	(function() {
-	    var uuid = allUuids[i];
-	    request.get(baseurl + "/thing/" + uuid, function(err, res) {
+	    var thing = things[uuid];
+	    console.log("thing:", thing);
+	    request.get(thing['localURL'] + "/tags/", function(err, res) {
+		console.log("--> getAllTags: err: ", err, " res.text: ", res.text);
 		if (err) {
 		    if (errors === undefined) 
 			errors = [];
 		    errors.push(err);
 		} else {
-		    var features = JSON.parse(res.text);
-		    console.log("Got features: ", features, " for uuid: " + uuid);
-		    allFeatures[uuid] = features;
+		    var tagsResp = JSON.parse(res.text);
+		    console.log("Got tagsResp: ", tagsResp, " for thing: ", thing);
+		    // merge tag lists
+		    for (var k in tagsResp) 
+			tags[k] = tagsResp[k];
 		}
-		if (Object.keys(allFeatures).length === allUuids.length)
-		    cb(errors, allFeatures);
+		done ++;
+		if (done === Object.keys(things).length)
+		    cb(errors, tags);
 	   });
 	})();
     }
 }
 
-exports.setTag = function setTag(uuid, feature, tagName, cb) {
+
+function getAllFeatures(things, cb) {
+    var features = {};
+    var errors = undefined;
+    var done = 0;
+    for (var uuid in things) {
+	(function(uuid) {
+	    var thing = things[uuid];
+	    console.log("thing:", thing);
+	    request.get(thing['localURL'] + "/features/", function(err, res) {
+		console.log("--> getAllFeatures: err: ", err, " res.text: ", res.text);
+		if (err) {
+		    if (errors === undefined) 
+			errors = [];
+		    errors.push(err);
+		} else {
+		    var featuresResp = JSON.parse(res.text);
+		    console.log("Got featuresResp: ", featuresResp, " for thing: ", thing, "uuid:", uuid);
+		    features[uuid] = featuresResp;
+		}
+		done ++;
+		if (done === Object.keys(things).length)
+		    cb(errors, features);
+	   });
+	})(uuid);
+    }
+}
+
+exports.getFeatures = function getFeatures(cb) {
+    cb(allFeatures);
+}
+
+exports.setTag = function setTag(uuid, feature, tag, cb) {
     if (allFeatures[uuid] === undefined) {
-	cb("No such uuid: " + uuid + " :(");
+	cb("No such uuid: " + uuid + " :( in allFeatures:" + allFeatures);
     } else if (allFeatures[uuid][feature] === undefined) {
 	cb("No such feature: " + feature + " for uuid: " + uuid + " :(");
     } else if (tag in allTags) {
@@ -150,6 +173,8 @@ exports.setTag = function setTag(uuid, feature, tagName, cb) {
     }
 }
 
+
+// TODO:
 exports.deleteTag = function deleteTag(tag, cb) {
     if (allTags[tag] == undefined) {
 	cb("No such tag: " + tag + " :(");

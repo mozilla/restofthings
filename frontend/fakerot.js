@@ -1,7 +1,7 @@
 
 var allTags = {};
 exports.init = function init(cb) {
-    allTags = {"led1": {"url": "pi1/led1"}, "led2": {"url": "pi2/led2"}};
+    allTags = {"led3": {"url": "pi1/led1"}, "led2": {"url": "pi2/led2"}};
     cb();
 
 /*
@@ -77,7 +77,7 @@ exports.getFeatures = function getFeatures(cb) {
     cb(allFeatures);
 }
 
-exports.setTag = function setTag(uuid, feature, tagName, cb) {
+exports.setTag = function setTag(uuid, feature, tag, cb) {
     if (allFeatures[uuid] === undefined) {
 	cb("No such uuid: " + uuid + " :(");
     } else if (allFeatures[uuid][feature] === undefined) {
