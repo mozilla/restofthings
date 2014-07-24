@@ -1,6 +1,6 @@
 
 var allTags = {};
-function init(cb) {
+exports.init = function init(cb) {
     allTags = {"led1": {"url": "pi1/led1"}, "led2": {"url": "pi2/led2"}};
     cb();
 
@@ -11,7 +11,7 @@ function init(cb) {
 */
 }
 
-function queryTags(tags, cb) {
+exports.queryTags = function queryTags(tags, cb) {
     // ["tag1", "tag2"], cb (resp, err)); where resp: {"tag1": ?, "tag2": ?}
     var resp = {};
     for (var i = 0; i < tags.length; i++) {
@@ -22,12 +22,12 @@ function queryTags(tags, cb) {
 
 // Simulate the internets
 var webDump = {
-    'pi1/led1': '0',  // led1 is off 
-    'pi2/led2': '1',  // led2 is on
+    'pi1/led1': 'off', 
+    'pi2/led2': 'on',
 };
 
 function wget(url, cb) {
-    var data = webDump(url);
+    var data = webDump[url];
     if (data === undefined) {
 	cb(undefined, "No data for url: " + url + " :(");
     } else {
@@ -37,10 +37,10 @@ function wget(url, cb) {
 
 function wput(url, data, cb) {
     webDump[url] = data;
-    cb();  // no error
+    cb('empty-wput-response');  // no error
 }
 
-function readTag(tag, cb) {
+exports.readTag = function readTag(tag, cb) {
     var tagData = allTags[tag];
     if (tagData === undefined) {
 	cb(undefined, "No such tag: " + tag + " :(");
@@ -51,7 +51,7 @@ function readTag(tag, cb) {
     }
 }
 
-function writeTag(tag, data, cb) {
+exports.writeTag = function writeTag(tag, data, cb) {
     var tagData = allTags[tag];
     if (tagData === undefined) {
 	cb(undefined, "No such tag: " + tag + " :(");
@@ -73,11 +73,11 @@ var allFeatures = {
     }
 }
 
-function getFeatures(cb) {
+exports.getFeatures = function getFeatures(cb) {
     cb(allFeatures);
 }
 
-function setTag(uuid, feature, tagName, cb) {
+exports.setTag = function setTag(uuid, feature, tagName, cb) {
     if (allFeatures[uuid] === undefined) {
 	cb("No such uuid: " + uuid + " :(");
     } else if (allFeatures[uuid][feature] === undefined) {
@@ -91,7 +91,7 @@ function setTag(uuid, feature, tagName, cb) {
     }
 }
 
-function deleteTag(tag, cb) {
+exports.deleteTag = function deleteTag(tag, cb) {
     if (allTags[tag] == undefined) {
 	cb("No such tag: " + tag + " :(");
     } else {
@@ -99,3 +99,4 @@ function deleteTag(tag, cb) {
 	cb();  // no error
     }    
 }
+
