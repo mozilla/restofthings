@@ -1,0 +1,59 @@
+== SLAVE ==
+- device (slave) has features configured inside its slave/config.json 'features'.
+- features: {feature-name: {'url:$URL, ???
+  e.g. { "camera" : {"tag": "raspi", "url" : "localhost:8090/?action=snapshot"},
+         "led"    : {"tag": "led1",  "url" : "i reside at this url"} }
+
+  or   { "camera" : {                "url" : "localhost:8090/?action=snapshot"},
+         "led"    : {                "url" : "i reside at this url"} }
+- link to interact with a sensor/actuator/etc.
+
+- on startup, registers itself to the configured directory
+  - conn to directory: PUT /thing/UUID data: {"uuid":uuid, "localURL": 'http://' + socket.address().address + ':' + config.port}
+- exposes a REST API to the user to assign 'tags' to existing features
+- slave REST API (listens on the config.port)
+  - GET /tags => return json tags
+  - PUT /tags/$name => puts tags in state, saves to disk
+  - DELETE /tags/$name or /tags/* => delete a tag / all tags, save to disk
+  - GET /features => return features from config
+  - TODO: GET /tags/$name ?
+
+
+== ROT JS API ==
+
+- ROT.init( cb (error or undefined) )
+  = get my uuids => GET /ls on directory => [uuids]
+  = for each uuid => GET /thing/uuid/ => info registeded by each device/slave. {"uuid":uuid, "localURL": slave-rest-endpoint}
+  = for each uuid => GET /tags/. First time, no tags defined (likely): brand new device.
+
+* interaction with tags *
+- ROT.queryTags(["tag1", "tag2"], cb (resp, err)); where resp: {"tag1": ?, "tag2": ?}
+
+- ROT.readTag("tag", function cb(resp, err) { ... } ) => resp: WHATEVER THE URLS OF THAT TAG RETURNS
+
+- ROT.writeTag("tag", data, cb(resp, err) { ... } ) => data: whaever data you want, resp: tag will respond whatever it wants
+
+* configuration (useful for new devices, or using new APP) *
+- ROT.getFeatures(cb(resp, err)); resp: {'uuid1': feature-dict from slave REST API}
+
+- ROT.setTag("uuid", "feature-name", "tag", cb (error or undefined))
+
+- ROT.deleteTag("uuid", "tag", cb (error or undefined))
+
+
+== UI DEMO ==
+- TODO: lighs or shuts down leds, queries led status
+- app uses these tags: "led1", "led2".
+- app startup: 
+  - ROT.init
+  - ROT.queryTags(["led1", "led2"], ...)
+    - if no leds defined => :( tell user to define them
+    - if leds defined:
+       => show button with color to show whether the led is on/off ==> ROT.readTag
+       => push button => toggle led, also update UI ==> ROT.writeTag/ROT.readTag (for update ui)
+  - user configures tags:
+    - ROT.getFeatures => return all features, 
+      - display in table,
+      - with <text> boxes for user to add tags (ROT.setTag),
+      - checkbutton to delete tags (ROT.deleteTag)
+
