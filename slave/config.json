@@ -2,7 +2,7 @@
     "directoryServer": "http://localhost:8080",
     "tagFile":"/tmp/tags.json",
     "port":3000,
-    "proxyport":3000,
+    "proxyport":7777,
     "uuid": "uuid1",
     "features": {
 	"factory-name-for-led1-C00FF33": {"url": "localhost:1234"},
