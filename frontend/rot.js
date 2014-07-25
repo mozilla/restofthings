@@ -1,5 +1,3 @@
-//var request = require('superagent');
-
 var baseurl = "http://localhost:8080";
 
 var allUuids = [];
