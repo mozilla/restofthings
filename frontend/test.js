@@ -1,4 +1,4 @@
-var rot = require('./rot');
+//var rot = require('./rot');
 
 function forEach(obj, cb) {
     for (var e in obj) {
@@ -10,7 +10,7 @@ function readTags(tags, cb) {
     var readValues = {};
     forEach(tags, function(tag) {
 	console.log("tag: ", tag);
-	rot.readTag(tag, function(data, err) {
+	readTag(tag, function(data, err) {
    	    readValues[tag] = data;
 	    if (err)
 		console.log("Error from readTag: ", err);
@@ -24,7 +24,7 @@ function turnOffLigths(tags, cb) {
     var readValues = {};
     forEach(tags, function(tag) {
 	console.log("tag: ", tag);
-	rot.writeTag(tag, "off", function(data, err) {
+	writeTag(tag, "off", function(data, err) {
    	    readValues[tag] = data;
 	    if (err)
 		console.log("Error from readTag: ", err);
@@ -39,16 +39,16 @@ var feature2 = 'factory-name-for-led1-C00FF33';
 
 function setTags(cb) {
     // exports.setTag = function setTag(uuid, feature, tagName, cb) {
-    rot.setTag('uuid1', "factory-name-for-led1-C00FF33", 'led1', function(err) {
+    setTag('uuid1', "factory-name-for-led1-C00FF33", 'led1', function(err) {
 	if (err) {
 	    cb(err);
 	    return;
 	}
-	rot.setTag('uuid2', "gigagator-ultra-leds-inqqpa2", 'led2', cb);
+	setTag('uuid2', "gigagator-ultra-leds-inqqpa2", 'led2', cb);
     });
 }
 
-rot.init(function() {
+init(function() {
      console.log('init');
      console.log("OMG: allFeatures:", allFeatures)
 	 setTags(function(err) {
@@ -56,7 +56,7 @@ rot.init(function() {
 	     console.log("Error in setTags: ", err);
 	     return;
 	 }
-	 rot.queryTags(['led1', 'led2'], function(tags, err) {
+	 queryTags(['led1', 'led2'], function(tags, err) {
 	      console.log("queryTags: ", tags, err);
 	      readTags(tags, function (tagsData) {
 		  console.log("read all tags: ", tagsData);
