@@ -2,6 +2,8 @@ var http = require("http");
 var url = require("url");
 var express = require('express');
 var getRawBody = require('raw-body');
+var cors = require('cors');
+
 function generate(){
   var x = Math.random()* (255 - 0) + 0;;
   console.log("random value is", x);

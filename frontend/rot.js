@@ -1,3 +1,4 @@
+
 var baseurl = "http://localhost:8080";
 
 var allUuids = [];
@@ -7,6 +8,7 @@ allFeatures = {}
 
 function init(cb) {
   superagent.get(baseurl + "/ls", function(err, res) {
+    console.log("i am in init ----");
     if (err) {
       cb(err);
       return;
@@ -69,7 +71,6 @@ function writeTag(tag, data, cb) {
   }
 }
 
-
 function getAllThings(uuids, cb) {
   var things = {};
   var errors = undefined;
@@ -124,7 +125,6 @@ function getAllTags(things, cb) {
   }
 }
 
-
 function getAllFeatures(things, cb) {
   var features = {};
   var errors = undefined;
@@ -169,7 +169,6 @@ function setTag(uuid, feature, tag, cb) {
     cb();  // no error
   }
 }
-
 
 // TODO:
 function deleteTag(tag, cb) {

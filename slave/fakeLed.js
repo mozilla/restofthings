@@ -2,7 +2,7 @@ var http = require("http");
 var url = require("url");
 var express = require('express');
 var getRawBody = require('raw-body');
-
+var cors = require('cors');
 var argv = process.argv;
 var port = argv[2]
 
@@ -20,16 +20,19 @@ app.use(function (req, res, next) {
     next()
   })
 })
+app.use(cors());
+
+
 
 var ledState = "off";
 
 app.get("/", function(req, res) {
-	console.log("GET /, state is: ", ledState);
+	console.log("GET /, fake led state is: ", ledState);
 	res.json(ledState);
 })
 
 app.put("/", function(req, res, next) {
-	console.log("PUT /, state is: ", ledState, " new value is: ", req.text);
+	console.log("PUT /, fake led state state is: ", ledState, " new value is: ", req.text);
 	ledState = req.text;
 	res.json(ledState);
 })

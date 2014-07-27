@@ -5,7 +5,6 @@ var url = require("url");
 var express = require('express');
 var getRawBody = require('raw-body');
 var fs = require('fs');
-
 var cors = require('cors');
 var config = JSON.parse(fs.readFileSync(process.argv[2]));
 
