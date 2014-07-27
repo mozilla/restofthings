@@ -1,3 +1,9 @@
+(function(global) {
+
+    
+if (typeof require !== 'undefined') {
+    var superagent = require('superagent')
+}
 
 var baseurl = "http://localhost:8080";
 
@@ -67,7 +73,9 @@ function writeTag(tag, data, cb) {
   } else if (tagData['url'] === undefined) {
     cb(undefined, "No url for tag: " + tag + " :(");
   } else {
-    superagent.put(tagData['url'], data, function (err, req) { cb(req.text, err);});
+      superagent.put(tagData['url'])
+	  .send(data)
+	  .end(function(res){ cb(res.text, !res.ok); });
   }
 }
 
@@ -180,3 +188,14 @@ function deleteTag(tag, cb) {
   }
 }
 
+// See https://alicoding.com/write-javascript-modules-that-works-both-in-nodejs-and-browser-with-requirejs/
+// make it work in both nodejs/browser.
+global.init = init;
+global.queryTags = queryTags;
+global.readTag = readTag;
+global.writeTag = writeTag;
+global.getFeatures = getFeatures;
+global.setTag = setTag;
+global.deleteTag = deleteTag;
+
+}(this));
