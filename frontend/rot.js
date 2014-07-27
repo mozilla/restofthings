@@ -56,7 +56,9 @@ function readTag(tag, cb) {
   } else if (tagData['url'] === undefined) {
     cb(undefined, "No url for tag: " + tag + " :(");
   } else {
-    superagent.get(tagData['url'], function (err, req) { cb(req.text, err);}) ;
+    console.log("@@@@@@@@@@",  tagData['url']);
+    superagent
+    .get("http://" + tagData['url'], function (err, req) { cb(req.text, err);}) ;
   }
 }
 
@@ -67,7 +69,7 @@ function writeTag(tag, data, cb) {
   } else if (tagData['url'] === undefined) {
     cb(undefined, "No url for tag: " + tag + " :(");
   } else {
-    superagent.put(tagData['url'], data, function (err, req) { cb(req.text, err);});
+    superagent.put("http://" + tagData['url'], data, function (err, req) { cb(req.text, err);});
   }
 }
 

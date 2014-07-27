@@ -7,6 +7,7 @@ var argv = process.argv;
 var port = argv[2]
 
 var app = express();
+
 //handle post/put
 app.use(function (req, res, next) {
   getRawBody(req, {
@@ -19,7 +20,8 @@ app.use(function (req, res, next) {
     req.text = string
     next()
   })
-})
+});
+
 app.use(cors());
 
 
