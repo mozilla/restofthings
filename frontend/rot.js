@@ -1,6 +1,8 @@
 (function(global) {
 
-
+if (typeof superagent === 'undefined') {
+    superagent = require('superagent');
+}
 
 var baseurl = "http://localhost:8080";
 
