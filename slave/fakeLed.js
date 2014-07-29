@@ -30,13 +30,13 @@ var ledState = "off";
 
 app.get("/", function(req, res) {
 	console.log("GET /, fake led state is: ", ledState);
-	res.json(ledState);
+	res.send(ledState);
 })
 
 app.put("/", function(req, res, next) {
 	console.log("PUT /, fake led state state is: ", ledState, " new value is: ", req.text);
 	ledState = req.text;
-	res.json(ledState);
+	res.send(ledState);
 })
 
 app.listen(port);

@@ -59,7 +59,6 @@ function readTag(tag, cb) {
   } else if (tagData['url'] === undefined) {
     cb(undefined, "No url for tag: " + tag + " :(");
   } else {
-    console.log("@@@@@@@@@@",  tagData['url']);
     superagent
     .get("http://" + tagData['url'], function (err, req) { cb(req.text, err);}) ;
   }
@@ -73,8 +72,11 @@ function writeTag(tag, data, cb) {
     cb(undefined, "No url for tag: " + tag + " :(");
   } else {
     superagent.put("http://" + tagData['url'])
-	  .send(data)
-	  .end(function(res){ cb(res.text, !res.ok); });
+	    .send(data)
+	    .end(function(res){
+        console.log("callback is ", cb);
+        cb(res.text, !res.ok);
+      });
   }
 }
 
@@ -171,9 +173,18 @@ function setTag(uuid, feature, tag, cb) {
   } else if (tag in allTags) {
     cb("Tag alread used: " + tag + " :(");
   } else {
-    // allTags = {"led1": {"url": "pi1/led1"}, "led2": {"url": "pi2/led2"}};
-    allTags[tag] = allFeatures[uuid][feature];
-    cb();  // no error
+    superagent.put("http://" + allFeatures[uuid].localURL + "/tags/" + tag)
+      .send(feature)
+      .end(function(res){
+        console.log("setTag: callback is ", cb);
+        allTags[tag] = allFeatures[uuid][feature];
+
+        if (res.ok) {
+          cb();
+        } else {
+          cb(res.text);
+        }
+      });
   }
 }
 
