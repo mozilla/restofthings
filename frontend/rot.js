@@ -26,12 +26,13 @@ function init(cb) {
     getAllThings(uuids, function(err, things) {
       allThings = things;
       console.log("allThings: ", allThings);
-      getAllTags(things, function(err, tags) {
-        allTags = tags;
-        console.log("allTags: ", allTags);
-        getAllFeatures(things, function(err, features) {
-          allFeatures = features;
-          console.log("allFeatures: ", allFeatures);
+
+      getAllFeatures(things, function(err, features) {
+        allFeatures = features;
+	console.log("allFeatures: ", allFeatures);
+	getAllTags(things, function(err, tags) {
+          allTags = tags;
+	  console.log("allTags: ", allTags);
           cb();
         });
       });
@@ -114,7 +115,7 @@ function getAllTags(things, cb) {
   var errors = undefined;
   var done = 0;
   for (var uuid in things) {
-    (function() {
+    (function(uuid) {
       var thing = things[uuid];
       console.log("thing:", thing);
       superagent.get(thing['localURL'] + "/tags/", function(err, res) {
@@ -125,16 +126,26 @@ function getAllTags(things, cb) {
           errors.push(err);
         } else {
           var tagsResp = JSON.parse(res.text);
+	  // returns a mapping from tag name to feature name:
+	  // { led1: "factory-name-for-led1-C00FF33"}
+
           console.log("Got tagsResp: ", tagsResp, " for thing: ", thing);
           // merge tag lists
-          for (var k in tagsResp)
-            tags[k] = tagsResp[k];
+
+          for (var tagName in tagsResp) {
+	      var feature = tagsResp[tagName];
+	      tags[tagName] = allFeatures[uuid][feature];
+	      console.log("getAllTags: tagName: ", tagName, "uuid:", uuid, "feature:", feature,
+			  "xxx: ", allFeatures[uuid][feature],
+			  "uuid info: ", allFeatures[uuid],
+			  "allFeatures: ", allFeatures);
+	  }
         }
         done ++;
         if (done === Object.keys(things).length)
           cb(errors, tags);
       });
-    })();
+    })(uuid);
   }
 }
 
