@@ -4,6 +4,7 @@
   "version": "0.0.1",
   "dependencies": {
     "express": "4.x",
-    "raw-body": "1.x"
+    "raw-body": "1.x",
+    "cors": "2.4.1"
   }
 }
