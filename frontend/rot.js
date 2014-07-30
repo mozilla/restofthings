@@ -4,7 +4,7 @@ if (typeof superagent === 'undefined') {
     superagent = require('superagent');
 }
 
-var baseurl = "http://localhost:8080";
+var baseurl = "http://10.0.0.3:8080";
 
 var allUuids = [];
 var allThings = {};  // { 'uuid1dc65c13': { uuid: 'uuid1dc65c13', localURL: 'http://slave:80' }}
