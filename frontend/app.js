@@ -1,25 +1,15 @@
 //working with predefined tags led1 and led2
-var tags = ["led1", "led2"];
+//var tags = ["led1", "led2"];
 
 
 function app(){
   console.log("in app()")
     queryTags(['led1', 'led2'], function(tags, err) {
-      console.log("in query tags i receive tags", tags, " error is : ", err);
       listTags(tags, setup);
-      readTags(tags, function (tagsData) {
-      console.log("readTags passes result : ", tagsData);
-      turnOffLigths(tags, function(lightsData) {
-        console.log("turnOfLights receives lightdata : ", lightsData);
-        readTags(tags, function(){console.log("ZARAZA");});
-      });
-    });
   });
 };
 
 function listTags(links, cb){
-  console.log("LINKS ARE ", links);
-  console.log("my links for this tags are ", links);
     for (var key in links) {
       console.log(key, " val ", links[key]);
       $('<a>',{
@@ -27,7 +17,6 @@ function listTags(links, cb){
         title: key,
         href: links[key]["url"]
       }).appendTo('body');
-    console.log("MUAHAHAHAH ", links[key]["url"]);
     }
     cb(links);
 
@@ -37,33 +26,32 @@ function setup() {
   //- ROT.writeTag("tag", data, cb(resp, err) { ... } ) => data: whatever data you want, resp: tag will respond whatever it wants
   //button that if off
   //led1 and led 2
-
-  console.log("I AM IN SETUP ");
   var pushMe = $('<button/>',
     {
-      text: 'PushMe',
+      text: 'ChangeLedState',
       click: function () { console.log('hi');
           readTag("led1", function(state) {
-          console.log("state of led in readTAG is ", state);
-          if (state === "on") {
-            console.log("I SET TAG for led ON");
-            writeTag("led1", "off", function(){console.log("WROTE TAG");});
-          } else {
-            console.log("I SET TAG for led OFF and state is BLABABLABALBA", state, "length is ", state.length);
-            writeTag("led1", "on", function(x){console.log("WROTE TAG ", x);  });
-          }
-        });
+            console.log("state of led1 in readTAG is ", state);
+            if (state === "on") {
+              writeTag("led1", "off", function(){console.log("LED1 OFF");});
+            } else {
+              writeTag("led1", "on", function(){console.log("LED1 ON");  });
+            }
+          });
 
           readTag("led2", function(state) {
-          if (state === "on") {
-            writeTag("led2", "off", function(){console.log("LED2 YYYYYY");});
-          } else {
-            writeTag("led2", "on", function(){console.log("LED2 XXXXXX");});
-          }
-        });
-        readTags(['led1', 'led2'], function(tags){console.log("LIFE  tags are", tags);});
-        queryTags(['led1', 'led2'], function(data){console.log("*************** ",data);})
-        readTag('led1', function(x){console.log("read tag for led1",x);});
+            if (state === "on") {
+              writeTag("led2", "off", function(){console.log("LED2 OFF");});
+            } else {
+              writeTag("led2", "on", function(){console.log("LED2 ON");});
+            }
+          });
+
+          readTag('led1', function(data, err){console.log("dlkasjladjAAAAAAAAAA", data);});
+          readTags(['led1', 'led2'], function(tags){console.log("readTags are", tags);});
+          queryTags(['led1'], function(data){console.log("queryTags*************** ",data);})
+          setTag('uuid2', "gigagator-ultra-leds-inqqpa2", 'led4', function(data){
+            console.log("BLABLA", data);});
       }});
   $("body").append(pushMe);
 
@@ -98,7 +86,7 @@ function turnOffLigths(tags, cb) {
   var readValues = {};
   forEach(tags, function(tag) {
     console.log("tag : ", tag);
-    writeTag(tag, "on", function(data, err) {
+    writeTag(tag, "off", function(data, err) {
       readValues[tag] = data;
       console.log("i read the tag value for tag", tag, " data is: ", data);
       if (err)
@@ -112,7 +100,7 @@ function turnOffLigths(tags, cb) {
 var feature1 = 'gigagator-ultra-leds-inqqpa2';
 var feature2 = 'factory-name-for-led1-C00FF33';
 
-function setTags(cb) {
+/*function setTags(cb) {
     // exports.setTag = function setTag(uuid, feature, tagName, cb) {
     console.log("in setTags");
   setTag('uuid1', "factory-name-for-led1-C00FF33", 'led1', function(err) {
@@ -123,7 +111,7 @@ function setTags(cb) {
     }
     setTag('uuid2', "gigagator-ultra-leds-inqqpa2", 'led2', cb);
   });
-}
+}*/
 
 
 init(app);
