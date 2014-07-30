@@ -123,8 +123,10 @@ var feature1 = 'gigagator-ultra-leds-inqqpa2';
 var feature2 = 'factory-name-for-led1-C00FF33';
 
 function setTags(cb) {
-  // exports.setTag = function setTag(uuid, feature, tagName, cb) {
+    // exports.setTag = function setTag(uuid, feature, tagName, cb) {
+    console.log("in setTags");
   setTag('uuid1', "factory-name-for-led1-C00FF33", 'led1', function(err) {
+    console.log("in setTag1 cb");
     if (err) {
       cb(err);
       return;

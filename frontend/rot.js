@@ -169,6 +169,7 @@ function getFeatures(cb) {
 }
 
 function setTag(uuid, feature, tag, cb) {
+  console.log("in setTag(uuid:", uuid, ", feature:", feature, ", tag:", tag, ")");
   if (allFeatures[uuid] === undefined) {
     cb("No such uuid: " + uuid + " :( in allFeatures:" + allFeatures);
   } else if (allFeatures[uuid][feature] === undefined) {
@@ -176,7 +177,10 @@ function setTag(uuid, feature, tag, cb) {
   } else if (tag in allTags) {
     cb("Tag alread used: " + tag + " :(");
   } else {
-    superagent.put("http://" + allFeatures[uuid].localURL + "/tags/" + tag)
+      console.log("allThings: ", allThings, "allThings[uuid]", allThings[uuid]);
+    var url = allThings[uuid].localURL + "/tags/" + tag;
+    console.log("in setTag, setting to url: ", url);
+    superagent.put(url)
       .send(feature)
       .end(function(res){
         console.log("setTag: callback is ", cb);

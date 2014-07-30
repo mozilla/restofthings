@@ -46,7 +46,7 @@ function commit(callback) {
   console.log('i an in commit file');
 }
 
-app.put(/^\/tags\/[A-z:.-]+$/, function(req, res, next) {
+app.put(/^\/tags\/[A-z:0-9.-]+$/, function(req, res, next) {
   var tagName = req.path.substr("/tags/".length);
   console.log('i am in put and i want to write a tag : ', tagName);
   state[tagName] = req.text;
