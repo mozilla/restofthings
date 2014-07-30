@@ -3,28 +3,24 @@ var tags = ["led1", "led2"];
 
 
 function app(){
-console.log("in app()")
-  setTags(function(err) {
-    if (err) {
-      console.log("Error in setTags: ", err);
-      return;
-    }
+  console.log("in app()")
     queryTags(['led1', 'led2'], function(tags, err) {
       console.log("in query tags i receive tags", tags, " error is : ", err);
+      listTags(tags, setup);
       readTags(tags, function (tagsData) {
-        console.log("readTags passes result : ", tagsData);
-        turnOffLigths(tags, function(lightsData) {
-          console.log("turnOfLights receives lightdata : ", lightsData);
-          readTags(tags, function(){console.log("ZARAZA");});
-        });
+      console.log("readTags passes result : ", tagsData);
+      turnOffLigths(tags, function(lightsData) {
+        console.log("turnOfLights receives lightdata : ", lightsData);
+        readTags(tags, function(){console.log("ZARAZA");});
       });
     });
   });
+ // });
 
 
-  queryTags(tags, function(x){
+/*  queryTags(tags, function(x){
     console.log("X is ", x);
-    listTags(x, setup);});
+    listTags(x, setup);});*/
 
 };
 
@@ -55,6 +51,7 @@ function setup() {
       text: 'PushMe',
       click: function () { console.log('hi');
           readTag("led1", function(state) {
+          console.log("state of led in readTAG is ", state);
           if (state === "on") {
             console.log("I SET TAG for led ON");
             writeTag("led1", "off", function(){console.log("WROTE TAG");});

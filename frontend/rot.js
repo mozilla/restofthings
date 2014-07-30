@@ -9,7 +9,7 @@ var baseurl = "http://localhost:8080";
 var allUuids = [];
 var allThings = {};  // { 'uuid1dc65c13': { uuid: 'uuid1dc65c13', localURL: 'http://slave:80' }}
 var allTags = {};
-allFeatures = {}
+var allFeatures = {}
 
 function init(cb) {
   superagent.get(baseurl + "/ls", function(err, res) {
