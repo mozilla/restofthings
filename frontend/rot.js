@@ -48,6 +48,7 @@ function init(cb) {
 function queryTags(tags, cb) {
   // ["tag1", "tag2"], cb (resp, err)); where resp: {"tag1": ?, "tag2": ?}
   var resp = {};
+  console.log("I AM IN QUERY TAGS IN ROT");
   for (var i = 0; i < tags.length; i++) {
     resp[tags[i]] = allTags[tags[i]];
   }
