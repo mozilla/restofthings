@@ -15,13 +15,6 @@ function app(){
       });
     });
   });
- // });
-
-
-/*  queryTags(tags, function(x){
-    console.log("X is ", x);
-    listTags(x, setup);});*/
-
 };
 
 function listTags(links, cb){
