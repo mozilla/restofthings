@@ -6,8 +6,10 @@ var cors = require('cors');
 var gpio = require("pi-gpio");
 
 var argv = process.argv;
-var port = argv[2]
-
+var port = argv[2];
+var pin = argv[3];
+if (pin == undefined)
+  pin = 11;
 var app = express();
 //led on pin 11
 
@@ -28,15 +30,15 @@ app.use(function (req, res, next) {
 app.use(cors());
 
 function setLed(nr){
-  gpio.open(11, "output", function(err) {        // Open pin 11
+  gpio.open(pin, "output", function(err) {        // Open pin 11
     console.log("set ddr for led1");
     //var val = 0; //default led state set to high
-    gpio.write(11, 1, function(err, value) {
+    gpio.write(pin, 1, function(err, value) {
       if(err) throw err;
       console.log("on pin" +  nr + " I get this value " , value);
-      readLedState(11);
+      readLedState(pin);
     })
-    //gpio.close(11);
+    //gpio.close(pin);
   })
 }
 
@@ -55,7 +57,7 @@ function readLedState(nr, res) {
         res.send("off");
       }
     }
-    //gpio.close(11);
+    //gpio.close(pin);
   });
 }
 
@@ -64,7 +66,7 @@ function writeState(state, cb) {
   var val = 0;
   if (state == "on")
     val = 1;
-  gpio.write(11, val, function() {            // Set pin 11 high (1)
+  gpio.write(pin, val, function() {            // Set pin 11 high (1)
     console.log("led1/pin11 high ", val);
     //cb();
   });
@@ -72,13 +74,13 @@ function writeState(state, cb) {
 
 app.get("/", function(req, res) {
   console.log("GET /,  led state is: ", ledState);
-  readLedState(11, res);
+  readLedState(pin, res);
 })
 
 app.put("/", function(req, res, next) {
   console.log("PUT /, led state is: ", ledState, " new value is: ", req.text);
   ledState = req.text;
-  writeState(ledState, readLedState(11, res));
+  writeState(ledState, readLedState(pin, res));
 })
 
 app.listen(port);
