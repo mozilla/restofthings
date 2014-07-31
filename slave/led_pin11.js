@@ -28,9 +28,9 @@ app.use(function (req, res, next) {
 app.use(cors());
 
 function setLed(nr){
-  gpio.open(11, "output", function(err) {        // Open pin 7
+  gpio.open(11, "output", function(err) {        // Open pin 11
     console.log("set ddr for led1");
-    //var val = 0;
+    //var val = 0; //default led state set to high
     gpio.write(11, 1, function(err, value) {
       if(err) throw err;
       console.log("on pin" +  nr + " I get this value " , value);
@@ -45,10 +45,10 @@ setLed();
 function readLedState(nr, res) {
   gpio.read(nr,  function(err, value) {
     if(err) throw err;
-    console.log("on pin" +  nr + " I get this value " , value);    // The current state of the pin
+    console.log("on pin" +  nr + " state is: " , value);    // The current state of the pin
     ledState = value;
     if (res != undefined) {
-      console.log("BLABLA------value ", value);
+      console.log("send a response with led state:  ", value);
       if (value == 1) {
         res.send("on");
       } else {
@@ -60,29 +60,25 @@ function readLedState(nr, res) {
 }
 
 function writeState(state, cb) {
-  //gpio.open(11, "output", function(err) {        // Open pin 7
-    console.log("set ddr for led1");
-    var val = 0;
-    if (state == "on")
-      val = 1;
-    gpio.write(11, val, function() {            // Set pin 7 high (1)
-      console.log("led1/pin11 high ", val);
-      //cb();
-    });
- // });
+  console.log("set ddr for led1");
+  var val = 0;
+  if (state == "on")
+    val = 1;
+  gpio.write(11, val, function() {            // Set pin 11 high (1)
+    console.log("led1/pin11 high ", val);
+    //cb();
+  });
 }
 
 app.get("/", function(req, res) {
   console.log("GET /,  led state is: ", ledState);
-  //res.send(ledState);
   readLedState(11, res);
 })
 
 app.put("/", function(req, res, next) {
-  console.log("PUT /, fake led state state is: ", ledState, " new value is: ", req.text);
+  console.log("PUT /, led state is: ", ledState, " new value is: ", req.text);
   ledState = req.text;
   writeState(ledState, readLedState(11, res));
-  //res.send(ledState);
 })
 
 app.listen(port);
