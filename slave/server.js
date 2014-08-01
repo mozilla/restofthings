@@ -57,7 +57,7 @@ app.put(/^\/tags\/[A-z:0-9.-]+$/, function(req, res, next) {
   });
 })
 
-app.delete(/^\/tags\/([A-z:.-]+|\*)$/, function(req, res, next) {
+app.delete(/^\/tags\/([A-z:0-9.-]+|\*)$/, function(req, res, next) {
   var tagName = req.path.substr("/tags/".length);
   delete state[tagName];
   if (tagName == "*")
@@ -89,6 +89,8 @@ app.get("/devices", function(req, res) {
   console.log("+++++++", allDevices);
   res.json(allDevices);
 })
+
+app.use(express.static(__dirname + '/public'));
 
 var server = app.listen(config.port, function() {
     console.log('Listening on port %d', server.address().port);
