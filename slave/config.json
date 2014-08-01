@@ -6,6 +6,8 @@
     "uuid": "uuid1",
     "features": {
 	"factory-name-for-led1-C00FF33": {"url": "localhost:1234"},
-	"useless-device-MQYOK7N1WA*#22": {"url": "localhost:7777"}
+	"useless-device-MQYOK7N1WA*#22": {"url": "localhost:7777"},
+  "raspberry-cam": {"url": "localhost:8090"}
+
     }
 }

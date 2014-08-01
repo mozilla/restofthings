@@ -2,10 +2,12 @@
 //var tags = ["led1", "led2"];
 
 function app(){
-  console.log("in app()")
+  console.log("in app()");
     queryTags(['led1', 'led2'], function(tags, err) {
       listTags(tags, setup);
-  });
+
+
+    });
 };
 
 function listTags(links, cb){
@@ -50,12 +52,30 @@ function setup() {
         readTag('led1', function(data, err){console.log("read state of led1: ", data);});
         readTags(['led1', 'led2'], function(tags){console.log("tags are", tags);});
         queryTags(['led1'], function(data){console.log("queryTags ",data);})
-        setTag('uuid2', "gigagator-ultra-leds-inqqpa2", 'led4', function(data){
-        console.log("trying to set the tags ", data);});
+        //setTag('uuid2', "gigagator-ultra-leds-inqqpa2", 'led4', function(data){
+        //console.log("trying to set the tags ", data);});
+        console.log("**********************at this step I fail*************************");
+        setTag("uuid1", "raspberry-cam", 'cam', function(data) {
+          console.log("just set a tag to the cam ...you should have an entry in /tmp/tags", data);
+        });
+        //console.log("~~~~~~~~~~~~~~~~~~", allTags['cam']);
+        readTag('cam', function(data, err) {
+          if (err)
+            console.log("****************** I fail miserably ******************", err);
+          console.log("**** |o/ ****************************data is ", data);
+          var url = "http://" + data;
+          loadImage(url);
+
+        })
       }});
   $("body").append(pushMe);
 }
-
+var camPic;
+function loadImage(source) {
+  camPic = new Image(640,480);
+  camPic.src = source;
+  $("#myPic").attr("src", camPic.src);
+}
 function forEach(obj, cb) {
   for (var e in obj) {
     cb(e);
