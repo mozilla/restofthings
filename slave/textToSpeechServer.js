@@ -1,5 +1,7 @@
+var argv = process.argv;
+console.log("text to process ***************", argv[2]);
 var spawn = require('child_process').spawn,
-  echo    = spawn('echo', ['just what do you think you are doing Dave?']),
+  echo    = spawn('echo', [argv[2]]),
   festival  = spawn('festival', ['--tts']);
 
 echo.stdout.on('data', function (data) {
