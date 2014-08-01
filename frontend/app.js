@@ -4,20 +4,19 @@
 function app(){
   console.log("in app()");
     queryTags(['led1', 'led2'], function(tags, err) {
-      listTags(tags, setup);
+      listExistingTags(tags, setup);
 
 
     });
 };
 
-function listTags(links, cb){
+function listExistingTags(links, cb){
   for (var key in links) {
-    console.log(key, " val ", links[key]);
     $('<a>',{
-      text: " " + key + " \n",
+      text: " " +"http://" + links[key]["url"],
       title: key,
-      href: links[key]["url"]
-    }).appendTo('body');
+      href: "http://" + links[key]["url"]
+    }).appendTo('#'+ key);
   }
   cb(links);
 }
@@ -25,8 +24,18 @@ function listTags(links, cb){
 function setup() {
   //- ROT.readTag("tag", function cb(resp, err) { ... } ) => resp: WHATEVER THE URLS OF THAT TAG RETURNS
   //- ROT.writeTag("tag", data, cb(resp, err) { ... } ) => data: whatever data you want, resp: tag will respond whatever it wants
-  //button that if off
-  //led1 and led 2
+
+  //I set a new tag for raspberry-cam and use it as stream source
+  setTag("uuid1", "raspberry-cam", 'cam', function(data) {
+    console.log("just set a tag to the cam ...you should have an entry in /tmp/tags", data);
+  });
+  readTag('cam', function(data, err) {
+    if (err)
+      console.log("****************** I fail miserably to read url of my cam :(******************", err);
+    console.log("**** |o/ ****************************data is ", data);
+    var url = "http://" + data;
+    loadImage(url);
+  })
   var pushMe = $('<button/>',
     {
       text: 'ChangeState',
@@ -52,23 +61,9 @@ function setup() {
         readTag('led1', function(data, err){console.log("read state of led1: ", data);});
         readTags(['led1', 'led2'], function(tags){console.log("tags are", tags);});
         queryTags(['led1'], function(data){console.log("queryTags ",data);})
-        //setTag('uuid2', "gigagator-ultra-leds-inqqpa2", 'led4', function(data){
-        //console.log("trying to set the tags ", data);});
-        console.log("**********************at this step I fail*************************");
-        setTag("uuid1", "raspberry-cam", 'cam', function(data) {
-          console.log("just set a tag to the cam ...you should have an entry in /tmp/tags", data);
-        });
-        //console.log("~~~~~~~~~~~~~~~~~~", allTags['cam']);
-        readTag('cam', function(data, err) {
-          if (err)
-            console.log("****************** I fail miserably ******************", err);
-          console.log("**** |o/ ****************************data is ", data);
-          var url = "http://" + data;
-          loadImage(url);
 
-        })
-      }});
-  $("body").append(pushMe);
+      }}).addClass("btn btn-success");
+  $("#myDiv").append(pushMe);
 }
 var camPic;
 function loadImage(source) {
@@ -76,6 +71,7 @@ function loadImage(source) {
   camPic.src = source;
   $("#myPic").attr("src", camPic.src);
 }
+
 function forEach(obj, cb) {
   for (var e in obj) {
     cb(e);
@@ -93,27 +89,9 @@ function readTags(tags, cb) {
       if (err)
         console.log("Error from readTag: ", err);
       if (Object.keys(readValues).length === Object.keys(tags).length)
-        console.log("CB IS", cb);
         cb(readValues);
     });
   });
 }
-
-function turnOffLigths(tags, cb) {
-  console.log("I am in turnOffLigths");
-  var readValues = {};
-  forEach(tags, function(tag) {
-    console.log("tag : ", tag);
-    writeTag(tag, "off", function(data, err) {
-      readValues[tag] = data;
-      console.log("I read the tag value for tag", tag, " data is: ", data);
-      if (err)
-        console.log("Error from readTag: ", err);
-      if (Object.keys(readValues).length === Object.keys(tags).length)
-        cb(readValues);
-    });
-  });
-}
-
 
 init(app);
