@@ -1,7 +1,7 @@
 var baseurl = "http://10.0.0.3:8080";
 var url = "10.0.0.3";
 $.ajax({"url":baseurl + "/lsall"}).done(function (data) {
-  var things = JSON.parse(data)["10.0.0.5"];
+  var things = JSON.parse(data)["10.0.0.3"];
   console.log("THINGS: ", things);
 
   for (var key in things) {
