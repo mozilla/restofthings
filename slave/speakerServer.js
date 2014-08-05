@@ -24,9 +24,9 @@ app.use(function (req, res, next) {
 
 app.use(cors());
 
-app.put("/", function(req, res, next) {
+app.post("/", function(req, res, next) {
   var text = req.text;
-  console.log("PUT /, text is : ", text);
+  console.log("POST  /, text is : ", text);
   require('child_process').spawn('node', ["textToSpeechServer.js", text]);
   res.send("text processed is " + text);
 });

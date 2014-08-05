@@ -143,7 +143,9 @@ function registerWithDirectoryServer() {
     }
     
     var uuid = getUUID();
-    var payload = JSON.stringify({"uuid":uuid, "localURL":url});
+    //var payload = JSON.stringify({"uuid":uuid, "localURL":url});
+    console.log("config.features are |0/ :", config.features);
+    var payload = JSON.stringify({"uuid":uuid, "localURL":url, "features": config.features});
     var options = {
       host: directoryUrl.hostname,
       port: directoryUrl.port,
@@ -155,7 +157,7 @@ function registerWithDirectoryServer() {
     var req = http.request(options, function(res) {
       console.log('STATUS: ' + res.statusCode);
       console.log('HEADERS: ' + JSON.stringify(res.headers));
-      res.setEncoding('utf8');
+      //res.setEncoding('utf8');
       var ret = "";
       res.on('data', function (chunk) {
         ret += chunk;

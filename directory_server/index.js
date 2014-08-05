@@ -1,6 +1,7 @@
 const http = require("http")
 const fs = require("fs")
 const url = require("url")
+const utf8 = require("utf8")
 
 var config = JSON.parse(fs.readFileSync(process.argv[2]))
 
@@ -23,7 +24,7 @@ function ok(response, message) {
                            "Content-Length": message.length
                           });
   response.write(message);
-  console.log("ok", message, things);
+  //console.log("ok", message, things);
   response.end();
 }
 
@@ -35,16 +36,14 @@ function putPing(uuid, remoteAddress, payload) {
   }
   var thing = network[uuid];
   if (!thing) {
-    console.log("got no thing");
+    console.log("got no thing :(");
     network[uuid] = thing = {};
     console.log("network is ", network);
   }
   thing.expiryTime = Date.now();
-  thing.payload = payload;
-  console.log("PUTPING thing is ", thing);
-  console.log("PUTPING payload is ",payload.toString());
-  console.log("PUTPING things is ", things);
-  console.log("PUTPING network ", network);
+  thing.payload = payload.toString('utf8');
+  console.log("payload *************", payload);
+  console.log("network *************", network);
 }
 
 /** put json to /thing/stable-uuid 
@@ -55,15 +54,14 @@ function handlePing(uuid, request, response) {
   if (!('content-length' in request.headers)) {
     return fail(response, 500, "Missing content-length header");
   }
-  console.log("HANDLEPING uuid", uuid);
   var content_length = request.headers['content-length'] * 1
   var buf = new Buffer(content_length); 
   var pos = 0;
   request.on('data', function(chunk) {
     chunk.copy(buf, pos);
     pos += chunk.length;
-    console.log("i have data for uuid ", uuid, "data", chunk);
-  }) 
+    console.log("i have data for uuid ", uuid, "data", chunk.toString('utf8'));
+  })
   request.on('end', function() {
     var remoteAddress = request.connection.remoteAddress;
     console.log("request.connection.remoteAddress", request.connection.remoteAddress)
@@ -96,9 +94,10 @@ function handleGet(request, response) {
 
     if (!thing)
       return fail(response, 404, "No thing " + uuid + " in " + remoteAddress + " network");
-    console.log("THINGS IS  :", things);
-    console.log("PAYLOAD IS :", thing.payload);
     return ok(response, thing.payload);
+  } if(pathname =="/lsall"){
+    console.log("-----------lsAll----------");
+    return ok(response, JSON.stringify(things))
   } else {
     return fail(response, 404, pathname + " not found");
   }
@@ -107,18 +106,14 @@ function handleGet(request, response) {
 function handlePut(request, response) {
   var pathname = url.parse(request.url).pathname;
   if (pathname.substr(0,7) == "/thing/") {
-    console.log("HANDLEPUT  i am in a put request and i make a request at ", pathname);
     return handlePing(pathname.substr(7), request, response);
   }
   response.write(pathname);
-  console.log("handlePut: pathname----", pathname, things);
   response.end();
 }
 
 http.createServer(function(request, response) {
   var pathname = url.parse(request.url).pathname;
-  console.log("my pathname is ----", pathname);
-  console.log(request.method, pathname);
   if (request.method == "GET" || request.method == "HEAD") {
     return handleGet(request, response);
   } else if (request.method == "PUT") {

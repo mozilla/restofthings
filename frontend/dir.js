@@ -1,8 +1,8 @@
-var baseurl = "http://10.251.43.233:8080";
-//var baseurl = "http://10.0.0.6:8080";
-$.ajax({"url":baseurl + "/ls"}).done(function (data) {
+//var baseurl = "http://10.251.43.233:8080";
+var baseurl = "http://10.0.0.3:8080";
+$.ajax({"url":baseurl + "/lsall"}).done(function (data) {
 
-  console.log("date primite pe ls ", data);
+  console.log("date primite pe lsall ", data);
   var ls = JSON.parse(data);
   ls.forEach(function (thingid) {
     var url = baseurl + "/thing/" + thingid;

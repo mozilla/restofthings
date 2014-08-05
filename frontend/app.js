@@ -29,6 +29,7 @@ function setup() {
   setTag("uuid1", "raspberry-cam", 'cam', function(data) {
     console.log("just set a tag to the cam ...you should have an entry in /tmp/tags", data);
   });
+
   readTag('cam', function(data, err) {
     if (err)
       console.log("****************** I fail miserably to read url of my cam :(******************", err);

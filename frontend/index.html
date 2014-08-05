@@ -7,7 +7,6 @@
 <div id="myDiv" class="btn-group btn-group-justified">
     <button id = "led1" type="button" class="btn btn-default">Led1</button>
     <button id = "led2" type="button" class="btn btn-default">Led2</button>
-    <!--<button id = "changeState" type="button" class="btn btn-default">Change</button>-->
 </div>
 
 <script src="./superagent.js"></script>
@@ -15,8 +14,16 @@
 </script>
 <script src="app.js">
 </script>
-<div>
-<img id = "myPic" style="float:left;margin: 10px 10px;" src="http://localhost:8090/?action=stream" width="520" height="480" />
+<div style="display: inline-flex;">
+    <div>
+        <img id = "myPic" style="float:left;margin: 10px 10px;" src="http://localhost:8090/?action=stream" width="520" height="480" />
+    </div>
+    <form id="speech" class="navbar-form navbar-left" action="http://localhost:3333" method="post">
+        <div class="form-group">
+            <input type="text" class="form-control" placeholder="write something">
+        </div>
+        <button type="submit" class="btn btn-danger">ToSpeech</button>
+    </form>
 </div>
 </body>
 </html>

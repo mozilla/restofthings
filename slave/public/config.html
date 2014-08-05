@@ -7,15 +7,12 @@
 <script src="//cdnjs.cloudflare.com/ajax/libs/select2/3.5.0/select2.min.js"></script>
 
 <body>
-
-<table id='tagstable' border=1px>
-
- <tr>
-  <td>Feature</td>
-  <td>Tags</td>
- </tr>
-
-</table>
+    <table id='tagstable' border=1px>
+        <tr>
+            <td>Feature</td>
+            <td>Tags</td>
+        </tr>
+    </table>
 </body>
 
 <script>
@@ -28,10 +25,10 @@
  * Return: list of tags for this feature [led1]
  */
 function findTags(feature, tags) {
-  var l = [];
-  $.each(tags, function(tag, fname) { if (fname === feature) l.push(tag); });
-  console.log("findTags:", l);
-  return l;
+    var l = [];
+    $.each(tags, function(tag, fname) { if (fname === feature) l.push(tag); });
+    console.log("findTags:", l);
+    return l;
 }
 
 function writeTagTable(features, tags) {
@@ -53,7 +50,7 @@ function writeTagTable(features, tags) {
         // trigger the 'change' event.
         tagsSelector.val(findTags(fname, tags)).trigger("change");
 
-        tagsSelector.on("change", function(e) { 
+        tagsSelector.on("change", function(e) {
           console.log(e.added, e.removed);
           if (e.added !== undefined) {
             var newTag = e.added.text;
