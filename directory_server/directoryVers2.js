@@ -1,20 +1,16 @@
 var baseurl = "http://10.0.0.3:8080";
 var url = "10.0.0.3";
-$.ajax({"url":baseurl + "/lsall"}).done(function (data) {
-  console.log("DATA is ", data);
-  var jsonData = JSON.parse(data);
-  for (key in jsonData) {
-    console.log("key is", key);
-    getFeaturesForThing("http://" + key + ":3000");
-    getFeaturesForThing("http://" + key + ":3001");
-    $.ajax({"url":baseurl + "/ls"}).done(function (data) {
-      console.log("data is &&&&&&&&&&&&&&&&&&&&", data);
-      
-    });
-  };
-})
-
-
+$.ajax({"url":baseurl + "/ls"}).done(function (data) {
+  var data = JSON.parse(data);
+  if (Object.keys(data).length === 0) {
+    alert('NO DEVICES AVAILABLE AT THE MOMENT :(');
+  }
+  for (var key in data) {
+    console.log("key is ", key);
+    var payload = JSON.parse(data[key].payload);
+    getFeaturesForThing(key, payload.localURL);
+  }
+});
 
 function findTags(address, feature, tags) {
   var l = [];
@@ -23,7 +19,6 @@ function findTags(address, feature, tags) {
   console.log("findTags:", l);
   return l;
 }
-
 
 function writeTagTable(features, tags, address) {
   console.log('features:', features);
@@ -47,7 +42,6 @@ function writeTagTable(features, tags, address) {
     tagsSelector.val(findTags(address, fname, tags)).trigger("change");
 
     tagsSelector.on("change", function(e) {
-      console.log("e has text ------------", e, "*************", this.id);
       console.log(e.added, e.removed);
       if (e.added !== undefined) {
         var newTag = e.added.text;
@@ -70,29 +64,21 @@ function writeTagTable(features, tags, address) {
   });
 }
 
-
 function writeMiddleHeader(address) {
-  //console.log('features:', features);
-  //$.each(features, function(fname, finfo) {
     var row = $('<tr>');
-    //row.attr('class', 'active');
-    $('<td>').text("features available for " + address).addClass("info").appendTo(row);
+    $('<td>').text("FEATURES { " + address + " }").addClass("info").appendTo(row);
     $('<td>').text("TAGS ").addClass("success").appendTo(row);
-
-  $('#tagstable').append(row);
-
+    $('#tagstable').append(row);
 }
 
-
-
-function getFeaturesForThing(address) {
+function getFeaturesForThing(key, address) {
   $(document).ready(function () {
     $.ajax({url: address + '/features'})
       .done(function (features) {
         $.ajax({url: address + '/tags'})
           .done(function (tags) {
             console.log("DATA FEATURES: ", features, "TAGS:", tags);
-            writeMiddleHeader(address);
+            writeMiddleHeader(key);
             writeTagTable(features, tags, address);
           });
       });

@@ -24,13 +24,11 @@ function ok(response, message) {
                            "Content-Length": message.length
                           });
   response.write(message);
-  //console.log("ok", message, things);
   response.end();
 }
 
 function putPing(uuid, remoteAddress, payload) {
   var network = things[remoteAddress];
-  console.log("PUTPING network :  ", network);
   if (!network) {
     things[remoteAddress] = network = {};
   }
@@ -42,8 +40,6 @@ function putPing(uuid, remoteAddress, payload) {
   }
   thing.expiryTime = Date.now();
   thing.payload = payload.toString('utf8');
-  console.log("payload *************", payload);
-  console.log("network *************", network);
 }
 
 /** put json to /thing/stable-uuid 
@@ -60,7 +56,7 @@ function handlePing(uuid, request, response) {
   request.on('data', function(chunk) {
     chunk.copy(buf, pos);
     pos += chunk.length;
-    console.log("i have data for uuid ", uuid, "data", chunk.toString('utf8'));
+    console.log("got data for uuid ", uuid, "data", chunk.toString('utf8'));
   })
   request.on('end', function() {
     var remoteAddress = request.connection.remoteAddress;
@@ -74,32 +70,21 @@ function handleGet(request, response) {
   response.setHeader("Access-Control-Allow-Origin", "*");
   response.setHeader("Access-Control-Allow-Methods", "GET,POST"); //?put
   response.setHeader("Access-Control-Allow-Headers", "Content-Type");
-  console.log("GOT A GET");
   var pathname = url.parse(request.url).pathname;
-  console.log("in request the path is -----", pathname);
   var remoteAddress = request.connection.remoteAddress;
   console.log("my remote address is ------", remoteAddress);
   var network = things[remoteAddress];
-  console.log("NETWORK IS~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~: ", network);
   if (!network)
-    network = {}
+    network = {};
 
   if (pathname == "/ls") {
-    //console.log("LS: ", network, things);
-    //astea le-am adaugat acu
     return ok(response, JSON.stringify(network));
   } if (pathname.substr(0, 7) == "/thing/") {
-    //console.log("network is", network, things);
     var uuid = pathname.substr(7);
     var thing = network[uuid];
-
-
     if (!thing)
       return fail(response, 404, "No thing " + uuid + " in " + remoteAddress + " network");
     return ok(response, thing.payload);
-  } if(pathname =="/lsall"){
-    console.log("-----------lsAll----------");
-    return ok(response, JSON.stringify(things))
   } else {
     return fail(response, 404, pathname + " not found");
   }
