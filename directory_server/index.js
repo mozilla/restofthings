@@ -80,17 +80,19 @@ function handleGet(request, response) {
   var remoteAddress = request.connection.remoteAddress;
   console.log("my remote address is ------", remoteAddress);
   var network = things[remoteAddress];
+  console.log("NETWORK IS~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~: ", network);
   if (!network)
     network = {}
 
   if (pathname == "/ls") {
-    console.log("LS: ", network, things);
+    //console.log("LS: ", network, things);
     //astea le-am adaugat acu
-    return ok(response, JSON.stringify(Object.keys(network)));
+    return ok(response, JSON.stringify(network));
   } if (pathname.substr(0, 7) == "/thing/") {
-    console.log("network is", network, things);
+    //console.log("network is", network, things);
     var uuid = pathname.substr(7);
     var thing = network[uuid];
+
 
     if (!thing)
       return fail(response, 404, "No thing " + uuid + " in " + remoteAddress + " network");
