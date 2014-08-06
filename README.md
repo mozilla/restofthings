@@ -40,14 +40,16 @@ Install and configure nginx:
 Nginx if used as a CORS proxy in this case(nginx will by default run on port `80`).
 
 raspicam working example
+http://blog.miguelgrinberg.com/post/how-to-build-and-run-mjpg-streamer-on-the-raspberry-pi
+`$ sudo apt-get install libjpeg8-dev`
+`$ sudo apt-get install imagemagick`
+`$ tar xvzf mjpg-streamer-r63.tar.gz`
+`$ cd mjpg-streamer-r63`
+`$ make`
 
 At this point we'll try to use as an example the raspicam and mjpg streamer
 
 
-
-
-For that you need to install raspistill:
-\\link
 
 For starting the camera: 
 

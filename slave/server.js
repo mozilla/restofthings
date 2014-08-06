@@ -7,10 +7,9 @@ var getRawBody = require('raw-body');
 var fs = require('fs');
 var cors = require('cors');
 var config = JSON.parse(fs.readFileSync(process.argv[2]));
-
 var app = express();
-app.use(cors());
 
+app.use(cors());
 
 //handle post/put
 app.use(function (req, res, next) {
@@ -25,7 +24,10 @@ app.use(function (req, res, next) {
     req.text = string
     next()
   })
-})
+});
+
+//in case you still want to run a tagging page on pi
+//app.use(express.static(__dirname + '/public'));
 
 var state = {};
 
@@ -33,16 +35,15 @@ try {
   state = JSON.parse(fs.readFileSync(config.tagFile));
 } catch(e) {
   console.warn("Failed to parse " + config.tagFile + "\n" + e)
-  
 }
 
 app.get("/tags/", function(req, res) {
   console.log('i am in get tags');
   res.json(state);
-})
+});
 
 function commit(callback) {
-  fs.writeFile(config.tagFile, JSON.stringify(state), callback)
+  fs.writeFile(config.tagFile, JSON.stringify(state), callback);
   console.log('i an in commit file');
 }
 
@@ -55,7 +56,7 @@ app.put(/^\/tags\/[A-z:0-9.-]+$/, function(req, res, next) {
       return next(err);
     res.send("OK");
   });
-})
+});
 
 app.delete(/^\/tags\/([A-z:0-9.-]+|\*)$/, function(req, res, next) {
   var tagName = req.path.substr("/tags/".length);
@@ -68,34 +69,15 @@ app.delete(/^\/tags\/([A-z:0-9.-]+|\*)$/, function(req, res, next) {
       return next(err);
     res.send("OK");
   });
-})
+});
 
 app.get("/features", function (req, res) {
   res.json(config.features);
-})
-
-app.get("/devices", function(req, res) {
-  var allDevices = [];
-  var typeOfdevices =  Object.keys(config.devices);
-  console.log("------", typeOfdevices);
-  for (var i = 0; i < typeOfdevices.length; i++) {
-    console.log("DAMN", typeOfdevices[i]);
-
-    allDevices.push(config.devices[typeOfdevices[i]]["tag"]);
-    console.log("config.devices.typeOf", config.devices[typeOfdevices[i]]["tag"]);
-    //console.log("config.devices.typeOfdevices[i] ",config.devices.typeOfdevices[i]);
-    //allDevices.push();
-  }
-  console.log("+++++++", allDevices);
-  res.json(allDevices);
-})
-
-app.use(express.static(__dirname + '/public'));
+});
 
 var server = app.listen(config.port, function() {
     console.log('Listening on port %d', server.address().port);
 });
-
 
 function getUUID() {
   if (config.uuid !== undefined) {
@@ -157,7 +139,6 @@ function registerWithDirectoryServer() {
     var req = http.request(options, function(res) {
       console.log('STATUS: ' + res.statusCode);
       console.log('HEADERS: ' + JSON.stringify(res.headers));
-      //res.setEncoding('utf8');
       var ret = "";
       res.on('data', function (chunk) {
         ret += chunk;

@@ -5,8 +5,6 @@ function app(){
   console.log("in app()");
     queryTags(['led1', 'led2'], function(tags, err) {
       listExistingTags(tags, setup);
-
-
     });
 };
 
