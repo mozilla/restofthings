@@ -19,20 +19,19 @@ function init(cb) {
       return;
     }
 
-    var uuids = JSON.parse(res.text);
-    console.log("got uuids: ", uuids);
-
+    var uuids = Object.keys(JSON.parse(res.text));
+    console.log("ROT got uuids: ", uuids);
     allUuids = uuids;
     getAllThings(uuids, function(err, things) {
       allThings = things;
-      console.log("allThings: ", allThings);
+      console.log("ROT allThings: ", allThings);
 
       getAllFeatures(things, function(err, features) {
         allFeatures = features;
-	console.log("allFeatures: ", allFeatures);
-	getAllTags(things, function(err, tags) {
+	      console.log("ROT allFeatures: ", allFeatures);
+	      getAllTags(things, function(err, tags) {
           allTags = tags;
-	  console.log("allTags: ", allTags);
+	        console.log("ROT allTags: ", allTags);
           cb();
         });
       });
@@ -58,11 +57,13 @@ function queryTags(tags, cb) {
 }
 
 function readTag(tag, cb) {
-  var tagData = allTags[tag];
+  var tagData = JSON.parse(allTags[tag]);
+  console.log("tagData is ----------------------------", tagData);
+
   if (tagData === undefined) {
-    cb(undefined, "No such tag: " + tag + " :(");
+    cb(undefined, "ROT No such tag: " + tag + " :(");
   } else if (tagData['url'] === undefined) {
-    cb(undefined, "No url for tag: " + tag + " :(");
+    cb(undefined, "ROT No url for tag: " + tag + " :(");
   } else {
     superagent
     .get("http://" + tagData['url'], function (err, req) { cb(req.text, err);}) ;
@@ -86,10 +87,12 @@ function writeTag(tag, data, cb) {
 }
 
 function getAllThings(uuids, cb) {
+  console.log("GET ALL THINGS");
   var things = {};
   var errors = undefined;
   var done = 0;
   for (var i = 0; i < uuids.length; i++) {
+    console.log("ROT uuids are ", uuids);
     (function() {
       var uuid = uuids[i];
       superagent.get(baseurl + "/thing/" + uuid, function(err, res) {
@@ -103,21 +106,24 @@ function getAllThings(uuids, cb) {
           things[uuid] = thing;
         }
         done ++;
-        if (done === uuids.length)
+        if (done === uuids.length) {
           cb(errors, things);
+          console.log("THINGS are : ", things);
+        }
       });
     })();
   }
 }
 
 function getAllTags(things, cb) {
+  console.log("ROT I am in getAllTags having things :--------", things);
   var tags = {};
   var errors = undefined;
   var done = 0;
   for (var uuid in things) {
     (function(uuid) {
       var thing = things[uuid];
-      console.log("thing:", thing);
+      console.log("ROT IN GETALLTAGS A thing:------------------", thing);
       superagent.get(thing['localURL'] + "/tags/", function(err, res) {
         console.log("--> getAllTags: err: ", err);
         if (err) {
@@ -126,20 +132,17 @@ function getAllTags(things, cb) {
           errors.push(err);
         } else {
           var tagsResp = JSON.parse(res.text);
-	  // returns a mapping from tag name to feature name:
-	  // { led1: "factory-name-for-led1-C00FF33"}
 
           console.log("Got tagsResp: ", tagsResp, " for thing: ", thing);
           // merge tag lists
 
-          for (var tagName in tagsResp) {
-	      var feature = tagsResp[tagName];
-	      tags[tagName] = allFeatures[uuid][feature];
-	      console.log("getAllTags: tagName: ", tagName, "uuid:", uuid, "feature:", feature,
-			  "xxx: ", allFeatures[uuid][feature],
-			  "uuid info: ", allFeatures[uuid],
-			  "allFeatures: ", allFeatures);
-	  }
+        for (var tagName in tagsResp) {
+	      //var feature = tagsResp[tagName];
+          if (JSON.parse(tagsResp[tagName]).url !== undefined)
+            tags[tagName] = tagsResp[tagName];
+          if (JSON.parse(tagsResp[tagName]).val !== undefined)
+            tags[tagName] = tagsResp[tagName];
+     	  }
         }
         done ++;
         if (done === Object.keys(things).length)
@@ -156,7 +159,8 @@ function getAllFeatures(things, cb) {
   for (var uuid in things) {
     (function(uuid) {
       var thing = things[uuid];
-      console.log("thing:", thing);
+      console.log("ROT A THING LOOKS LIKE :", thing);
+      console.log("thing[localURL]"+ thing['localURL'] +"/features/");
       superagent.get(thing['localURL'] + "/features/", function(err, res) {
         console.log("--> getAllFeatures: err: ", err, " res.text: ", res.text);
         if (err) {
@@ -165,8 +169,8 @@ function getAllFeatures(things, cb) {
           errors.push(err);
         } else {
           var featuresResp = JSON.parse(res.text);
-          console.log("Got featuresResp: ", featuresResp, " for thing: ", thing, "uuid:", uuid);
-          features[uuid] = featuresResp;
+          console.log("************************ Got featuresResp: ", featuresResp, " for thing: ", thing, "uuid:", uuid);
+          features[uuid] = JSON.stringify(featuresResp);
         }
         done ++;
         if (done === Object.keys(things).length)
@@ -196,6 +200,7 @@ function setTag(uuid, feature, tag, cb) {
       .send(feature)
       .end(function(res){
         console.log("setTag: callback is ", cb);
+        console.log("XXXXXXXXXX allFeatures[uuid][feature]", allFeatures[uuid][feature]);
         allTags[tag] = allFeatures[uuid][feature];
 
         if (res.ok) {
