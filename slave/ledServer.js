@@ -77,6 +77,14 @@ app.get("/", function(req, res) {
   readLedState(pin, res);
 })
 
+
+app.post("/", function(req, res, next) {
+  console.log("POST /, led state is: ", ledState, " new value is: ", req.text);
+  ledState = req.text;
+  writeState(ledState, readLedState(pin, res));
+})
+
+
 app.put("/", function(req, res, next) {
   console.log("PUT /, led state is: ", ledState, " new value is: ", req.text);
   ledState = req.text;

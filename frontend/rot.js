@@ -79,10 +79,11 @@ function writeTag(tag, data, cb) {
   } else if (tagData['url'] === undefined) {
     cb(undefined, "No url for tag: " + tag + " :(");
   } else {
-      superagent.put("http://" + tagData)
+      superagent.post("http://" + tagData)
       //superagent.put("http://" + tagData['url'])
 	    .send(data)
 	    .end(function(res){
+
         console.log("callback is ", cb);
         cb(res.text, !res.ok);
       });
