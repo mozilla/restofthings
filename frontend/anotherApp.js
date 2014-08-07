@@ -1,7 +1,7 @@
 
 function app(){
   console.log("in app()");
-  queryTags(['led1', 'led2'], function(tags, err) {
+  queryTags(['led1'], function(tags, err) {
     console.log("APP tags are", tags);
     listExistingTags(tags, setup);
   });
@@ -12,9 +12,9 @@ function listExistingTags(links, cb){
   for (var key in links) {
     if (links[key] !== undefined)
     $('<a>',{
-      text: " " +"http://" + JSON.parse(links[key]).url,
+      text: " " +"http://" + links[key],
       title: key,
-      href: "http://" + JSON.parse(links[key]).url
+      href: "http://" + links[key]
     }).appendTo('#'+ key);
   }
   cb(links);
