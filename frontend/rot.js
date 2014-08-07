@@ -71,9 +71,9 @@ function readTag(tag, cb) {
 }
 
 function writeTag(tag, data, cb) {
-  var tagData = JSON.parse(allTags[tag]);
+  var tagData = allTags[tag];
   console.log("------Write tag tagData[tag] -------------", allTags[tag]);
-  console.log("------Write tag tagData ------------------", tagData);
+  //console.log("------Write tag tagData ------------------", tagData);
   if (tagData === undefined) {
     cb(undefined, "No such tag: " + tag + " :(");
   } else if (tagData['url'] === undefined) {
