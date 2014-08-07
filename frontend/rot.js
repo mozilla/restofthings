@@ -184,15 +184,18 @@ function getFeatures(cb) {
 
 function setTag(uuid, feature, tag, cb) {
   console.log("in setTag(uuid:", uuid, ", feature:", feature, ", tag:", tag, ")");
-  console.log("allFeatures[uuid][feature] is-------------------------- ", allFeatures[uuid][feature]);
+  console.log("allFeatures[uuid]", allFeatures[uuid]);
+  console.log("allFeatures[uuid]*******************", JSON.parse(allFeatures[uuid])[feature]);
+  //console.log("allFeatures[uuid][feature] is-------------------------- ", allFeatures[uuid][feature]);
   if (allFeatures[uuid] === undefined) {
     cb("No such uuid: " + uuid + " :( in allFeatures:" + allFeatures);
-  } else if (allFeatures[uuid][feature] === undefined) {
+  } else if (JSON.parse(allFeatures[uuid])[feature] === undefined) {
     cb("No such feature: " + feature + " for uuid: " + uuid + " :(");
   } else if (tag in allTags) {
     cb("Tag alread used: " + tag + " :(");
   } else {
     var url = allThings[uuid].localURL + "/tags/" + tag;
+    console.log("in SET TAG PUT(url)***************************", url);
     superagent.put(url)
       .send(feature)
       .end(function(res){
