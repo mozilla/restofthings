@@ -1,15 +1,16 @@
 //working with predefined tags led1 and led2
-//var tags = ["led1", "led2"];
+//tagging another feature to see if setTag works
 
 function app(){
-  console.log("in app()");
-    queryTags(['led1', 'led2'], function(tags, err) {
+  console.log("-----in app------");
+  //test api query tags
+  queryTags(['led1', 'led2'], function(tags, err) {
       listExistingTags(tags, setup);
-    });
+  });
 };
 
 function listExistingTags(links, cb){
-  console.log("LINKS is ---------: ", links);
+  console.log("--------existing links  ---------: ", links);
   for (var key in links) {
     if (links[key] !== undefined)
       $('<a>',{
@@ -27,15 +28,13 @@ function setup() {
 
   //test/set a new tag for raspberry-cam and use it as stream source
   setTag("uuid1", "raspberry-cam", 'cam', function(data) {
-    console.log("QQQQQQQQQQ    AAAAAAAAAAAAA   just set a tag to the cam ...you should have an entry in /tmp/tags", data);
+    console.log("just set a tag to the cam ...you should have an entry in /tmp/tags", data);
   });
 
   readTag('cam', function(data, err) {
-    if (err)
-      console.log("****************** I fail miserably to read url of my cam :(******************", err);
-    console.log("**** |o/ ****************************data is ", data);
+    console.log("-----data read tag 'cam' |o/ ------------------------------", data);
     var url = "http://" + data;
-    console.log("APP url for camera ------------", url);
+    console.log("----------------------------app url for camera ------------", url);
     loadImage(url);
   });
   var pushMe = $('<button/>',
@@ -60,8 +59,8 @@ function setup() {
         });
 
         //some test calls that will be removes as soon as this app is finished
-        readTag('led1', function(data, err){console.log("read state of led1: ", data);});
         readTags(['led1', 'led2'], function(tags){console.log("tags are", tags);});
+        //test if query tags works
         queryTags(['led1'], function(data){console.log("queryTags ",data);})
 
       }}).addClass("btn btn-success");
@@ -81,11 +80,8 @@ function forEach(obj, cb) {
 }
 
 function readTags(tags, cb) {
-  console.log("I am in readTags tags: ------------------------", tags);
   var readValues = {};
-  console.log("TAGS ARE ", tags);
   forEach(tags, function(tag) {
-    console.log("tag: ", tag);
     readTag(tag, function(data, err) {
       readValues[tag] = data;
       if (err)
