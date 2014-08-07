@@ -37,16 +37,15 @@ function setup() {
       text: 'ChangeState',
       click: function () { console.log('hi');
         readTag("led1", function(state) {
-          console.log("state of led1 in readTAG is ", state);
+          console.log("STATE of led1 in readTAG is ", state);
           if (state === "on") {
-            writeTag("led1", "off", function(){console.log("LED1 OFF");});
+            console.log("---------------i am in state is on");
+            writeTag("led1", "off", function(err){console.log("LED1 OFF-----", err);});
           } else {
-            writeTag("led1", "on", function(){console.log("LED1 ON");  });
+            writeTag("led1", "on", function(err){console.log("LED1 ON----", err);  });
           }
         });
         readTag('led1', function(data, err){console.log("read state of led1: ", data);});
-        readTags(['led1', 'led2'], function(tags){console.log("tags are", tags);});
-        queryTags(['led1'], function(data){console.log("queryTags ",data);})
 
       }}).addClass("btn btn-success");
   $("#myDiv").append(pushMe);
