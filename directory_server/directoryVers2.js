@@ -114,8 +114,8 @@ function writeFreeTags(key, tags, address){
       var newTag = e.added.text;
       var tagUrl = this.id + '/tags/' + newTag.split(":")[0];
       var val = {"val":newTag.split(":")[1], "uuid": address};
-      console.log('Adding tag', tagUrl);
-      console.log("free tag is ", val);
+      console.log('Adding tag ------', tagUrl);
+      console.log("free tag is -----", val);
       $.ajax({url: tagUrl, type:'PUT', data: JSON.stringify(val)})
        .done(function(data) { console.log('freee tag TagURL: ', tagUrl, 'defined!', "data is ", data); });
       }
