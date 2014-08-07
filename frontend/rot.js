@@ -72,12 +72,15 @@ function readTag(tag, cb) {
 
 function writeTag(tag, data, cb) {
   var tagData = JSON.parse(allTags[tag]);
+  console.log("------Write tag tagData[tag] -------------", allTags[tag]);
+  console.log("------Write tag tagData ------------------", tagData);
   if (tagData === undefined) {
     cb(undefined, "No such tag: " + tag + " :(");
   } else if (tagData['url'] === undefined) {
     cb(undefined, "No url for tag: " + tag + " :(");
   } else {
-    superagent.put("http://" + tagData['url'])
+      superagent.put("http://" + tagData)
+      //superagent.put("http://" + tagData['url'])
 	    .send(data)
 	    .end(function(res){
         console.log("callback is ", cb);
