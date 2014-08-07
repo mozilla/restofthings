@@ -13,9 +13,9 @@ function listExistingTags(links, cb){
   for (var key in links) {
     if (links[key] !== undefined)
       $('<a>',{
-        text: " " +"http://" + JSON.parse(links[key]).url,
+        text: " " +"http://" + links[key],
         title: key,
-        href: "http://" + JSON.parse(links[key]).url
+        href: "http://" + links[key]
       }).appendTo('#'+ key);
   }
   cb(links);
