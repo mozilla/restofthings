@@ -72,15 +72,16 @@ function readTag(tag, cb) {
 
 function writeTag(tag, data, cb) {
   var tagData = allTags[tag];
-  console.log("------Write tag tagData[tag] -------------", tagData);
-  console.log("-------data is--------", data);
+  console.log("------------- WRITE TAG ------Write tag tagData[tag] -------------", tagData);
+  console.log("------------- WRITE TAG -------data is--------", data);
   if (tagData === undefined) {
     cb(undefined, "No such tag: " + tag + " :(");
-  } else if (tagData['url'] === undefined) {
+  } else if (tagData === undefined) {
     cb(undefined, "No url for tag: " + tag + " :(");
   } else {
-      superagent.post("http://" + tagData)
-      //superagent.put("http://" + tagData['url'])
+      //superagent.post("http://" + tagData)
+      var url = "http://" + tagData;
+      superagent.put("http://" + tagData)
 	    .send(data)
 	    .end(function(res){
 
