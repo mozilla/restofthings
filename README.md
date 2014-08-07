@@ -39,6 +39,8 @@ Install and configure nginx:
 
 Nginx if used as a CORS proxy in this case(nginx will by default run on port `80`).
 
+Note: if you failed to configure nginx properly and won't start try this:
+`sudo nginx -t` should test all files and return errors and warnings locations
 raspicam working example
 http://blog.miguelgrinberg.com/post/how-to-build-and-run-mjpg-streamer-on-the-raspberry-pi
 `$ sudo apt-get install libjpeg8-dev`

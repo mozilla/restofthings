@@ -184,6 +184,7 @@ function getFeatures(cb) {
 
 function setTag(uuid, feature, tag, cb) {
   console.log("in setTag(uuid:", uuid, ", feature:", feature, ", tag:", tag, ")");
+  console.log("allFeatures[uuid][feature] is-------------------------- ", allFeatures[uuid][feature]);
   if (allFeatures[uuid] === undefined) {
     cb("No such uuid: " + uuid + " :( in allFeatures:" + allFeatures);
   } else if (allFeatures[uuid][feature] === undefined) {
