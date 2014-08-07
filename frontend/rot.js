@@ -13,7 +13,7 @@ var allFeatures = {}
 
 function init(cb) {
   superagent.get(baseurl + "/ls", function(err, res) {
-    console.log("i am in init ----");
+    console.log("--------------------- ROT init ------------------");
     if (err) {
       cb(err);
       return;
@@ -58,8 +58,6 @@ function queryTags(tags, cb) {
 
 function readTag(tag, cb) {
   var tagData = JSON.parse(allTags[tag]);
-  console.log("tagData is ----------------------------", tagData);
-
   if (tagData === undefined) {
     cb(undefined, "ROT No such tag: " + tag + " :(");
   } else if (tagData['url'] === undefined) {
@@ -72,7 +70,6 @@ function readTag(tag, cb) {
 
 function writeTag(tag, data, cb) {
   var tagData = JSON.parse(allTags[tag]);
-  console.log("WRITE TAG***************************************************************************************", tagData);
   if (tagData === undefined) {
     cb(undefined, "No such tag: " + tag + " :(");
   } else if (tagData['url'] === undefined) {
@@ -88,7 +85,7 @@ function writeTag(tag, data, cb) {
 }
 
 function getAllThings(uuids, cb) {
-  console.log("GET ALL THINGS");
+  console.log("------------------ROT GET ALL THINGS-------------------");
   var things = {};
   var errors = undefined;
   var done = 0;
@@ -194,14 +191,10 @@ function setTag(uuid, feature, tag, cb) {
   } else if (tag in allTags) {
     cb("Tag alread used: " + tag + " :(");
   } else {
-      console.log("allThings: ", allThings, "allThings[uuid]", allThings[uuid]);
     var url = allThings[uuid].localURL + "/tags/" + tag;
-    console.log("in setTag, setting to url: ", url);
     superagent.put(url)
       .send(feature)
       .end(function(res){
-        console.log("setTag: callback is ", cb);
-        console.log("XXXXXXXXXX allFeatures[uuid][feature]", allFeatures[uuid][feature]);
         allTags[tag] = allFeatures[uuid][feature];
 
         if (res.ok) {

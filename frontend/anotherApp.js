@@ -28,8 +28,8 @@ function setup() {
 
   readTag('led1', function(data, err) {
     if (err)
-      console.log("****************** I fail miserably to read url of my cam :(******************", err);
-    console.log("**** |o/ ****************************data is ", data);
+      console.log("****************** I fail miserably to read url of my led :(******************", err);
+    console.log("**** |o/ **************************** data is ", data);
     var url = "http://" + data;
   })
   var pushMe = $('<button/>',
@@ -55,22 +55,6 @@ function forEach(obj, cb) {
   for (var e in obj) {
     cb(e);
   }
-}
-
-function readTags(tags, cb) {
-  console.log("APP I am in readTags ");
-  var readValues = {};
-  console.log("APP TAGS ARE ", tags);
-  forEach(tags, function(tag) {
-    console.log("APP tag: ", tag);
-    readTag(tag, function(data, err) {
-      readValues[tag] = data;
-      if (err)
-        console.log("APP Error from readTag: ", err);
-      if (Object.keys(readValues).length === Object.keys(tags).length)
-        cb(readValues);
-    });
-  });
 }
 
 init(app);

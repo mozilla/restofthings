@@ -9,12 +9,14 @@ function app(){
 };
 
 function listExistingTags(links, cb){
+  console.log("links is : ", links);
   for (var key in links) {
-    $('<a>',{
-      text: " " +"http://" + links[key]["url"],
-      title: key,
-      href: "http://" + links[key]["url"]
-    }).appendTo('#'+ key);
+    if (links[key] !== undefined)
+      $('<a>',{
+        text: " " +"http://" + JSON.parse(links[key]).url,
+        title: key,
+        href: "http://" + JSON.parse(links[key]).url
+      }).appendTo('#'+ key);
   }
   cb(links);
 }
