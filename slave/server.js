@@ -44,13 +44,15 @@ app.get("/tags/", function(req, res) {
 
 function commit(callback) {
   fs.writeFile(config.tagFile, JSON.stringify(state), callback);
-  console.log('i an in commit file');
+  console.log('i am in commit file is AND STATE IS', JSON.stringify(state));
 }
 
 app.put(/^\/tags\/[A-z:0-9.-]+$/, function(req, res, next) {
   var tagName = req.path.substr("/tags/".length);
-  console.log('i am in put and i want to write a tag : ', tagName);
+  console.log('I am in PUT and i want to write the tag with tag name: ', tagName);
   state[tagName] = req.text;
+  console.log("state[tagName] = req.text is: ", req.text);
+
   commit(function(err) {
     if (err)
       return next(err);
