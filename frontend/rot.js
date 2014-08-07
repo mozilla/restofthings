@@ -137,13 +137,13 @@ function getAllTags(things, cb) {
         for (var tagName in tagsResp) {
 	      //var feature = tagsResp[tagName];
           console.log("tagName -------", tagName);
-          if (tagsResp[tagName].url !== undefined) {
+          if (JSON.parse(tagsResp[tagName]).url !== undefined) {
             //tags[tagName] = tagsResp[tagName];
-            tags[tagName] = tagsResp[tagName].url;
+            tags[tagName] = JSON.parse(tagsResp[tagName]).url;
           }
-          if (tagsResp[tagName].val !== undefined) {
+          if (JSON.parse(tagsResp[tagName]).val !== undefined) {
             //tags[tagName] = tagsResp[tagName];
-            tags[tagName] = tagsResp[tagName].val;
+            tags[tagName] = JSON.parse(tagsResp[tagName]).val;
           }
      	  }
         }
