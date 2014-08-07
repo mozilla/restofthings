@@ -57,7 +57,7 @@ function queryTags(tags, cb) {
 }
 
 function readTag(tag, cb) {
-  var tagData = JSON.parse(allTags[tag]);
+  var tagData = allTags[tag];
   if (tagData === undefined) {
     cb(undefined, "ROT No such tag: " + tag + " :(");
   } else if (tagData['url'] === undefined) {
