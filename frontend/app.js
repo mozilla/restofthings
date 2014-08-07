@@ -30,14 +30,14 @@ function setup() {
     console.log("just set a tag to the cam ...you should have an entry in /tmp/tags", data);
   });
 
-  readTag('cam', function(data, err) {
+  /*readTag('cam', function(data, err) {
     if (err)
       console.log("****************** I fail miserably to read url of my cam :(******************", err);
     console.log("**** |o/ ****************************data is ", data);
     var url = "http://" + data;
     console.log("APP url for camera ------------", url);
     loadImage(url);
-  });
+  });*/
   var pushMe = $('<button/>',
     {
       text: 'ChangeState',
