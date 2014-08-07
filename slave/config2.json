@@ -4,8 +4,9 @@
     "port":3001,
     "proxyport":3001,
     "uuid": "uuid2",
-    "features": {
-	"wat-is-dis-3493YAT1PL--24": {"url": "localhost:6666"},
-        "gigagator-ultra-leds-inqqpa2": {"url": "localhost:1235"}
+    "features":
+    {
+	    "wat-is-dis-3493YAT1PL--24": {"url": "localhost:6666"},
+      "gigagator-ultra-leds-inqqpa2": {"url": "localhost:1235"}
     }
 }

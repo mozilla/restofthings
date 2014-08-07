@@ -9,7 +9,7 @@ function app(){
 };
 
 function listExistingTags(links, cb){
-  console.log("links is : ", links);
+  console.log("LINKS is ---------: ", links);
   for (var key in links) {
     if (links[key] !== undefined)
       $('<a>',{
@@ -25,7 +25,7 @@ function setup() {
   //- ROT.readTag("tag", function cb(resp, err) { ... } ) => resp: WHATEVER THE URLS OF THAT TAG RETURNS
   //- ROT.writeTag("tag", data, cb(resp, err) { ... } ) => data: whatever data you want, resp: tag will respond whatever it wants
 
-  //I set a new tag for raspberry-cam and use it as stream source
+  //test/set a new tag for raspberry-cam and use it as stream source
   setTag("uuid1", "raspberry-cam", 'cam', function(data) {
     console.log("just set a tag to the cam ...you should have an entry in /tmp/tags", data);
   });
@@ -35,8 +35,9 @@ function setup() {
       console.log("****************** I fail miserably to read url of my cam :(******************", err);
     console.log("**** |o/ ****************************data is ", data);
     var url = "http://" + data;
+    console.log("APP url for camera ------------", url);
     loadImage(url);
-  })
+  });
   var pushMe = $('<button/>',
     {
       text: 'ChangeState',
@@ -80,7 +81,7 @@ function forEach(obj, cb) {
 }
 
 function readTags(tags, cb) {
-  console.log("I am in readTags ");
+  console.log("I am in readTags tags: ------------------------", tags);
   var readValues = {};
   console.log("TAGS ARE ", tags);
   forEach(tags, function(tag) {
