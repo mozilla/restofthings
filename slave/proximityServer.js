@@ -35,6 +35,7 @@ function setDirection(pin){
     console.log("---error is ------:", err);
     gpio.setDirection(pin, "in" , function(){
     console.log("-----i am in set dirrection------");
+    readProximityState(pin, undefined);
     });
   });
 }
