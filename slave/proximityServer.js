@@ -30,19 +30,18 @@ app.use(function (req, res, next) {
 app.use(cors());
 
 function setDirection(pin){
-  gpio.setDirection(pin, "in" , function(){
-
+  gpio.open(pin, "input", function(err) {
+    console.log("---set direction to pin ", pin, " to input---");
+    console.log("---error is ------:", err);
+    gpio.setDirection(pin, "in" , function(){
     console.log("-----i am in set dirrection------");
-    gpio.open(pin, function(err) {
-      console.log("---set direction to pin ", pin, " to input---");
-      console.log("---error is ------:", err);
     });
   });
 }
 
 function readProximityState(pin, res) {
   gpio.read(pin,  function(err, value) {
-    console.log("READ pin--", pin);
+    console.log("READ pin------------------", pin, " value-----", value);
     if(err) throw err;
     console.log("on pin" +  nr + " state is: " , value);    // The current state of the pin
     var state = value;
