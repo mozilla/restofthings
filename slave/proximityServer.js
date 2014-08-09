@@ -30,10 +30,11 @@ app.use(function (req, res, next) {
 app.use(cors());
 
 function setDirection(pin){
+  console.log("I am in set dirrection");
   gpio.open(pin, "input", function(err) {
     console.log("---set direction to pin ", pin, " to input---");
     console.log("---error is ------:", err);
-    gpio.setDirection(pin, "in" , function(){
+    gpio.setDirection(pin, "input" , function(){
     console.log("-----i am in set dirrection------");
     readProximityState(pin, undefined);
     });
@@ -75,4 +76,5 @@ function startReading(pin)
 }
 
 app.listen(port);
-startReading(pin);
+setDirection(pin);
+//startReading(pin);
