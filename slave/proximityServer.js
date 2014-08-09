@@ -9,7 +9,7 @@ var argv = process.argv;
 var port = argv[2];
 var pin = argv[3];
 if (pin == undefined)
-  pin = 32;
+  pin = 18;
 var app = express();
 
 //handle post/put
@@ -65,7 +65,7 @@ function startReading(pin)
   setDirection(pin);
   console.log("-----------proximity sensor on--------------");
   while(1){
-    readProximityState(pin);
+    readProximityState(pin, undefined);
   }
 }
 
