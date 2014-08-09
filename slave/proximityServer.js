@@ -10,6 +10,7 @@ var port = argv[2];
 var pin = argv[3];
 if (pin == undefined)
   pin = 18;
+console.log("arguments are port", port, " pin", pin);
 var app = express();
 
 //handle post/put
@@ -29,9 +30,13 @@ app.use(function (req, res, next) {
 app.use(cors());
 
 function setDirection(pin){
-  gpio.open(pin, "in", function(err) {
+  gpio.setDirection(pin, "in" , function(){
+
+    console.log("-----i am in set dirrection------");
+    gpio.open(pin, function(err) {
       console.log("---set direction to pin ", pin, " to input---");
       console.log("---error is ------:", err);
+    });
   });
 }
 
