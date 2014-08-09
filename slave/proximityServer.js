@@ -36,7 +36,7 @@ function setDirection(pin){
 }
 
 function readProximityState(pin, res) {
-  gpio.read(nr,  function(err, value) {
+  gpio.read(pin,  function(err, value) {
     if(err) throw err;
     console.log("on pin" +  nr + " state is: " , value);    // The current state of the pin
     var state = value;
