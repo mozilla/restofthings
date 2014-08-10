@@ -34,6 +34,7 @@ function setDirection(pin){
   gpio.open(pin, "input", function(err) {
     console.log("---set direction to pin ", pin, " to input---");
     console.log("---error is ------:", err);
+    setInterval(readProximityState(pin, undefined),3000);
     //gpio.setDirection(pin, "input" , function(){
     //console.log("-----i am in set dirrection------");
     //readProximityState(pin, undefined);
@@ -76,4 +77,4 @@ function startReading(pin)
 
 app.listen(port);
 setDirection(pin);
-startReading(pin);
+//startReading(pin);
