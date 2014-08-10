@@ -48,15 +48,13 @@ function readProximityState(pin, res) {
     if(err) throw err;
     console.log("on pin" +  pin + " state is: " , value);    // The current state of the pin
     var state = value;
-    if (res != undefined) {
+    if (res !== undefined) {
       console.log("send a response with led state:  ", value);
-      if (res !== undefined) {
         if (state == 1) {
           res.send("something's there ^_^");
         } else {
           res.send("nothing detected");
         }
-      }
     }
     //gpio.close(pin);
   });
@@ -72,7 +70,7 @@ function startReading(pin)
   //setDirection(pin);
   console.log("-----------proximity sensor on--------------");
 
-  setInterval(readProximityState(pin, undefined),3000);
+  setInterval(readProximityState(pin),3000);
 }
 
 app.listen(port);
