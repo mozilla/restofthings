@@ -34,10 +34,10 @@ function setDirection(pin){
   gpio.open(pin, "input", function(err) {
     console.log("---set direction to pin ", pin, " to input---");
     console.log("---error is ------:", err);
-    gpio.setDirection(pin, "input" , function(){
-    console.log("-----i am in set dirrection------");
-    readProximityState(pin, undefined);
-    });
+    //gpio.setDirection(pin, "input" , function(){
+    //console.log("-----i am in set dirrection------");
+    //readProximityState(pin, undefined);
+    //});
   });
 }
 
