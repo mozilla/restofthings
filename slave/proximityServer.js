@@ -70,11 +70,10 @@ function startReading(pin)
 {
   setDirection(pin);
   console.log("-----------proximity sensor on--------------");
-  while(1){
-    readProximityState(pin, undefined);
-  }
+
+  setInterval(readProximityState(pin, undefined),3000);
 }
 
 app.listen(port);
 setDirection(pin);
-//startReading(pin);
+startReading(pin);
