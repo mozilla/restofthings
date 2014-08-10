@@ -45,7 +45,7 @@ function readProximityState(pin, res) {
   gpio.read(pin,  function(err, value) {
     console.log("READ pin------------------", pin, " value-----", value);
     if(err) throw err;
-    console.log("on pin" +  nr + " state is: " , value);    // The current state of the pin
+    console.log("on pin" +  pin + " state is: " , value);    // The current state of the pin
     var state = value;
     if (res != undefined) {
       console.log("send a response with led state:  ", value);
