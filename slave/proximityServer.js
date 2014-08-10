@@ -53,7 +53,7 @@ function speak(){
     count = 0;
     request
       .post('localhost:8888')
-      .send('{"name":"tj","pet":"tobi"}')
+      .send('MUAHAHHAHAHAHAHAHHAH YOU SUCK!')
       .end(function(res){
         if (res.ok) {
           console.log('------proximity sensor----yay got ' + res.body);
