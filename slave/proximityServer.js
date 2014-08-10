@@ -29,35 +29,40 @@ app.use(function (req, res, next) {
 });
 
 app.use(cors());
-var count;
+var count = 0;
 function setDirection(pin){
-  console.log("I am in set dirrection");
+  console.log("----------I am in set direction------------");
   gpio.open(pin, "input", function(err) {
     console.log("---set direction to pin ", pin, " to input---");
     console.log("---error is ------:", err);
     setInterval(function(){
+      console.log("---------set interval--------");
       readProximityState(pin);
-      count++;
-      if (count > 3){
-        console.log("-----count is more than 3-----");
-        count = 0;
-        request
-          .post('localhost:8888')
-          .send('{"name":"tj","pet":"tobi"}')
-          .end(function(res){
-            if (res.ok) {
-              console.log('------proximity sensor----yay got ' + res.body);
-            } else {
-              console.log('------proximity sensor----Oh no! error ' + res.text);
-            }
-          });
-
-      }},3000);
+      speak();
+      },3000);
     //gpio.setDirection(pin, "input" , function(){
     //console.log("-----i am in set dirrection------");
     //readLightState(pin, undefined);
     //});
   });
+}
+function speak(){
+  count++;
+  if (count > 3){
+    console.log("-----count is more than 3-----");
+    count = 0;
+    request
+      .post('localhost:8888')
+      .send('{"name":"tj","pet":"tobi"}')
+      .end(function(res){
+        if (res.ok) {
+          console.log('------proximity sensor----yay got ' + res.body);
+        } else {
+          console.log('------proximity sensor----Oh no! error ' + res.text);
+        }
+      });
+
+  }
 }
 
 function readProximityState(pin, res) {
