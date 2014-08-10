@@ -7,4 +7,5 @@ function readADC() {
     console.log("value is----", value);
   });
 };
-setInterval(function(){readADC();},3000);
+
+setInterval(readADC, 3000);

@@ -9,7 +9,7 @@ var argv = process.argv;
 var port = argv[2];
 var pin = argv[3];
 if (pin == undefined)
-  pin = 18;
+  pin = 11;
 console.log("arguments are port", port, " pin", pin);
 var app = express();
 
