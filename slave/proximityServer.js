@@ -39,15 +39,16 @@ function setDirection(pin){
       readProximityState(pin);
       count++;
       if (count > 3){
+        console.log("-----count is more than 3-----");
         count = 0;
         request
           .post('localhost:8888')
-          .send("pleeeeease wait for approval")
+          .send('{"name":"tj","pet":"tobi"}')
           .end(function(res){
             if (res.ok) {
-              console.log('proximity sensor----yay got ' + res.body);
+              console.log('------proximity sensor----yay got ' + res.body);
             } else {
-              console.log('proximity sensor----Oh no! error ' + res.text);
+              console.log('------proximity sensor----Oh no! error ' + res.text);
             }
           });
 
