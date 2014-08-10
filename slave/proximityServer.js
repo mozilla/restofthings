@@ -4,6 +4,7 @@ var express = require('express');
 var getRawBody = require('raw-body');
 var cors = require('cors');
 var gpio = require("pi-gpio");
+var request = require("superagent");
 
 var argv = process.argv;
 var port = argv[2];
@@ -28,13 +29,29 @@ app.use(function (req, res, next) {
 });
 
 app.use(cors());
-
+var count;
 function setDirection(pin){
   console.log("I am in set dirrection");
   gpio.open(pin, "input", function(err) {
     console.log("---set direction to pin ", pin, " to input---");
     console.log("---error is ------:", err);
-    setInterval(function(){readProximityState(pin);},3000);
+    setInterval(function(){
+      readProximityState(pin);
+      count++;
+      if (count > 3){
+        count = 0;
+        request
+          .post('localhost:8888')
+          .send("pleeeeease wait for approval")
+          .end(function(res){
+            if (res.ok) {
+              console.log('proximity sensor----yay got ' + res.body);
+            } else {
+              console.log('proximity sensor----Oh no! error ' + res.text);
+            }
+          });
+
+      }},3000);
     //gpio.setDirection(pin, "input" , function(){
     //console.log("-----i am in set dirrection------");
     //readLightState(pin, undefined);
