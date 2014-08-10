@@ -68,7 +68,7 @@ app.get("/", function(req, res) {
 
 function startReading(pin)
 {
-  setDirection(pin);
+  //setDirection(pin);
   console.log("-----------proximity sensor on--------------");
 
   setInterval(readProximityState(pin, undefined),3000);
