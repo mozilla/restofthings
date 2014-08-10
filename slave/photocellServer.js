@@ -1,3 +1,6 @@
+/**
+ * Created by rpodiuc on 8/9/14.
+ */
 var http = require("http");
 var url = require("url");
 var express = require('express');
@@ -9,7 +12,7 @@ var argv = process.argv;
 var port = argv[2];
 var pin = argv[3];
 if (pin == undefined)
-  pin = 18;
+  pin = 7;
 console.log("arguments are port", port, " pin", pin);
 var app = express();
 
@@ -34,7 +37,7 @@ function setDirection(pin){
   gpio.open(pin, "input", function(err) {
     console.log("---set direction to pin ", pin, " to input---");
     console.log("---error is ------:", err);
-    setInterval(function(){readProximityState(pin);},3000);
+    setInterval(function(){readLightState(pin);},3000);
     //gpio.setDirection(pin, "input" , function(){
     //console.log("-----i am in set dirrection------");
     //readLightState(pin, undefined);
@@ -42,7 +45,7 @@ function setDirection(pin){
   });
 }
 
-function readProximityState(pin, res) {
+function readLightState(pin, res) {
   gpio.read(pin,  function(err, value) {
     console.log("READ pin------------------", pin, " value-----", value);
     if(err) throw err;
@@ -50,11 +53,11 @@ function readProximityState(pin, res) {
     var state = value;
     if (res !== undefined) {
       console.log("send a response with led state:  ", value);
-        if (state == 1) {
-          res.send("something's there ^_^");
-        } else {
-          res.send("nothing detected");
-        }
+      if (state == 1) {
+        res.send("something's there ^_^");
+      } else {
+        res.send("nothing detected");
+      }
     }
     return state;
     //gpio.close(pin);
@@ -63,7 +66,7 @@ function readProximityState(pin, res) {
 
 app.get("/", function(req, res) {
   console.log("GET /,  led state is: ", ledState);
-  readProximityState(pin, res);
+  readLightState(pin, res);
 })
 
 
