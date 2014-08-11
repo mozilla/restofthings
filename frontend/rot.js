@@ -72,7 +72,12 @@ function readTag(tag, cb) {
   } else if (isValidURL("http://" +tagData)) {
       superagent
         .get("http://" + tagData, function (err, req) {
-          cb(req.text, err);
+          console.log("request is ---------", req);
+          //cb(req.text, err);
+        })
+        .end(function(res){
+          console.log("res is ", res);
+          cb(res.text);
         });
   } else {
       return tagData;
