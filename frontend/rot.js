@@ -71,10 +71,7 @@ function readTag(tag, cb) {
     cb(undefined, "ROT No url for tag: " + tag + " :(");
   } else if (isValidURL("http://" +tagData)) {
       superagent
-        .get("http://" + tagData, function (err, req) {
-          console.log("request is ---------", req);
-          //cb(req.text, err);
-        })
+        .get("http://" + tagData)
         .end(function(res){
           console.log("res is ", res);
           cb(res.text);
