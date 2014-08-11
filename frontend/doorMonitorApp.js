@@ -26,7 +26,7 @@ function monitorDoor(){
   console.log("-----in monitor door-----");
   readTag('motion', function(data){
     console.log("data form motion sensor is", data);
-    if (data === 1){
+    if (data === "1"){
       console.log("got something at the door");
       readTag('cam', function(data){
         console.log("camera gives me this data--", data);

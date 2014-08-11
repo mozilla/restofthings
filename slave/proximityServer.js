@@ -72,11 +72,11 @@ function readProximityState(pin, res) {
     console.log("on pin" +  pin + " state is: " , value);    // The current state of the pin
     var state = value;
     if (res !== undefined) {
-      console.log("send a response with led state:  ", value);
+      console.log("send a response with proximity state:  ", value);
         if (state == 1) {
-          res.send("something's there ^_^");
+          res.send("1");
         } else {
-          res.send("nothing detected");
+          res.send("0");
         }
     }
     return state;
