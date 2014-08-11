@@ -113,7 +113,10 @@ function writeFreeTags(key, tags, address){
     if (e.added !== undefined) {
       var newTag = e.added.text;
       var tagUrl = this.id + '/tags/' + newTag.split(":")[0];
-      var val = {"val":newTag.split(":")[1], "uuid": address};
+      var value = newTag.split(":");
+      value.shift();
+      value = value.join("");
+      var val = {"val":value, "uuid": address};
       console.log('Adding tag ------', tagUrl);
       console.log("free tag is -----", val);
       $.ajax({url: tagUrl, type:'PUT', data: JSON.stringify(val)})

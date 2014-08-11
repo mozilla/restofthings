@@ -23,10 +23,12 @@ function app(){
 };
 
 function monitorDoor(){
+  console.log("-----in monitor door-----");
   readTag('motion', function(data){
-    if (data == 1){
+    console.log("data form motion sensor is", data);
+    if (data === 1){
       console.log("got something at the door");
-      readTag('camera', function(data){
+      readTag('cam', function(data){
         console.log("camera gives me this data--", data);
         readTag('sound', function(data){
           console.log("sound gives me this data--", data);
