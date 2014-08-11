@@ -35,11 +35,11 @@ function setDirection(pin){
   gpio.open(pin, "input", function(err) {
     console.log("---set direction to pin ", pin, " to input---");
     console.log("---error is ------:", err);
-    setInterval(function(){
+    /*setInterval(function(){
       console.log("---------set interval--------");
       readProximityState(pin);
       //speak();
-      },3000);
+      },3000);*/
     //gpio.setDirection(pin, "input" , function(){
     //console.log("-----i am in set dirrection------");
     //readLightState(pin, undefined);
@@ -85,7 +85,7 @@ function readProximityState(pin, res) {
 }
 
 app.get("/", function(req, res) {
-  console.log("GET /,  led state is: ", ledState);
+  console.log("GET /,  proximity state is: ", req);
   readProximityState(pin, res);
 })
 
