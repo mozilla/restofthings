@@ -1,4 +1,4 @@
-var defaultUrl = "localhost:9999/?action=stream"
+var defaultUrl = "localhost:8989/?action=stream"
 var http = require("http");
 var url = require("url");
 var express = require('express');

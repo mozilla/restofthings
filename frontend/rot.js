@@ -11,7 +11,16 @@ var allThings = {};  // { 'uuid1dc65c13': { uuid: 'uuid1dc65c13', localURL: 'htt
 var allTags = {};
 var allFeatures = {}
 
-function init(cb) {
+function isValidURL(url){
+  var RegExp = /(ftp|http|https):\/\/(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?/;
+  if(RegExp.test(url)){
+    return true;
+  }else{
+    return false;
+  }
+}
+
+  function init(cb) {
   superagent.get(baseurl + "/ls", function(err, res) {
     console.log("--------------------- ROT init ------------------");
     if (err) {
@@ -53,19 +62,24 @@ function queryTags(tags, cb) {
   }
   cb(resp);  // no error
 }
-
+//this works only for http requests not free tags
 function readTag(tag, cb) {
   var tagData = allTags[tag];
   if (tagData === undefined) {
     cb(undefined, "ROT No such tag: " + tag + " :(");
   } else if (tagData === undefined) {
     cb(undefined, "ROT No url for tag: " + tag + " :(");
+  } else if (isValidURL("http://" +tagData)) {
+      superagent
+        .get("http://" + tagData, function (err, req) {
+          cb(req.text, err);
+        });
   } else {
-    superagent
-    .get("http://" + tagData, function (err, req) { cb(req.text, err);}) ;
+      return tagData;
   }
 }
 
+//this works only for http requests not for free tags
 function writeTag(tag, data, cb) {
   var tagData = allTags[tag];
   if (tagData === undefined) {
@@ -178,6 +192,7 @@ function getFeatures(cb) {
   cb(allFeatures);
 }
 
+//only tags for  features
 function setTag(uuid, feature, tag, cb) {
   var data = {"url":JSON.parse(allFeatures[uuid])[feature].url, "feature":feature};
   if (allFeatures[uuid] === undefined) {
