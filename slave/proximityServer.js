@@ -38,7 +38,7 @@ function setDirection(pin){
     setInterval(function(){
       console.log("---------set interval--------");
       readProximityState(pin);
-      speak();
+      //speak();
       },3000);
     //gpio.setDirection(pin, "input" , function(){
     //console.log("-----i am in set dirrection------");
