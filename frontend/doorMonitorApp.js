@@ -31,12 +31,10 @@ function monitorDoor(){
       console.log("got something at the door");
       readTag('cam', function(data){
         console.log("camera gives me this data--", data);
-        readTag('sound', function(data){
-          console.log("sound gives me this data--", data);
-          writeTag('sound', 'somebody at the doooooor', function(resp){
-            console.log("got this response --", resp);
-          });
-        })
+        writeTag('sound', 'somebody at the doooooor', function(resp){
+          console.log("got this response --", resp);
+        });
+
       })
     }
   });

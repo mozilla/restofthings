@@ -26,7 +26,7 @@ app.use(cors());
 
 app.put("/", function(req, res, next) {
   var text = req.text;
-  console.log("POST  /, text is : ", text);
+  console.log("PUT  /, text is : ", text);
   require('child_process').spawn('node', ["textToSpeech.js", text]);
   res.send("text processed is " + text);
 });
