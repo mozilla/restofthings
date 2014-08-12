@@ -11,7 +11,6 @@ var pin = argv[3];
 if (pin == undefined)
   pin = 12;
 var app = express();
-//led on pin 11
 
 //handle post/put
 app.use(function (req, res, next) {
@@ -38,7 +37,6 @@ function buzzerOff(){
   gpio.write(pin, 0, function(err, value) {
     if(err) throw err;
   })
-  //gpio.close(pin);
 }
 function buzzerOn(){
   gpio.open(pin, "output", function(err) {        // Open pin 11
@@ -48,7 +46,6 @@ function buzzerOn(){
       if(err) throw err;
     })
     sleep(3000, buzzerOff);
-
   })
 }
 
@@ -57,22 +54,21 @@ buzzerOn();
 app.get("/", function(req, res) {
   console.log("GET /,  buzzer ");
   buzzerOn();
+  res.send("on");
 
 })
-
 
 app.post("/", function(req, res, next) {
   console.log("POST /, buzzer ");
   buzzerOn();
+  res.send("on");
 })
-
 
 app.put("/", function(req, res, next) {
   console.log("PUT /,  buzzer ");
   buzzerOn();
+  res.send("on");
 })
 
 app.listen(port);
-
-var ledState = 0;
 
