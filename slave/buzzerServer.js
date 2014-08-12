@@ -29,6 +29,14 @@ app.use(function (req, res, next) {
 
 app.use(cors());
 
+function sleep(millis)
+{
+  var date = new Date();
+  var curDate = null;
+  do { curDate = new Date(); }
+  while(curDate-date < millis);
+}
+
 function buzzerOn(){
   gpio.open(pin, "output", function(err) {        // Open pin 11
     console.log("set ddr for pin 12");
