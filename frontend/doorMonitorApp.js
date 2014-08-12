@@ -6,7 +6,7 @@
  */
 function app(){
   console.log("-----in app------");
-  queryTags(['cam', 'motion', 'sound', 'openButton'], function(tags, err) {
+  queryTags(['cam', 'motion', 'openButton'], function(tags, err) {
     console.log("query tags response is: ", tags);
     setInterval(monitorDoor,3000);
     //monitorDoor();
@@ -32,9 +32,9 @@ function monitorDoor(){
       readTag('cam', function(data){
         console.log("camera gives me this data--", data);
         $('#myPic').attr('src', data);
-        writeTag('sound', 'Leprechaun at the door!', function(resp){
-          console.log("got this response --", resp);
-        });
+        //writeTag('sound', 'Leprechaun at the door!', function(resp){
+          //console.log("got this response --", resp);
+        //});
       })
     } else {
       $('#myPic').attr('src', "maxresdefault.jpg");
