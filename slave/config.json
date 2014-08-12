@@ -10,6 +10,7 @@
 	    "useless-device-MQYOK7N1WA*#22": {"url": "localhost:7777"},
       "raspberry-cam": {"url": "localhost:9999"},
       "motion-sensor": {"url": "localhost:1111"},
-      "speaker": {"url":"localhost:3333"}
+      "speaker": {"url":"localhost:3333"},
+      "buzzer/relay":{"url":"localhost:8888"}
     }
 }
