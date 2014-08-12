@@ -11,7 +11,7 @@ function app(){
     setInterval(monitorDoor,3000);
     //monitorDoor();
     var pushMe = $('<button/>',{
-        text: 'ChangeState',
+        text: 'OpenDoor',
         click: function () {
           console.log('hi');
           writeTag("openButton", "open", function (data) {
