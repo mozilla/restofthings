@@ -45,10 +45,10 @@ function buzzerOn(){
       if(err) throw err;
     })
     sleep(30000);
-    //gpio.write(pin, 0, function(err, value) {
-    //  if(err) throw err;
-    //})
-    //gpio.close(pin);
+    gpio.write(pin, 0, function(err, value) {
+      if(err) throw err;
+    })
+    gpio.close(pin);
   })
 }
 
