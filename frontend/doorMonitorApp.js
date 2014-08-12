@@ -32,11 +32,9 @@ function monitorDoor(){
       readTag('cam', function(data){
         console.log("camera gives me this data--", data);
         $('#myPic').attr('src', data);
-        writeTag('sound', 'lepricon at the dor', function(resp){
+        writeTag('sound', 'Leprechaun at the door!', function(resp){
           console.log("got this response --", resp);
-
         });
-
       })
     } else {
       $('#myPic').attr('src', "maxresdefault.jpg");
