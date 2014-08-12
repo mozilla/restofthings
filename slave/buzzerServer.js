@@ -35,7 +35,10 @@ function buzzerOn(){
     //var val = 0; //default led state set to high
     gpio.write(pin, 261, function(err, value) {
       if(err) throw err;
-      console.log("on pin" +  nr + " I get this value " , value);
+    })
+    sleep(1000);
+    gpio.write(pin, 0, function(err, value) {
+      if(err) throw err;
     })
     //gpio.close(pin);
   })
