@@ -35,9 +35,9 @@ function sleep(millis, callback) {
     , millis);
 }
 function buzzerOff(){
-  //gpio.write(pin, 0, function(err, value) {
-  //  if(err) throw err;
-  //})
+  gpio.write(pin, 0, function(err, value) {
+    if(err) throw err;
+  })
   gpio.close(pin);
 }
 function buzzerOn(){
