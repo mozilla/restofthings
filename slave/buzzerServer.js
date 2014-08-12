@@ -55,22 +55,20 @@ function buzzerOn(){
 buzzerOn();
 
 app.get("/", function(req, res) {
-  console.log("GET /,  led state is: ", ledState);
-  readLedState(pin, res);
-})
-
-
-app.post("/", function(req, res, next) {
-  console.log("POST /, led state is: ", ledState, " new value is: ", req.text);
-  ledState = req.text;
-  //writeState(ledState, readLedState(pin, res));
+  console.log("GET /,  buzzer: ", ledState);
   buzzerOn();
 
 })
 
 
+app.post("/", function(req, res, next) {
+  console.log("POST /, buzzer : ", ledState, " new value is: ", req.text);
+  buzzerOn();
+})
+
+
 app.put("/", function(req, res, next) {
-  console.log("PUT /, led state is: ", ledState, " new value is: ", req.text);
+  console.log("PUT /,  buzzer : ", ledState, " new value is: ", req.text);
   buzzerOn();
 })
 
