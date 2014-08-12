@@ -27,7 +27,9 @@ app.use(function (req, res, next) {
 app.use(cors());
 
 app.get("/", function(req, res) {
-        res.send(defaultUrl);
+  var spawn = require('child_process').spawn;
+  var  snaphot = spawn('raspistill', ["-o", "cam.jpg"]);
+  res.send("/home/pi/restofthings/slave/cam.jpg");
 });
 app.listen(port);
 
