@@ -44,7 +44,7 @@ function buzzerOn(){
     gpio.write(pin, 261, function(err, value) {
       if(err) throw err;
     })
-    sleep(1000);
+    sleep(3000);
     gpio.write(pin, 0, function(err, value) {
       if(err) throw err;
     })
