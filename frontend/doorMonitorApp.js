@@ -31,11 +31,15 @@ function monitorDoor(){
       console.log("got something at the door");
       readTag('cam', function(data){
         console.log("camera gives me this data--", data);
-        writeTag('sound', 'somebody at the doooooor', function(resp){
+        $('#myPic').attr('src', data);
+        writeTag('sound', 'lepricon at the dor', function(resp){
           console.log("got this response --", resp);
+
         });
 
       })
+    } else {
+      $('#myPic').attr('src', "maxresdefault.jpg");
     }
   });
 }

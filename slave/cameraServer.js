@@ -28,8 +28,8 @@ app.use(cors());
 
 app.get("/", function(req, res) {
   var spawn = require('child_process').spawn;
-  var  snaphot = spawn('raspistill', ["-o", "cam.jpg", "&"]);
-  res.send("/home/pi/restofthings/slave/cam.jpg");
+  var snaphot = spawn('raspistill', ["-o", "/home/pi/restofthings/frontend/cam.jpg", "-n"]);
+  res.send("cam.jpg");
 });
 app.listen(port);
 
