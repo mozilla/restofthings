@@ -84,13 +84,15 @@ function readTag(tag, cb) {
 //this works only for http requests not for free tags
 function writeTag(tag, data, cb) {
   var tagData = allTags[tag];
+  console.log("IN WRITE TAG and tagData is ", tagData);
   if (tagData === undefined) {
     cb(undefined, "No such tag: " + tag + " :(");
   } else if (tagData === undefined) {
     cb(undefined, "No url for tag: " + tag + " :(");
-  } else if (isValidURL("http://" +tagData)){
+  } else if (isValidURL(tagData)){
       //superagent.post("http://" + tagData)
-      var url = "http://" + tagData;
+      console.log("valid tag is:", tagData)
+      //var url = "http://" + tagData;
       superagent.put("http://" + tagData)
 	    .send(data)
 	    .end(function(res){
