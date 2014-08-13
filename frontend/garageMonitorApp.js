@@ -14,13 +14,13 @@ function app(){
       text: 'CloseDoor',
       click: function () {
         console.log('this.text is ', this.text);
-        if (this.text === 'CloseDoor') {
+        if (pushMe.text === 'CloseDoor') {
           writeTag("buzzer", "", function(data){
              console.log("wrote data to buzzer ", data);
           });
-          this.text = 'OpenDoor';
+          pushMe.text = 'OpenDoor';
         } else {
-            this.text = 'CloseDoor';
+            pushMe.text = 'CloseDoor';
             writeTag("buzzer", "", function(data){
               console.log("wrote data to buzzer ", data);
             });
