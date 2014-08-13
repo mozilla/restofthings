@@ -17,7 +17,7 @@ function app(){
         writeTag("relay", "close", function (data) {
           console.log("received this data as feedback from openButton", data);
           writeTag("buzzer", "", function(data){
-            console.log("wrote data to buzzer ", data);
+          console.log("wrote data to buzzer ", data);
           });
           this.text = 'OpenDoor';
         });
@@ -39,8 +39,8 @@ function app(){
 function monitorGarageDoor(){
   console.log("-----in monitor door-----");
   readTag('light', function(data){
-    console.log("data form motion sensor is", data);
-    if (parseInt(data) < 800){
+    console.log("data form light sensor is", data);
+    if (data < 900){
       console.log("got something at the door");
       readTag('relay', function(data){
         if (data === "open")

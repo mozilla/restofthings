@@ -88,16 +88,17 @@ function writeTag(tag, data, cb) {
     cb(undefined, "No such tag: " + tag + " :(");
   } else if (tagData === undefined) {
     cb(undefined, "No url for tag: " + tag + " :(");
-  } else {
+  } else if (isValidURL("http://" +tagData)){
       //superagent.post("http://" + tagData)
       var url = "http://" + tagData;
       superagent.put("http://" + tagData)
 	    .send(data)
 	    .end(function(res){
-
         console.log("callback is ", cb);
         cb(res.text, !res.ok);
       });
+  } else {
+    return tagData;
   }
 }
 
