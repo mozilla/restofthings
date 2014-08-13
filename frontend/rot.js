@@ -65,6 +65,7 @@ function queryTags(tags, cb) {
 //this works only for http requests not free tags
 function readTag(tag, cb) {
   var tagData = allTags[tag];
+  console.log("ROT READ TAG--", tagData);
   if (tagData === undefined) {
     cb(undefined, "ROT No such tag: " + tag + " :(");
   } else if (tagData === undefined) {
