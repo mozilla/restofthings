@@ -28,9 +28,13 @@ app.use(cors());
 
 app.get("/", function(req, res) {
   var spawn = require('child_process').spawn;
-  var snaphot = spawn('raspistill', ["-o", "/home/pi/restofthings/frontend/cam.jpg", "-n"]);
-  res.send("cam.jpg");
+  var snapshot = spawn('raspistill', ["-o", "/home/pi/restofthings/frontend/cam.jpg", "-n"]);
+  snapshot.on('close', function(res){
+    console.log("in close for snapshot");
+    res.send("cam.jpg");
+  })
 });
+
 app.listen(port);
 
 
