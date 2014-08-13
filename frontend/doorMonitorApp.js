@@ -6,7 +6,7 @@
  */
 function app(){
   console.log("-----in app------");
-  queryTags(['cam', 'motion', 'openButton'], function(tags, err) {
+  queryTags(['cam', 'motion', 'sound', 'openButton'], function(tags, err) {
     console.log("query tags response is: ", tags);
     setInterval(monitorDoor,3000);
     //monitorDoor();
