@@ -12,7 +12,7 @@ function app(){
     monitorGarageDoor();
     var pushMe = $('<button/>',{
       id:"pushMe",
-      text: 'CloseDoor',
+      value: 'CloseDoor',
       click: function () {
                writeTag("buzzer", "", function(data){
                console.log("wrote data to buzzer ", data);});
@@ -29,9 +29,9 @@ function change() // no ';' here
   console.log("---change got called---");
   var elem = document.getElementById("pushMe");
   console.log("AAAAAAAA elem is ----------", elem);
-  if (elem.text === "CloseDoor") {
+  if (elem.value === "CloseDoor") {
     console.log("MUAHAHAH close door");
-    elem.text = "OpenDoor";
+    elem.value = "OpenDoor";
   }
   else elem.text = "CloseDoor";
 }
