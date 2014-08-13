@@ -11,6 +11,7 @@
       "raspberry-cam": {"url": "localhost:9999"},
       "motion-sensor": {"url": "localhost:1111"},
       "speaker": {"url":"localhost:3333"},
-      "buzzer/relay":{"url":"localhost:8888"}
+      "buzzer/relay":{"url":"localhost:8888"},
+      "photocell":{"url":"localhost:4444"}
     }
 }
