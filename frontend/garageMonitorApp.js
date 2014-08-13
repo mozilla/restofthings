@@ -20,7 +20,6 @@ function app(){
           });
           this.text = 'OpenDoor';
         } else {
-            console.log("received this data as feedback from openButton", data);
             this.text = 'CloseDoor';
             writeTag("buzzer", "", function(data){
               console.log("wrote data to buzzer ", data);
@@ -39,7 +38,7 @@ function monitorGarageDoor(){
     console.log("type of data is -------", typeof(data));
     if (parseInt(data) > 900){
       console.log("type of data is -------", typeof(parseInt(data)));
-      console.log("------data is less than 900----");
+      console.log("------data is more than 900----");
     }
   });
 }
