@@ -13,7 +13,7 @@ function app(){
     var pushMe = $('<button/>',{
       text: 'CloseDoor',
       click: function () {
-        console.log('hi');
+        console.log('this.text is ', this.text);
         if (this.text === 'CloseDoor') {
           writeTag("buzzer", "", function(data){
              console.log("wrote data to buzzer ", data);
@@ -37,6 +37,7 @@ function monitorGarageDoor(){
     console.log("data form light sensor is----", data);
     console.log("type of data is -------", typeof(data));
     if (parseInt(data) > 900){
+      alert("GARAGE OPEN!");
       console.log("type of data is -------", typeof(parseInt(data)));
       console.log("------data is more than 900----");
     }
