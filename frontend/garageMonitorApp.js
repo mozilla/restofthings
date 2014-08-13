@@ -28,8 +28,11 @@ function change() // no ';' here
 {
   console.log("---change got called---");
   var elem = document.getElementById("pushMe");
-  if (elem.text==="CloseDoor") elem.text = "OpenDoor";
-  else elem.value = "CloseDoor";
+  if (elem.text == "CloseDoor") {
+    console.log("MUAHAHAH close door");
+    elem.text = "OpenDoor";
+  }
+  else elem.text = "CloseDoor";
 }
 
 function monitorGarageDoor(){
