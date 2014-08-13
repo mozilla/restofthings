@@ -8,8 +8,8 @@ function app(){
   console.log("-----in app------");
   queryTags(['light', 'buzzer'], function(tags, err) {
     console.log("query tags response is: ", tags);
-    //setInterval(monitorGarageDoor,3000);
-    monitorGarageDoor();
+    setInterval(monitorGarageDoor,7000);
+    //monitorGarageDoor();
     var pushMe = $('<button/>',{
       id:"pushMe",
       text: 'CloseDoor',
@@ -24,16 +24,21 @@ function app(){
 };
 
 
-function change() // no ';' here
+function change(text) // no ';' here
 {
   console.log("---change got called---");
   var elem = document.getElementById("pushMe");
-  console.log("AAAAAAAA elem is ----------", elem);
+
+  if (text !== undefined) {
+    elem.innerHTML = text;
+    return;
+  }
   if (elem.innerText  == "CloseDoor") {
     console.log("MUAHAHAH close door");
     elem.innerText = "OpenDoor";
   }
   else elem.innerText = "CloseDoor";
+
 }
 
 function monitorGarageDoor(){
@@ -43,8 +48,11 @@ function monitorGarageDoor(){
     console.log("type of data is -------", typeof(data));
     if (parseInt(data) > 900){
       alert("GARAGE OPEN!");
+      change("CloseDoor");
       console.log("type of data is -------", typeof(parseInt(data)));
       console.log("------data is more than 900----");
+    } else {
+      change("OpenDoor");
     }
   });
 }
