@@ -8,28 +8,27 @@ function app(){
   console.log("-----in app------");
   queryTags(['light', 'buzzer'], function(tags, err) {
     console.log("query tags response is: ", tags);
-    //setInterval(monitorGarageDoor,3000);
+    setInterval(monitorGarageDoor,3000);
     monitorGarageDoor();
     var pushMe = $('<button/>',{
       text: 'CloseDoor',
       click: function () {
-        console.log('this.text is ', this.text);
-        if (pushMe.text === 'CloseDoor') {
-          writeTag("buzzer", "", function(data){
-             console.log("wrote data to buzzer ", data);
-          });
-          pushMe.text('OpenDoor');
-        } else {
-            pushMe.text('CloseDoor');
-            writeTag("buzzer", "", function(data){
-              console.log("wrote data to buzzer ", data);
-            });
-        }
-      }
+               writeTag("buzzer", "", function(data){
+               console.log("wrote data to buzzer ", data);});
+               change();
+             }
     }).addClass("btn btn-success");
     $("#myDiv").append(pushMe);
   });
 };
+
+
+function change() // no ';' here
+{
+  var elem = document.getElementById("pushMe");
+  if (elem.value=="CloseDoor") elem.value = "OpenDoor";
+  else elem.value = "CloseDoor";
+}
 
 function monitorGarageDoor(){
   console.log("-----in monitor door-----");
