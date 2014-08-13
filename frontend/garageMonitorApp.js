@@ -28,7 +28,7 @@ function change() // no ';' here
 {
   console.log("---change got called---");
   var elem = document.getElementById("pushMe");
-  if (elem.text == "CloseDoor") {
+  if (elem.text === "CloseDoor") {
     console.log("MUAHAHAH close door");
     elem.text = "OpenDoor";
   }
