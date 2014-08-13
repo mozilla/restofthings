@@ -38,7 +38,7 @@ app.get("/", function(req, res) {
   console.log("GET /,  photocell state ");
   adc.read(channel, function (value) {
     console.log("light value is----", value);
-    res.send(value);
+    res.send("" + value);
   });
 });
 
