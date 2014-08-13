@@ -18,9 +18,9 @@ function app(){
           writeTag("buzzer", "", function(data){
              console.log("wrote data to buzzer ", data);
           });
-          pushMe.text = 'OpenDoor';
+          pushMe.text('OpenDoor');
         } else {
-            pushMe.text = 'CloseDoor';
+            pushMe.text('CloseDoor');
             writeTag("buzzer", "", function(data){
               console.log("wrote data to buzzer ", data);
             });
