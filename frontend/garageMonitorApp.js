@@ -5,9 +5,7 @@
  */
 
 function app(){
-  console.log("-----in app------");
   queryTags(['light', 'buzzer'], function(tags, err) {
-    console.log("query tags response is: ", tags);
     setInterval(monitorGarageDoor,7000);
     var pushMe = $('<button/>',{
       id:"pushMe",
@@ -23,27 +21,20 @@ function app(){
 };
 
 
-function change(text) // no ';' here
-{
-  console.log("---change got called---");
+function change(text) {
   var elem = document.getElementById("pushMe");
-
   if (text !== undefined) {
     elem.innerHTML = text;
     return;
   }
-
   if (elem.innerText  == "CloseDoor") {
     elem.innerText = "OpenDoor";
   }
   else elem.innerText = "CloseDoor";
 }
 
-function monitorGarageDoor(){
-  console.log("-----in monitor door-----");
+function monitorGarageDoor() {
   readTag('light', function(data){
-    console.log("data form light sensor is----", data);
-    console.log("type of data is -------", typeof(data));
     if (parseInt(data) > 900){
       change("CloseDoor");
       alert("GARAGE OPEN!");
