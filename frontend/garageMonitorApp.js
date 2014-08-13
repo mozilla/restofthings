@@ -11,6 +11,7 @@ function app(){
     setInterval(monitorGarageDoor,3000);
     monitorGarageDoor();
     var pushMe = $('<button/>',{
+      id:"pushMe",
       text: 'CloseDoor',
       click: function () {
                writeTag("buzzer", "", function(data){
