@@ -8,7 +8,7 @@ function app(){
   console.log("-----in app------");
   queryTags(['light', 'buzzer'], function(tags, err) {
     console.log("query tags response is: ", tags);
-    setInterval(monitorGarageDoor,7000);
+    setInterval(monitorGarageDoor,70000);
     var pushMe = $('<button/>',{
       id:"pushMe",
       text: 'CloseDoor',
