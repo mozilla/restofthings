@@ -6,12 +6,12 @@
     "uuid": "uuid1",
     "features":
     {
-	    "factory-name-for-led1-C00FF33": {"url": "localhost:1234"},
-	    "useless-device-MQYOK7N1WA*#22": {"url": "localhost:7777"},
-      "raspberry-cam": {"url": "localhost:9999"},
-      "motion-sensor": {"url": "localhost:1111"},
-      "speaker": {"url":"localhost:3333"},
-      "buzzer/relay":{"url":"localhost:8888"},
-      "photocell":{"url":"localhost:4444"}
+	    "factory-name-for-led1-C00FF33": {"url": "http://localhost:1234"},
+	    "useless-device-MQYOK7N1WA*#22": {"url": "http://localhost:7777"},
+      "raspberry-cam": {"url": "http://localhost:9999"},
+      "motion-sensor": {"url": "http://localhost:1111"},
+      "speaker": {"url":"http://localhost:3333"},
+      "buzzer/relay":{"url":"http://localhost:8888"},
+      "photocell":{"url":"http://localhost:4444"}
     }
 }

@@ -71,7 +71,7 @@ function readTag(tag, cb) {
     cb(undefined, "ROT No url for tag: " + tag + " :(");
   } else if (isValidURL(tagData)) {
       superagent
-        .get("http://" + tagData)
+        .get(tagData)
         .end(function(res){
           console.log("res is ", res);
           cb(res.text);
@@ -93,7 +93,7 @@ function writeTag(tag, data, cb) {
       //superagent.post("http://" + tagData)
       console.log("valid tag is:", tagData)
       //var url = "http://" + tagData;
-      superagent.put("http://" + tagData)
+      superagent.put(tagData)
 	    .send(data)
 	    .end(function(res){
         console.log("callback is ", cb);
