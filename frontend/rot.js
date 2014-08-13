@@ -69,7 +69,7 @@ function readTag(tag, cb) {
     cb(undefined, "ROT No such tag: " + tag + " :(");
   } else if (tagData === undefined) {
     cb(undefined, "ROT No url for tag: " + tag + " :(");
-  } else if (isValidURL("http://" +tagData)) {
+  } else if (isValidURL(tagData)) {
       superagent
         .get("http://" + tagData)
         .end(function(res){
