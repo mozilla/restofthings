@@ -188,6 +188,14 @@ ROT.deleteTag = function deleteTag(tag, cb) {
   }
 };
 
+ROT.queryTags = function queryTags(tags, cb) {
+  // ["tag1", "tag2"], cb (resp, err)); where resp: {"tag1": ?, "tag2": ?}
+  var resp = {};
+  for (var i = 0; i < tags.length; i++) {
+    resp[tags[i]] = allTags[tags[i]];
+  }
+  cb(resp);  // no error
+};
 
 function _isValidURL(url){
   var RegExp = /(ftp|http|https):\/\/(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?/;
