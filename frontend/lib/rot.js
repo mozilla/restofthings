@@ -20,7 +20,7 @@ function isValidURL(url){
   }
 }
 
-  function init(cb) {
+function init(cb) {
   superagent.get(baseurl + "/ls", function(err, res) {
     console.log("--------------------- ROT init ------------------");
     if (err) {
