@@ -9,11 +9,6 @@ function generate(){
   console.log("random value is", x);
   return x;
 }
-var argv = process.argv;
-var port = argv.split(" ");
-
-port.shift();
-port.shift();
 
 var app = express();
 //handle post/put
@@ -47,4 +42,4 @@ app.put(/^\/tags\/[A-z:.-]+$/, function(req, res, next) {
     res.send("OK");
   });
 })
-app.listen(6666);
+app.listen(9000);

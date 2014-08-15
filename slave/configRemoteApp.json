@@ -1,5 +1,5 @@
 {
-  "directoryServer": "http://10.0.0.3:8080",
+  "directoryServer": "http://10.251.38.229:8080",
   "tagFile":"/tmp/tags.json",
   "port":3000,
   "proxyport":3000,
@@ -12,6 +12,7 @@
     "motion-sensor": {"url": "http://10.0.0.5:1111"},
     "speaker": {"url":"http://10.0.0.5:3333"},
     "buzzer/relay":{"url":"http://10.0.0.5:8888"},
-    "photocell":{"url":"http://10.0.0.5:4444"}
+    "photocell":{"url":"http://10.0.0.5:4444"},
+    "dummy":{"url":"http://10.251.38.229:9000"}
   }
 }

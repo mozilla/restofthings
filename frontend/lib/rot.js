@@ -5,7 +5,6 @@ if (typeof superagent === 'undefined') {
 }
 
 var baseurl = "http://10.0.0.3:8080";
-
 var allUuids = [];
 var allThings = {};  // { 'uuid1dc65c13': { uuid: 'uuid1dc65c13', localURL: 'http://slave:80' }}
 var allTags = {};
@@ -20,6 +19,11 @@ function isValidURL(url){
   }
 }
 
+/*
+  = get my data => GET /ls on directory => [data]
+  = for each uuid => GET /thing/uuid/ => info registeded by each device/slave. {"uuid":uuid, "localURL": slave-rest-endpoint}
+  = for each uuid => GET /tags/. First time, no tags defined (likely): brand new device.
+*/
 function init(cb) {
   superagent.get(baseurl + "/ls", function(err, res) {
     console.log("--------------------- ROT init ------------------");
@@ -34,7 +38,6 @@ function init(cb) {
     getAllThings(uuids, function(err, things) {
       allThings = things;
       console.log("ROT allThings: ", allThings);
-
       getAllFeatures(things, function(err, features) {
         allFeatures = features;
 	      console.log("ROT allFeatures: ", allFeatures);
@@ -46,12 +49,6 @@ function init(cb) {
       });
     });
   });
-
-  /*
-   = get my data => GET /ls on directory => [data]
-   = for each uuid => GET /thing/uuid/ => info registeded by each device/slave. {"uuid":uuid, "localURL": slave-rest-endpoint}
-   = for each uuid => GET /tags/. First time, no tags defined (likely): brand new device.
-   */
 }
 
 function queryTags(tags, cb) {
@@ -62,7 +59,7 @@ function queryTags(tags, cb) {
   }
   cb(resp);  // no error
 }
-//this works only for http requests not free tags
+
 function readTag(tag, cb) {
   var tagData = allTags[tag];
   console.log("ROT READ TAG--", tagData);
@@ -82,7 +79,6 @@ function readTag(tag, cb) {
   }
 }
 
-//this works only for http requests not for free tags
 function writeTag(tag, data, cb) {
   var tagData = allTags[tag];
   console.log("IN WRITE TAG and tagData is ", tagData);
@@ -91,9 +87,7 @@ function writeTag(tag, data, cb) {
   } else if (tagData === undefined) {
     cb(undefined, "No url for tag: " + tag + " :(");
   } else if (isValidURL(tagData)){
-      //superagent.post("http://" + tagData)
       console.log("valid tag is:", tagData)
-      //var url = "http://" + tagData;
       superagent.put(tagData)
 	    .send(data)
 	    .end(function(res){
@@ -106,7 +100,6 @@ function writeTag(tag, data, cb) {
 }
 
 function getAllThings(uuids, cb) {
-  console.log("------------------ROT GET ALL THINGS-------------------");
   var things = {};
   var errors = undefined;
   var done = 0;
@@ -148,18 +141,16 @@ function getAllTags(things, cb) {
           errors.push(err);
         } else {
           var tagsResp = JSON.parse(res.text);
-
           console.log("Got tagsResp: ", tagsResp, " for thing: ", thing);
           // merge tag lists
-
-        for (var tagName in tagsResp) {
-          if (JSON.parse(tagsResp[tagName]).url !== undefined) {
-            tags[tagName] = JSON.parse(tagsResp[tagName]).url;
-          }
-          if (JSON.parse(tagsResp[tagName]).val !== undefined) {
-            tags[tagName] = JSON.parse(tagsResp[tagName]).val;
-          }
-     	  }
+          for (var tagName in tagsResp) {
+            if (JSON.parse(tagsResp[tagName]).url !== undefined) {
+              tags[tagName] = JSON.parse(tagsResp[tagName]).url;
+            }
+            if (JSON.parse(tagsResp[tagName]).val !== undefined) {
+              tags[tagName] = JSON.parse(tagsResp[tagName]).val;
+            }
+     	    }
         }
         done ++;
         if (done === Object.keys(things).length)
@@ -222,7 +213,6 @@ function setTag(uuid, feature, tag, cb) {
   }
 }
 
-// TODO:implementation & testing as not sure if we want to expose it
 function deleteTag(tag, cb) {
   if (allTags[tag] == undefined) {
     cb("No such tag: " + tag + " :(");

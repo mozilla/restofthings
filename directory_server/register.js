@@ -1,5 +1,8 @@
-var baseurl = "http://10.0.0.3:8080";
-var url = "10.0.0.3";
+//var baseurl = "http://10.0.0.3:8080";
+//var url = "10.0.0.3";
+var baseurl = "http://10.251.38.229:8080";
+var url = "10.251.38.229";
+
 $.ajax({"url":baseurl + "/ls"}).done(function (data) {
   var data = JSON.parse(data);
   if (Object.keys(data).length === 0) {
