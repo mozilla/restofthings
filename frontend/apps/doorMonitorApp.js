@@ -6,7 +6,7 @@
  */
 function app(){
   console.log("-----in app------");
-  queryTags(['cam', 'motion', 'sound', 'openButton'], function(tags, err) {
+  ROT.queryTags(['cam', 'motion', 'sound', 'openButton'], function(tags, err) {
     console.log("query tags response is: ", tags);
     setInterval(monitorDoor,3000);
     //monitorDoor();
@@ -25,14 +25,14 @@ function app(){
 
 function monitorDoor(){
   console.log("-----in monitor door-----");
-  readTag('motion', function(data){
+  ROT.readTag('motion', function(data){
     console.log("data form motion sensor is", data);
     if (data === "1"){
       console.log("got something at the door");
-      readTag('cam', function(data){
+      ROT.readTag('cam', function(data) {
         console.log("camera gives me this data--", data);
         $('#myPic').attr('src', data);
-        writeTag('sound', 'Leprecaun at the door!', function(resp){
+        ROT.writeTag('sound', 'Leprecaun at the door!', function(resp){
           console.log("got this response --", resp);
         });
       })
@@ -42,4 +42,4 @@ function monitorDoor(){
   });
 }
 
-init(app);
+ROT.init(app);

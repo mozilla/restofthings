@@ -5,13 +5,13 @@
  */
 
 function app(){
-  queryTags(['light', 'buzzer'], function(tags, err) {
+  ROT.queryTags(['light', 'buzzer'], function(tags, err) {
     setInterval(monitorGarageDoor,7000);
     var pushMe = $('<button/>',{
       id:"pushMe",
       text: 'CloseDoor',
       click: function () {
-               writeTag("buzzer", "", function(data){
+               ROT.writeTag("buzzer", "", function(data){
                console.log("wrote data to buzzer ", data);});
                change();
              }
@@ -29,12 +29,13 @@ function change(text) {
   }
   if (elem.innerText  == "CloseDoor") {
     elem.innerText = "OpenDoor";
+  } else {
+    elem.innerText = "CloseDoor";
   }
-  else elem.innerText = "CloseDoor";
 }
 
 function monitorGarageDoor() {
-  readTag('light', function(data){
+  ROT.readTag('light', function(data){
     if (parseInt(data) > 900){
       change("CloseDoor");
       alert("GARAGE OPEN!");
