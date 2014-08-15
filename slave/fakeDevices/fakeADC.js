@@ -11,6 +11,8 @@ function generate(){
 }
 
 var app = express();
+app.use(cors());
+
 //handle post/put
 app.use(function (req, res, next) {
   getRawBody(req, {
@@ -32,14 +34,9 @@ app.get("/", function(req, res) {
   res.json(x);
 })
 
-app.put(/^\/tags\/[A-z:.-]+$/, function(req, res, next) {
-  var tagName = req.path.substr("/tags/".length);
-  console.log('i am in put and i want to write a tag : ', tagName);
-  state[tagName] = req.text;
-  commit(function(err) {
-    if (err)
-      return next(err);
-    res.send("OK");
-  });
-})
+app.put("/", function(req, res, next) {
+  console.log('i am in put and i want to write a tag : ', req.text);
+  res.json("ALOHA ^_^");
+});
+
 app.listen(9000);
