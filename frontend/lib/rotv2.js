@@ -2,6 +2,7 @@
 "use strict";
 var ROT = {};
 var baseurl = "http://10.0.0.3:8080";
+//var baseurl = "http://10.251.38.229:8080";
 var allUuids = [];
 var allThings = {};
 var allFeatures = {}
@@ -72,8 +73,6 @@ function _getAllFeatures(things, cb) {
              errors = [];
              errors.push(err);
          } else {
-         //var featuresResp = JSON.parse(res.text);
-         //features[uuid] = JSON.stringify(featuresResp);
            features[uuid] = res.text;
          }
          done ++;
@@ -130,7 +129,7 @@ ROT.setTag = function setTag(uuid, feature, tag, cb) {
     var url = allThings[uuid].localURL + "/tags/" + tag;
     superagent.put(url)
       .send(data)
-      .end(function(res){
+      .end(function(res) {
         allTags[tag] = JSON.parse(allFeatures[uuid])[feature].url;
         if (res.ok) {
           cb();
@@ -156,7 +155,6 @@ ROT.writeTag = function writeTag(tag, data, cb) {
         cb(res.text, !res.ok);
       });
   } else {
-    //return value for this key
     return tagData;
   }
 };
