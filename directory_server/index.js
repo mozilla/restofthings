@@ -1,32 +1,32 @@
-const http = require("http")
 const fs = require("fs")
 const url = require("url")
 const utf8 = require("utf8")
-
-var config = JSON.parse(fs.readFileSync(process.argv[2]))
-
-
-// {ip:{uuid1: {expiryTime:unix, payload:{handlePing payload buffer}}}}
+const express = require("express")
+var getRawBody = require('raw-body');
+var app = express();
+var cors = require('cors');
+var config = JSON.parse(fs.readFileSync(process.argv[2]));
 var things = {}
 
-// make sure errors are not cached
-function fail(response, code, message) {
-  response.writeHead(code, {"Content-Type": "text/plain",
-                            "Content-Length": message.length,
-                           });
-  response.write(message);
-  console.log("fail", code, message, things);
-  response.end();
-}
+app.use(cors());
 
-function ok(response, message) {
-  response.writeHead(200, {"Content-Type": "text/plain",
-                           "Content-Length": message.length
-                          });
-  response.write(message);
-  response.end();
-}
+app.use(function (req, res, next) {
+  getRawBody(req, {
+    length: req.headers['content-length'],
+    limit: '1mb',
+    encoding: 'utf8'
+  }, function (err, string) {
+    if (err)
+      return next(err);
+    req.text = string;
+    next()
+  })
+});
 
+/** put json to /thing/stable-uuid
+ {'uuid':x, 'localurl':y, 'tags':["tag1", ..], 'description':"raspberry pi"}
+ repeat calls here should just PUT an empty body...Server will 404 if body not already present
+ */
 function putPing(uuid, remoteAddress, payload) {
   var network = things[remoteAddress];
   if (!network) {
@@ -42,73 +42,36 @@ function putPing(uuid, remoteAddress, payload) {
   thing.payload = payload.toString('utf8');
 }
 
-/** put json to /thing/stable-uuid 
- {'uuid':x, 'localurl':y, 'tags':["tag1", ..], 'description':"raspberry pi"}
- repeat calls here should just PUT an empty body...Server will 404 if body not already present
-*/
-function handlePing(uuid, request, response) {
-  if (!('content-length' in request.headers)) {
-    return fail(response, 500, "Missing content-length header");
-  }
-  var content_length = request.headers['content-length'] * 1
-  var buf = new Buffer(content_length); 
-  var pos = 0;
-  request.on('data', function(chunk) {
-    chunk.copy(buf, pos);
-    pos += chunk.length;
-    console.log("got data for uuid ", uuid, "data", chunk.toString('utf8'));
-  })
-  request.on('end', function() {
-    var remoteAddress = request.connection.remoteAddress;
-    console.log("request.connection.remoteAddress", request.connection.remoteAddress)
-    putPing(uuid, remoteAddress, buf);
-    ok(response, "OK");
-  });
-}
-
-function handleGet(request, response) {
-  response.setHeader("Access-Control-Allow-Origin", "*");
-  response.setHeader("Access-Control-Allow-Methods", "GET,POST"); //?put
-  response.setHeader("Access-Control-Allow-Headers", "Content-Type");
-  var pathname = url.parse(request.url).pathname;
-  var remoteAddress = request.connection.remoteAddress;
+function getNetwork(req) {
+  var remoteAddress = req.connection.remoteAddress;
   console.log("my remote address is ------", remoteAddress);
   var network = things[remoteAddress];
   if (!network)
     network = {};
-
-  if (pathname == "/ls") {
-    return ok(response, JSON.stringify(network));
-  } if (pathname.substr(0, 7) == "/thing/") {
-    var uuid = pathname.substr(7);
-    var thing = network[uuid];
-    if (!thing)
-      return fail(response, 404, "No thing " + uuid + " in " + remoteAddress + " network");
-    return ok(response, thing.payload);
-  } else {
-    return fail(response, 404, pathname + " not found");
-  }
+  return network;
 }
 
-function handlePut(request, response) {
-  var pathname = url.parse(request.url).pathname;
-  if (pathname.substr(0,7) == "/thing/") {
-    return handlePing(pathname.substr(7), request, response);
-  }
-  response.write(pathname);
-  response.end();
-}
+app.get('/ls', function(req, res) {
+  res.json(getNetwork(req));
+});
 
-http.createServer(function(request, response) {
-  var pathname = url.parse(request.url).pathname;
-  if (request.method == "GET" || request.method == "HEAD") {
-    return handleGet(request, response);
-  } else if (request.method == "PUT") {
-    return handlePut(request, response);
-  } else {
-    fail(response, 500, "what is this method:"+request.method);
-  }
-  //also handle CONNECT for proxying
-}).listen(config.port, config.host);
+app.get(/^\/thing\/([A-z:0-9.-]+|\*)$/, function(req, res){
+  var network = getNetwork(req);
+  var uuid = req.path.substr("/thing/".length);
+  var thing = network[uuid];
+  if (!thing)
+    return res.send(404, "No thing " + uuid + " in " + req.connection.remoteAddress + " network");
+  return res.send(thing.payload);
+});
+
+app.put(/^\/thing\/([A-z:0-9.-]+|\*)$/, function(req, res){
+  var uuid = req.path.substr("/thing/".length);
+  var remoteAddress = req.connection.remoteAddress;
+  console.log("request.connection.remoteAddress", req.connection.remoteAddress);
+  putPing(uuid, remoteAddress, req.text);
+  res.send("OK");
+});
+
+app.listen(config.port);
 
 console.log("Server running at\n  =>"+config.host+":" + config.port + "/\nCTRL + C to shutdown");
