@@ -7,6 +7,8 @@ var gpio = require("pi-gpio");
 
 var argv = process.argv;
 var port = argv[2];
+if (port == undefined)
+  port = 8888;
 var pin = argv[3];
 if (pin == undefined)
   pin = 12;

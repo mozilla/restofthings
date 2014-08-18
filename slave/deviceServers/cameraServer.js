@@ -9,6 +9,8 @@ var request = require("superagent");
 var argv = process.argv;
 var app = express();
 var port = argv[2];
+if (port == undefined)
+  port = 9999;
 
 //handle post/put
 app.use(function (req, res, next) {

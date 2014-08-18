@@ -8,6 +8,8 @@ var request = require("superagent");
 
 var argv = process.argv;
 var port = argv[2];
+if (port == undefined)
+  port = 1111;
 var pin = argv[3];
 if (pin == undefined)
   pin = 11;

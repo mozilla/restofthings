@@ -6,7 +6,6 @@ var cors = require('cors');
 
 var argv = process.argv;
 var port = argv[2];
-
 if (port === undefined)
   port =  4444;
 

@@ -7,7 +7,8 @@ var request = require("superagent");
 var argv = process.argv;
 var app = express();
 var port = argv[2];
-
+if (port == undefined)
+  port = 3333;
 //handle put
 app.use(function (req, res, next) {
   getRawBody(req, {
