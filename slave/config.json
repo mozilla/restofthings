@@ -1,5 +1,5 @@
 {
-    "directoryServer": "http://10.0.0.3:8080",
+    "directoryServer": "http://10.251.43.162:8080",
     "tagFile":"/tmp/tags.json",
     "port":3000,
     "proxyport":3000,
