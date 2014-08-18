@@ -40,12 +40,12 @@ function setDirection(pin){
     /*setInterval(function(){
       console.log("---------set interval--------");
       readProximityState(pin);
-      //speak();
-      },3000);*/
-    //gpio.setDirection(pin, "input" , function(){
-    //console.log("-----i am in set dirrection------");
-    //readLightState(pin, undefined);
-    //});
+      speak();
+      },3000);
+      gpio.setDirection(pin, "input" , function(){
+      console.log("-----i am in set dirrection------");
+      readLightState(pin, undefined);
+      });*/
   });
 }
 function speak(){
@@ -94,4 +94,3 @@ app.get("/", function(req, res) {
 
 app.listen(port);
 setDirection(pin);
-//startReading(pin);

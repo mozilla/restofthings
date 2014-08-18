@@ -13,7 +13,6 @@ var pin = argv[3];
 if (pin == undefined)
   pin = 11;
 var app = express();
-//led on pin 11
 
 //handle post/put
 app.use(function (req, res, next) {
