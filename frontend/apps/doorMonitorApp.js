@@ -14,7 +14,7 @@ function app(){
         text: 'OpenDoor',
         click: function () {
           console.log('hi');
-          writeTag("openButton", "open", function (data) {
+          ROT.writeTag("openButton", "open", function (data) {
             console.log("received this data as feedback from openButton", data);
           });
         }
