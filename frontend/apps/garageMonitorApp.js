@@ -45,4 +45,4 @@ function monitorGarageDoor() {
   });
 }
 
-init(app);
+ROT.init(app);
