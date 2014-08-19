@@ -32,7 +32,7 @@ app.use(cors());
 
 app.get(/GPIO\/[0-9]+\/(function|value)$/, function(req, res){
   console.log("path ", req.path);
-  superagent
+  request
     .get(webiopiUrl + req.path)
     .end(function(res1){
       console.log("res is ", res1);
@@ -49,7 +49,7 @@ app.put(/GPIO\/[0-9]+\/(function|value|pulse|sequence|pulseRatio|pulseAngle)$/, 
   console.log("received path: ", req.path);
   console.log("value to concatenate to url: ", req.text);
   console.log("constructed path ", webiopiUrl + req.path + "/" + req.text);
-  superagent.post(webiopiUrl + req.path + "/" + req.text)
+  request.post(webiopiUrl + req.path + "/" + req.text)
     .send()
     .end(function(res1) {
       if (res1.ok) {
@@ -69,7 +69,7 @@ app.get(/[a-z]*[A-Z]*[0-9]*$/, function(req, res) {
 app.put(/macros\/[A-Z]*[0-9]*$/, function(req, res) {
   console.log("got this pathnamme", req.path);
   console.log("value to concat to url ", req.text);
-  superagent.post(webiopiUrl + req.path + "/" + req.text)
+  request.post(webiopiUrl + req.path + "/" + req.text)
     .send()
     .end(function(res1) {
       if (res1.ok) {
