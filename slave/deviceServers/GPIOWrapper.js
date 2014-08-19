@@ -80,4 +80,80 @@ app.put(/macros\/[A-Z]*[0-9]*$/, function(req, res) {
     });
 });
 
+//ADC
+app.get(/devices/[A-Z]*[a-z]*/analog/[0-9]*[*]?/(integer|volt|float)$/, function(req, res) {
+  console.log("got this pathnamme", req.path);
+  console.log("value to concat to url ", req.text);
+  request
+    .get(webiopiUrl + req.path)
+    .end(function(res1){
+      console.log("res is ", res1);
+      if (res1.ok) {
+        res.send(res1.text);
+      } else {
+        res.send("something went wrong");
+      }
+    });
+});
+
+app.get(/devices/[A-Z]*[a-z]*/analog\/(count|resolution|maximum|vref)$/, function(req, res) {
+  console.log("got this pathnamme", req.path);
+  console.log("value to concat to url ", req.text);
+  request
+    .get(webiopiUrl + req.path)
+    .end(function(res1){
+      console.log("res is ", res1);
+      if (res1.ok) {
+        res.send(res1.text);
+      } else {
+        res.send("something went wrong");
+      }
+    });
+});
+
+//DAC
+app.put(/devices\/[A-Z]*[0-9]*\/analog/[1-9]*/(integer|float|volt)$/, function(req, res) {
+  console.log("got this pathnamme", req.path);
+  console.log("value to concat to url ", req.text);
+  request.post(webiopiUrl + req.path + "/" + req.text)
+    .send()
+    .end(function(res1) {
+      if (res1.ok) {
+        res.send(res1.text);
+      } else {
+        res.send("something went wrong");
+      }
+    });
+});
+
+//PWM
+app.get(/devices/[A-Z]*[a-z]*/pwm\/(count|resolution|maximum)$/, function(req, res) {
+  console.log("got this pathnamme", req.path);
+  console.log("value to concat to url ", req.text);
+  request
+    .get(webiopiUrl + req.path)
+    .end(function(res1){
+      console.log("res is ", res1);
+      if (res1.ok) {
+        res.send(res1.text);
+      } else {
+        res.send("something went wrong");
+      }
+    });
+});
+
+app.put(/devices\/[a-z]*[0-9]*\/pwm/[1-9]*/(integer|float|angle|\*)$/, function(req, res) {
+  console.log("got this pathnamme", req.path);
+  console.log("value to concat to url ", req.text);
+  request.post(webiopiUrl + req.path + "/" + req.text)
+    .send()
+    .end(function(res1) {
+      if (res1.ok) {
+        res.send(res1.text);
+      } else {
+        res.send("something went wrong");
+      }
+    });
+});
+
 app.listen(port);
