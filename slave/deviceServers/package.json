@@ -1,0 +1,15 @@
+{
+  "private": true,
+  "name": "webiopi-wrapper",
+  "description": "all dependencies for webiopi wrapper",
+  "version": "0.0.1",
+  "dependencies": {
+    "express":  "4.x",
+    "raw-body":  "1.x",
+    "cors":  "2.4.1",
+    "superagent":  "0.18.2"
+  },
+  "engines": {
+    "node":  "0.10.x"
+  }
+}
