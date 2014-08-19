@@ -7,7 +7,7 @@ function app() {
     console.log("---- read direction of led pin: ", data);
   });
   ROT.writeTag("ledValue", 1, function(data) {
-    console.log("---- write tag dummy: ", data);
+    console.log("---- write tag ledValue: ", data);
   });
 }
 ROT.init(app);
