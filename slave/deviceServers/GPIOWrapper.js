@@ -44,7 +44,6 @@ app.get(/GPIO\/[0-9]+\/(function|value)$/, function(req, res){
     });
 });
 
-//post
 app.put(/GPIO\/[0-9]+\/(function|value|pulse|sequence|pulseRatio|pulseAngle)$/, function(req, res){
   console.log("received path: ", req.path);
   console.log("value to concatenate to url: ", req.text);
