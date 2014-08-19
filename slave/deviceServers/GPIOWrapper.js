@@ -80,7 +80,7 @@ app.put(/macros\/[A-Z]*[0-9]*$/, function(req, res) {
 });
 
 //ADC
-app.get(/devices/[A-Z]*[a-z]*/analog/[0-9]*[*]?/(integer|volt|float)$/, function(req, res) {
+app.get(/devices/[A-Z]*[a-z]*/analog/[0-9]*/(integer|volt|float)$/, function(req, res) {
   console.log("got this pathnamme", req.path);
   console.log("value to concat to url ", req.text);
   request
@@ -94,6 +94,23 @@ app.get(/devices/[A-Z]*[a-z]*/analog/[0-9]*[*]?/(integer|volt|float)$/, function
       }
     });
 });
+
+/*
+app.get(/devices/[A-Z]*[a-z]*/analog/*/(integer|volt|float)$/, function(req, res) {
+  console.log("got this pathnamme", req.path);
+  console.log("value to concat to url ", req.text);
+  request
+    .get(webiopiUrl + req.path)
+    .end(function(res1){
+      console.log("res is ", res1);
+      if (res1.ok) {
+        res.send(res1.text);
+      } else {
+        res.send("something went wrong");
+      }
+    });
+});
+*/
 
 app.get(/devices/[A-Z]*[a-z]*/analog\/(count|resolution|maximum|vref)$/, function(req, res) {
   console.log("got this pathnamme", req.path);
