@@ -12,6 +12,7 @@
       "motion-sensor": {"url": "http://localhost:1111"},
       "speaker": {"url":"http://localhost:3333"},
       "buzzer/relay":{"url":"http://localhost:8888"},
-      "photocell":{"url":"http://localhost:4444"}
+      "photocell":{"url":"http://localhost:4444"},
+      "webiopi":{"url":"http://localhost:4545"}
     }
 }
