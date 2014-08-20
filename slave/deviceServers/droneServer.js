@@ -34,21 +34,13 @@ app.use(function (req, res, next) {
 
 app.use(cors());
 
-app.put(/up$/, function(req, res){
-  client.up(req.text);
-});
+app.put("/", function(req, res){
+  if (req.text === "up") client.up(req.text);
+  if (req.text === "down") client.down(req.text);
+  if (req.text === "start") client.takeoff();
+  if (req.text === "stop") client.land();
 
-app.put(/down$/, function(req, res){
-  client.down(req.text);
 });
-app.put(/start$/, function(req, res){
-  client.takeoff();
-});
-app.put(/stop$/, function(req, res){
-  client.land();
-});
-
-
 
 app.listen(port);
 
