@@ -1,5 +1,4 @@
 function app() {
-  console.log("----got rotV2-----");
   ROT.writeTag("ledDirection", "out",function(data) {
     console.log("---- write direction to led pin: ", data);
   });

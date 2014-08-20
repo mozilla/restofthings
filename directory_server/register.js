@@ -1,9 +1,9 @@
-//var baseurl = "http://10.0.0.3:8080";
-//var url = "10.0.0.3";
+var baseurl = "http://10.0.0.3:8080";
+var url = "10.0.0.3";
 //var baseurl = "http://10.251.38.229:8080";
 //var url = "10.251.38.229";
-var baseurl = "http://10.251.43.162:8080";
-var url = "10.251.43.162";
+//var baseurl = "http://10.251.43.162:8080";
+//var url = "10.251.43.162";
 
 $.ajax({"url":baseurl + "/ls"}).done(function (data) {
   if (Object.keys(data).length === 0) {
@@ -102,9 +102,10 @@ function writeFreeTags(key, tags, address){
     if (e.added !== undefined) {
       var newTag = e.added.text;
       var tagUrl = this.id + '/tags/' + newTag.split(":")[0];
-      var value = newTag.split(":");
-      value.shift();
-      value = value.join("");
+      //var value = newTag.split(":");
+      var value = newTag.slice(newTag.search(":")+1, newTag.length);
+      //value.shift();
+      //value = value.join("");
       var val = {"val":value, "uuid": address};
       console.log('Adding tag ------', tagUrl);
       console.log("free tag is -----", val);
