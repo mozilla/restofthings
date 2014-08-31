@@ -4,7 +4,7 @@ var motorA = new ev3.Motor(ev3.MotorPort.A);
 
 //Run the motor at 60% power for five seconds, and then hold it in place
 motorA.startMotor({
-  targetSpeed: 60,
+  targetSpeed: 40,
   time: 5000,
   stopMode: 'hold'
 });
