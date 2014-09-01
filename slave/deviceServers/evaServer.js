@@ -9,10 +9,10 @@ motorA.startMotor({
   stopMode: 'hold'
 });
 
-ev3.button.escape.on('press', function () {
+ev3.button.down.on('press', function () {
   console.log("press");
 });
 
-ev3.button.escape.on('release', function () {
+ev3.button.up.on('release', function () {
   console.log("release");
 });
