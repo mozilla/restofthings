@@ -8,7 +8,7 @@ var head = new ev3.Motor(ev3.MotorPort.C);
 //var tachoCountA = ev3.Motor.getTachoCount('A');
 //console.log("tachoCount is ---- ", tachoCountA);
 motorA.startMotor({
-  targetSpeed: 40,
+  targetSpeed: -50,
   time: 5000,
   stopMode: 'hold'
 });
