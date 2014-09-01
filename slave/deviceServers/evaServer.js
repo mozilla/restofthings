@@ -10,13 +10,6 @@ motorA.startMotor({
   stopMode: 'hold'
 });
 
-ev3.button.down.on('press', function () {
-  console.log("press");
-});
-
-ev3.button.up.on('release', function () {
-  console.log("release");
-});
 
 //open file /sys/class/msensor/sensor1/value0 -- touch sensor
 var file =fs.openSync("/sys/class/msensor/sensor1/value0", 'r');
