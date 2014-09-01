@@ -1,32 +1,39 @@
+var arg =  process.argv;
+var x = arg.shift();
+x = arg.shift();
+console.log("dskhskjhfkjsdhfkjdshgk ", arg);
 var fs = require('fs');
 var ev3 = require('ev3dev');
-//Create the motor on port A
+//var ev32 = require('ev3');
+//var voltage = ev32.battery.getVoltage();
+//console.log("voltage is ", voltage);
 var motorA = new ev3.Motor(ev3.MotorPort.A);
 var head = new ev3.Motor(ev3.MotorPort.C);
-//Run the motor at 60% power for five seconds, and then hold it in place
-
-//var tachoCountA = ev3.Motor.getTachoCount('A');
-//console.log("tachoCount is ---- ", tachoCountA);
-motorA.startMotor({
-  targetSpeed: -50,
-  time: 5000,
-  stopMode: 'hold'
-});
-//var speedA = ev3.Motor.getSpeed('A');
-//console.log("----speed A is", speedA);
-
-//var tachoCountC = ev3.Motor.getTachoCount('C');
-//console.log("tachoCount is ---- ", tachoCountC);
 
 head.startMotor({
-  targetSpeed: 50,
-  time: 5000,
-  stopMode: 'hold'
+  targetSpeed: arg[0],
+  time: 4000,
+//stopMode: 'hold'
 });
+console.log("----started head---");
 
-//var speedB = ev3.Motor.targetSpeed(C);
-//console.log("----speed A is", speedC);
+setTimeout(function() {
+  console.log("--started leg--");  
+  motorA.startMotor({
+      targetSpeed: arg[1],
+      time: 4000,
+//stopMode: 'hold'
+    });
+  }, 9000);
 
+setTimeout(function() {
+  console.log("--started leg--");
+  motorA.startMotor({
+      targetSpeed: -arg[1],
+      time: 4000,
+//stopMode: 'hold'
+    });
+  }, 18000);
 
 //open file /sys/class/msensor/sensor1/value0 -- touch sensor
 var file =fs.readFileSync("/sys/class/msensor/sensor0/value0");
