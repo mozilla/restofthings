@@ -53,7 +53,7 @@ function step() {
 }
 
 for (var i = 0; i < 10; i++){
-  sleep(3000, step);
+  sleep(7000, step);
 }
 
 
