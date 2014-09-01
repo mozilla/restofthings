@@ -8,3 +8,11 @@ motorA.startMotor({
   time: 5000,
   stopMode: 'hold'
 });
+
+ev3.button.escape.on('press', function () {
+  console.log("press");
+});
+
+ev3.button.escape.on('release', function () {
+  console.log("release");
+});
