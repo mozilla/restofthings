@@ -12,5 +12,5 @@ motorA.startMotor({
 
 
 //open file /sys/class/msensor/sensor1/value0 -- touch sensor
-var file =fs.openSync("/sys/class/msensor/sensor1/value0", 'r');
+var file =fs.openSync("/sys/class/msensor/sensor0/value0", 'r');
 console.log("file is--- ", file);
