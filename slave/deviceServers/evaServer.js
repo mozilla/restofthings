@@ -12,8 +12,8 @@ motorA.startMotor({
   time: 5000,
   stopMode: 'hold'
 });
-var speedA = ev3.Motor.getSpeed('A');
-console.log("----speed A is", speedA);
+//var speedA = ev3.Motor.getSpeed('A');
+//console.log("----speed A is", speedA);
 
 //var tachoCountC = ev3.Motor.getTachoCount('C');
 //console.log("tachoCount is ---- ", tachoCountC);
