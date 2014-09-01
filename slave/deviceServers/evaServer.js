@@ -34,7 +34,7 @@ function step() {
     console.log("motor A second position **********", motorA.position);
 
   }, 1500);
-
+  step();
   /*setTimeout(function() {
     console.log("--started leg--", -arg[1]);
     motorA.startMotor({
