@@ -34,7 +34,7 @@ function step() {
     console.log("motor A second position **********", motorA.position);
 
   }, 1500);
-  step();
+  //step();
   /*setTimeout(function() {
     console.log("--started leg--", -arg[1]);
     motorA.startMotor({
@@ -45,7 +45,11 @@ function step() {
   }, 3000);
   setTimeout(step, 4500);*/
 }
-step();
+
+for (var i = 0; i < 10; i++){
+  step();
+}
+
 
 //open file /sys/class/msensor/sensor1/value0 -- touch sensor
 var file =fs.readFileSync("/sys/class/msensor/sensor0/value0");
