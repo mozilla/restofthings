@@ -9,7 +9,7 @@ var head = new ev3.Motor(ev3.MotorPort.C);
 console.log("-----hope this works -----", head.position);
 console.log("-----hope this works type of motor-----", head.type);
 
-
+var pos = -1;
 
 
 head.startMotor({
@@ -21,18 +21,21 @@ head.startMotor({
 console.log("----started head---");
 
 function step() {
+  pos = pos * -1;
+  pos = pos * arg[1];
   setTimeout(function() {
-    console.log("--started leg--", arg[1]);  
+    console.log("--started leg--", arg[1]);
+    console.log("motor A firs position **********", motorA.position);
     motorA.startMotor({
-      targetSpeed: arg[1],
+      targetSpeed: pos,
       time: 1500,
       //stopMode: 'hold'
     });
-    console.log("motor A has position **********", motorA.position);
+    console.log("motor A second position **********", motorA.position);
 
   }, 1500);
 
-  setTimeout(function() {
+  /*setTimeout(function() {
     console.log("--started leg--", -arg[1]);
     motorA.startMotor({
       targetSpeed: -arg[1],
@@ -40,7 +43,7 @@ function step() {
       //stopMode: 'hold'
     });
   }, 3000);
-  setTimeout(step, 4500);
+  setTimeout(step, 4500);*/
 }
 step();
 
