@@ -18,7 +18,7 @@ function step() {
   console.log("motor A firs position **********", motorA.position);
 
   motorA.startMotor({
-    targetSpeed: arg[0] * s,
+    targetSpeed: pos,
     regulationMode: true,
     time: 1500,
     //stopMode: 'hold'
@@ -28,7 +28,7 @@ function step() {
 
   setTimeout(function () {
       head.startMotor({
-        targetSpeed: pos,
+        targetSpeed: arg[0] * s * -1,
         time: 200
       });
 
