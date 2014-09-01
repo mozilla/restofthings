@@ -10,30 +10,34 @@ var ev3 = require('ev3dev');
 var motorA = new ev3.Motor(ev3.MotorPort.A);
 var head = new ev3.Motor(ev3.MotorPort.C);
 
-head.startMotor({
-  targetSpeed: arg[0],
-  time: 4000,
-//stopMode: 'hold'
-});
+//head.startMotor({
+//  targetSpeed: arg[0],
+//  time: 500,
+  //stopMode: 'hold'
+//});
 console.log("----started head---");
 
-setTimeout(function() {
-  console.log("--started leg--");  
-  motorA.startMotor({
+function step() {
+  setTimeout(function() {
+    console.log("--started leg--", arg[1]);  
+    motorA.startMotor({
       targetSpeed: arg[1],
-      time: 4000,
-//stopMode: 'hold'
+      time: 1500,
+      //stopMode: 'hold'
     });
-  }, 9000);
+  }, 1500);
 
-setTimeout(function() {
-  console.log("--started leg--");
-  motorA.startMotor({
+  setTimeout(function() {
+    console.log("--started leg--", -arg[1]);
+    motorA.startMotor({
       targetSpeed: -arg[1],
-      time: 4000,
-//stopMode: 'hold'
+      time: 1500,
+      //stopMode: 'hold'
     });
-  }, 18000);
+  }, 3000);
+  setTimeout(step, 4500);
+}
+step();
 
 //open file /sys/class/msensor/sensor1/value0 -- touch sensor
 var file =fs.readFileSync("/sys/class/msensor/sensor0/value0");
