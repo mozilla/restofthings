@@ -21,7 +21,7 @@ function step() {
     targetSpeed: arg[0] * s,
     regulationMode: true,
     time: 1500,
-    stopMode: 'hold'
+    //stopMode: 'hold'
   });
 
   console.log("motor head position **********", head.position);
