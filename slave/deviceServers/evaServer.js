@@ -11,47 +11,31 @@ console.log("-----hope this works type of motor-----", head.type);
 
 var s = -1;
 
-
-head.startMotor({
-  targetSpeed: arg[0],
-  regulationMode: true,
-  time: 500
-  //stopMode: 'hold'
-});
-console.log("----started head---");
-
-function sleep(millis, callback) {
-  setTimeout(function()
-    { callback(); }
-    , millis);
-}
-
 function step() {
   s = s * -1;
   var pos = s * arg[1];
-//  setTimeout(function() {
-    console.log("--started leg--", arg[1]);
-    console.log("motor A firs position **********", motorA.position);
-    motorA.startMotor({
-      targetSpeed: pos,
-      time: 1500,
-      //stopMode: 'hold'
-    });
-    console.log("motor A second position **********", motorA.position);
+  console.log("--started leg--", pos);
+  console.log("motor A firs position **********", motorA.position);
 
-//  }, 1500);
-  //step();
-  /*setTimeout(function() {
-    console.log("--started leg--", -arg[1]);
-    motorA.startMotor({
-      targetSpeed: -arg[1],
-      time: 1500,
-      //stopMode: 'hold'
-    });
-  }, 3000);
-  setTimeout(step, 4500);*/
+  head.startMotor({
+    targetSpeed: arg[0] * -1 * s,
+    regulationMode: true,
+    time: 200
+    //stopMode: 'hold'
+  });
+
+  console.log("motor head position **********", head.position);
+
+  setTimeout(function () {
+      motorA.startMotor({
+        targetSpeed: pos,
+        time: 1500
+      });
+
+      console.log("motor A second position **********", motorA.position);
+    }
+  , 250);
 }
-
 setInterval(step, 2500);
 
 //open file /sys/class/msensor/sensor1/value0 -- touch sensor
