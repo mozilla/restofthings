@@ -20,10 +20,16 @@ head.startMotor({
 });
 console.log("----started head---");
 
+function sleep(millis, callback) {
+  setTimeout(function()
+    { callback(); }
+    , millis);
+}
+
 function step() {
-   s = s * -1;
-   var pos = s * arg[1];
-  setTimeout(function() {
+  s = s * -1;
+  var pos = s * arg[1];
+//  setTimeout(function() {
     console.log("--started leg--", arg[1]);
     console.log("motor A firs position **********", motorA.position);
     motorA.startMotor({
@@ -33,7 +39,7 @@ function step() {
     });
     console.log("motor A second position **********", motorA.position);
 
-  }, 1500);
+//  }, 1500);
   //step();
   /*setTimeout(function() {
     console.log("--started leg--", -arg[1]);
@@ -47,7 +53,7 @@ function step() {
 }
 
 for (var i = 0; i < 10; i++){
-  step();
+  sleep(3000, step);
 }
 
 
