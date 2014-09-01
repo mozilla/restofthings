@@ -7,13 +7,17 @@ var ev3 = require('ev3dev');
 var motorA = new ev3.Motor(ev3.MotorPort.A);
 var head = new ev3.Motor(ev3.MotorPort.C);
 console.log("-----hope this works -----", head.position);
+console.log("-----hope this works type of motor-----", head.type);
 
 
-//head.startMotor({
-//  targetSpeed: arg[0],
-//  time: 500,
+
+
+head.startMotor({
+  targetSpeed: arg[0],
+  regulationMode: true,
+  time: 500
   //stopMode: 'hold'
-//});
+});
 console.log("----started head---");
 
 function step() {
@@ -24,6 +28,8 @@ function step() {
       time: 1500,
       //stopMode: 'hold'
     });
+    console.log("motor A has position **********", motorA.position);
+
   }, 1500);
 
   setTimeout(function() {
