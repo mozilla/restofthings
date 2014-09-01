@@ -4,11 +4,10 @@ x = arg.shift();
 console.log("dskhskjhfkjsdhfkjdshgk ", arg);
 var fs = require('fs');
 var ev3 = require('ev3dev');
-//var ev32 = require('ev3');
-//var voltage = ev32.battery.getVoltage();
-//console.log("voltage is ", voltage);
 var motorA = new ev3.Motor(ev3.MotorPort.A);
 var head = new ev3.Motor(ev3.MotorPort.C);
+console.log("-----hope this works -----", head.position);
+
 
 //head.startMotor({
 //  targetSpeed: arg[0],
