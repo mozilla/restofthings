@@ -18,9 +18,9 @@ function step() {
   console.log("motor A firs position **********", motorA.position);
 
   motorA.startMotor({
-    targetSpeed: pos,
+    targetSpeed: pos * -1,
     regulationMode: true,
-    time: 1500,
+    time: 1500
     //stopMode: 'hold'
   });
 
@@ -28,13 +28,22 @@ function step() {
 
   setTimeout(function () {
       head.startMotor({
-        targetSpeed: arg[0] * s * -1,
+        targetSpeed: arg[0] * s,
         time: 200
       });
 
       console.log("motor A second position **********", motorA.position);
     }
     , 1700);
+  setTimeout(function () {
+    motorA.startMotor({
+      targetSpeed: pos,
+      regulationMode: true,
+      time: 1500
+      //stopMode: 'hold'
+    });
+
+  }, 2700);
 }
 setInterval(step, 2500);
 
