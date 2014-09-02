@@ -6,12 +6,13 @@ var fs = require('fs');
 var ev3 = require('ev3dev');
 var motorA = new ev3.Motor(ev3.MotorPort.A);
 var head = new ev3.Motor(ev3.MotorPort.C);
-console.log("-----hope this works -----", head.position);
+console.log("-----head position -----", head.position);
 console.log("-----hope this works type of motor-----", head.type);
 
 var s = -1;
-
+var count = 0;
 function step() {
+  count++;
   s = s * -1;
   var pos = s * arg[1];
   console.log("--started leg--", pos);
@@ -36,8 +37,6 @@ function step() {
     }
   , 200);
 }
-setInterval(step, 2500);
-
-//open file /sys/class/msensor/sensor1/value0 -- touch sensor
-var file =fs.readFileSync("/sys/class/msensor/sensor0/value0");
-console.log("file is--- ", JSON.parse(file));
+var run = setInterval(step, 2500);
+if (count > 10)
+  clearInterval(run);
