@@ -38,5 +38,7 @@ function step() {
   , 200);
 }
 var run = setInterval(step, 2500);
-if (count > 10)
+if (count > 10) {
+  console.log("count is --", count);
   clearInterval(run);
+}
