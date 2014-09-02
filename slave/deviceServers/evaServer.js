@@ -1,19 +1,32 @@
 var arg =  process.argv;
-var x = arg.shift();
-x = arg.shift();
-console.log("dskhskjhfkjsdhfkjdshgk ", arg);
+arg.shift();
+arg.shift();
+console.log(" speed set to -----", arg);
+
 var fs = require('fs');
+var express = require('express');
+var getRawBody = require('raw-body');
+var cors = require('cors');
+var request = require('superagent');
+
 var ev3 = require('ev3dev');
 var motorA = new ev3.Motor(ev3.MotorPort.A);
 var head = new ev3.Motor(ev3.MotorPort.C);
 console.log("-----head position -----", head.position);
-console.log("-----hope this works type of motor-----", head.type);
+console.log("-----legs position-----", motorA.position);
+
+if (arg.length !== 2){
+  console.log("got no particular speed specified");
+  arg[0] = 50;
+  arg[1] = 80;
+  console.log("arguments will be ", arg);
+}
 
 var s = -1;
 var count = 0;
 function step() {
   count+=1;
-  if (count > 10) {
+  if (count > 20) {
     console.log("count is --", count);
     clearInterval(run);
   }
@@ -41,8 +54,39 @@ function step() {
     }
   , 200);
 }
-var run = setInterval(step, 2500);
-if (count > 10) {
-  console.log("count is --", count);
-  clearInterval(run);
-}
+var run = 0;
+run = setInterval(step, 2500);
+var  port = 7777;
+console.log("listening on port: ", port);
+var app = express();
+
+
+//handle post/put
+app.use(function (req, res, next) {
+  getRawBody(req, {
+    length: req.headers['content-length'],
+    limit: '1mb',
+    encoding: 'utf8'
+  }, function (err, string) {
+    if (err)
+      return next(err);
+    req.text = string;
+    next();
+  })
+});
+
+app.use(cors());
+
+app.put("/", function(req, res){
+  if (req.text === "ping") {
+    console.log("Hello human. I am EVA");
+  }
+  if (req.text === "start") {
+    run = setInterval(step, 2500);
+  }
+  if (req.text === "stop") {
+    clearInterval(run);
+  }
+});
+
+app.listen(port);
