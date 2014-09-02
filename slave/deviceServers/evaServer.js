@@ -12,7 +12,11 @@ console.log("-----hope this works type of motor-----", head.type);
 var s = -1;
 var count = 0;
 function step() {
-  count++;
+  count+=1;
+  if (count > 10) {
+    console.log("count is --", count);
+    clearInterval(run);
+  }
   s = s * -1;
   var pos = s * arg[1];
   console.log("--started leg--", pos);
