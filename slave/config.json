@@ -13,6 +13,11 @@
       "speaker": {"url":"http://localhost:3333"},
       "buzzer/relay":{"url":"http://localhost:8888"},
       "photocell":{"url":"http://localhost:4444"},
-      "webiopi":{"url":"http://localhost:4545"}
+      "webiopi":{"url":"http://localhost:4545"},
+      "some_drone":{"url":"http://192.168.1.2:7777"},
+      "some_robot":{"url":"http://192.168.1.3:7777"}
+
+
+
     }
 }
