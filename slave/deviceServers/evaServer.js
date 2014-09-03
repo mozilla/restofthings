@@ -54,9 +54,9 @@ function step() {
     }
   , 200);
 }
-var run = 0;
-run = setInterval(step, 2500);
-var  port = 7777;
+
+var run = setInterval(step, 2500);
+var port = 7777;
 console.log("listening on port: ", port);
 var app = express();
 
@@ -82,9 +82,11 @@ app.put("/", function(req, res){
     console.log("Hello human. I am EVA");
   }
   if (req.text === "start") {
+    count = 0;
     run = setInterval(step, 2500);
   }
   if (req.text === "stop") {
+    count = 0;
     clearInterval(run);
   }
 });

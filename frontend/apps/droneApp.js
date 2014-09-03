@@ -3,7 +3,7 @@ function app(){
     id:"start",
     text: 'takeoff',
     click: function () {
-      ROT.writeTag("drone", "start", function(data){
+      ROT.writeTag("eva", "start", function(data){
         console.log("wrote data to drone");
       });
     }
@@ -14,7 +14,7 @@ function app(){
     id:"stop",
     text: 'land',
     click: function () {
-      ROT.writeTag("drone", "stop", function(data){
+      ROT.writeTag("eva", "stop", function(data){
         console.log("wrote data to drone ");
       });
     }
