@@ -17,8 +17,8 @@ console.log("-----legs position-----", motorA.position);
 
 if (arg.length !== 2){
   console.log("got no particular speed specified");
-  arg[0] = 50;
-  arg[1] = 80;
+  arg[0] = 20;
+  arg[1] = 40;
   console.log("arguments will be ", arg);
 }
 
