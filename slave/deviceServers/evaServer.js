@@ -25,11 +25,12 @@ if (arg.length !== 2){
 var s = -1;
 var count = 0;
 function step() {
-  count+=1;
-  if (count > 20) {
+  count += 1;
+  if (count > 4) {
     console.log("count is --", count);
     clearInterval(run);
   }
+
   s = s * -1;
   var pos = s * arg[1];
   console.log("--started leg--", pos);
@@ -78,11 +79,14 @@ app.use(function (req, res, next) {
 app.use(cors());
 
 app.put("/", function(req, res){
+  console.log("REQUEST: ", req.text);
+  
   if (req.text === "ping") {
     console.log("Hello human. I am EVA");
   }
   if (req.text === "start") {
     count = 0;
+    clearInterval(run);
     run = setInterval(step, 2500);
   }
   if (req.text === "stop") {
