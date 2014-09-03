@@ -17,8 +17,8 @@ console.log("-----legs position-----", motorA.position);
 
 if (arg.length !== 2){
   console.log("got no particular speed specified");
-  arg[0] = 20;
-  arg[1] = 40;
+  arg[0] = 40;
+  arg[1] = 50;
   console.log("arguments will be ", arg);
 }
 
@@ -28,7 +28,7 @@ function step() {
   count += 1;
   if (count > 4) {
     console.log("count is --", count);
-    clearInterval(run);
+    //clearInterval(run);
   }
 
   s = s * -1;
@@ -56,7 +56,8 @@ function step() {
   , 200);
 }
 
-var run = setInterval(step, 2500);
+//var run = setInterval(step, 2500);
+var run;
 var port = 7777;
 console.log("listening on port: ", port);
 var app = express();
