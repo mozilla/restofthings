@@ -1,4 +1,4 @@
-##RESTofThings## is  a project that aims to facilitate ioT applications using `rot.js` API.
+*RESTofThings* is  a project that aims to facilitate ioT applications using `rot.js` API.
 It has three major components:
 
  * directory server - a webServer that handles registration of powered on boards
