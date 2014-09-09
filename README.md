@@ -6,7 +6,8 @@ It has three major components:
  * rot.js api - REST API for building ioT apps
 
 A presentation about this project here:
-`http://raluca-elena.github.io/iot-preso/#/start`
+
+http://raluca-elena.github.io/iot-preso/#/start
 
 
 
