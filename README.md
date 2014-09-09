@@ -11,16 +11,16 @@ A presentation about this project here:
 
 
 Video about this project here:
-`https://air.mozilla.org/the-rest-of-things/`
+https://air.mozilla.org/the-rest-of-things/
 
 
 Demos implemented using this API here:
 
-`https://www.youtube.com/watch?v=TAdbb2Q3EPA`
+https://www.youtube.com/watch?v=TAdbb2Q3EPA
 
-`https://www.youtube.com/watch?v=6PMdVHsdFBk (workflow)`
+https://www.youtube.com/watch?v=6PMdVHsdFBk `(workflow)`
 
-`https://www.youtube.com/watch?v=YiZ1fmrOfW0`
+https://www.youtube.com/watch?v=YiZ1fmrOfW0
 
 ### Flow
 * obtain device & plug it into network/power
