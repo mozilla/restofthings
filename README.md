@@ -1,71 +1,26 @@
-directory_server - centralized endpoint behind restofthings.com
-frontend - some html code to make use of all of the CORS
-frontend - app that makes calls to directory_server on behalf of current ip
-slave - code that runs on pi
+RESTofThings is  a project that aims to facilitate ioT applications to rot.js API.
+It has three major components:
 
+ * directory server - a webServer that handles registration of powered on boards
+ * slave server - server running on a device that has a UUID and pings the directory server
+ * rot.js api - REST API for building ioT apps
 
-install Webiopi
-
-Remove auth
-
-`sudo rm /etc/webiopi/passwd`
-
-
-Install pi-gpio
-
-`sudo apt-get install nodejs npm`
-
-`git clone git://github.com/quick2wire/quick2wire-gpio-admin.git`
-
-`cd quick2wire-gpio-admin`
-
-`make`
-
-`sudo make install`
-
-`sudo adduser $USER gpio`
-
-
-Install and configure nginx:
-
-`sudo apt-get update`
-
-`sudo apt-get install nginx`
-
-`copy default file from pi-config-files to /etc/nginx/sites-*`
-
-`service nginx start`
-
-
-Nginx if used as a CORS proxy in this case(nginx will by default run on port `80`).
-
-Note: if you failed to configure nginx properly and won't start try this:
-`sudo nginx -t` should test all files and return errors and warnings locations
-raspicam working example
-http://blog.miguelgrinberg.com/post/how-to-build-and-run-mjpg-streamer-on-the-raspberry-pi
-`$ sudo apt-get install libjpeg8-dev`
-`$ sudo apt-get install imagemagick`
-`$ tar xvzf mjpg-streamer-r63.tar.gz`
-`$ cd mjpg-streamer-r63`
-`$ make`
-
-At this point we'll try to use as an example the raspicam and mjpg streamer
+A presentation about this project here:
+`http://raluca-elena.github.io/iot-preso/#/start`
 
 
 
-For starting the camera: 
+Video about this project here:
+`https://air.mozilla.org/the-rest-of-things/`
 
-`$ mkdir /tmp/stream`
 
-`$ raspistill --nopreview -w 640 -h 480 -q 5 -o /tmp/stream/pic.jpg -tl 100 -t 9999999 -th 0:0:0 &`
+Demos implemented using this API here:
 
-You need to install mjpg streamer:
+`https://www.youtube.com/watch?v=TAdbb2Q3EPA`
 
-http://blog.miguelgrinberg.com/post/stream-video-from-the-raspberry-pi-camera-to-web-browsers-even-on-ios-and-android
+`https://www.youtube.com/watch?v=6PMdVHsdFBk (workflow)`
 
-Than run: 
-
-`LD_LIBRARY_PATH=/usr/local/lib mjpg_streamer -i "input_file.so -f /tmp/stream -n pic.jpg" -o "output_http.so -w /usr/local/www -p 9999"`
+`https://www.youtube.com/watch?v=YiZ1fmrOfW0`
 
 ### Flow
 * obtain device & plug it into network/power
