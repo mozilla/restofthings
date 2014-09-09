@@ -1,3 +1,4 @@
+###RESTofThings
 **RESTofThings** is  a project that aims to facilitate ioT applications using `rot.js` API.
 It has three major components:
 
