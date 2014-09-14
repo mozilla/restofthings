@@ -1,0 +1,50 @@
+################
+#Broadcasting an Ad-Hoc Network
+################
+
+#backup network setup
+sudo cp /etc/network/interfaces /etc/network/interfaces_backup
+sudo vim /etc/network/interfaces
+
+################
+auto lo
+auto wlan0
+
+iface lo inet loopback
+iface eth0 inet dhcp
+iface wlan0 inet static
+  address 192.168.1.1
+  netmask 255.255.255.0
+  wireless-channel 1
+  wireless-essid RPiAdHocNetwork
+  wireless-mode ad-hoc
+#################
+
+sudo -f ifdown wlan0
+sudo ifup wlan0
+
+[If you have already configured your Pi to connect to an infrastructure network in the past,
+you might have to use the -f option to force the new changes.]
+
+#################
+#Configuring the Raspberry Pi as a DHCP Server
+#################
+
+sudo apt-get update
+sudo apt-get install dhcp3-server
+vim /etc/dhcp/dhcpd.conf [Update the file so that it contains the following:]
+##################
+ddns-update-style interim;
+default-lease-time 600;
+max-lease-time 7200;
+authoritative;
+log-facility local7;
+subnet 192.168.1.0 netmask 255.255.255.0 {
+  range 192.168.1.5 192.168.1.150;
+}
+###################
+information available on this blog:
+http://spin.atomicobject.com/2013/04/22/raspberry-pi-wireless-communication/
+
+
+
