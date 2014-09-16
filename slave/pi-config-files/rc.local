@@ -1,4 +1,4 @@
-#!/bin/sh -e
+#!/bin/bash -e
 #
 # rc.local
 #
@@ -10,5 +10,42 @@
 # bits.
 #
 # By default this script does nothing.
-(cd ~rpodiuc/restofthings/slave/ &&  /usr/local/bin/node server.js  config.json)  2>&1 |cat > /tmp/err &
+
+# Print the IP address
+
+export PATH=/usr/local/bin/:$PATH
+
+echo MIMI $(date) >> /asdf
+env >> /asdf
+
+_IP=$(hostname -I) || true
+if [ "$_IP" ]; then
+  printf "My IP address is %s\n" "$_IP"
+fi
+/usr/local/bin/node /home/pi/restofthings/slave/server.js /home/pi/restofthings/slave/config.json &
+
+echo LAUNCH FIRST NODE >> /asdf
+
+
+ls -la /sys/class/gpio/ &>> /asdf
+
+
+echo "12" >  /sys/class/gpio/export
+chmod 777 -R /sys/class/gpio/gpio12
+echo "out" > /sys/class/gpio/gpio12/direction
+
+
+ls -la /sys/class/gpio/ &>> /asdf
+
+/usr/local/bin/node /home/pi/restofthings/slave/deviceServers/buzzerServer.js &>> /asdf &
+
+#/usr/local/bin/node /home/pi/restofthings/slave/deviceServers/photocellServer.js &>> /asdf &
+su pi -c "/usr/bin/vncserver :1" &>> /asdf &
+
+echo LAUNCHED SECOND NODE >> /asdf
+
+printf "MUAHAHAHHAHAHAHHAHA"
+
+echo ZUZU $(date) >> /asdf
+
 exit 0

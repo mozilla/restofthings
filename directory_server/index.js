@@ -72,6 +72,12 @@ app.put(/^\/thing\/([A-z:0-9.-]+|\*)$/, function(req, res){
   res.send("OK");
 });
 
+//app.set(function(){
+  //app.use('/clientPage', express.static(__dirname + '/clientPage'));
+  app.use(express.static(__dirname + '/public'));
+  app.use(express.static(__dirname + '/lib'));
+
+//});
 app.listen(config.port);
 
 console.log("Server running at\n  =>"+config.host+":" + config.port + "/\nCTRL + C to shutdown");
