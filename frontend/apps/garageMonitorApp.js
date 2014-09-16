@@ -36,7 +36,9 @@ function change(text) {
 
 function monitorGarageDoor() {
   ROT.readTag('light', function(data){
-    if (parseInt(data) > 900){
+  console.log("--------------------///////", parseInt(data));  
+  if (parseInt(data) > 400){
+      console.log("data is : ", parseInt(data));
       change("CloseDoor");
       alert("GARAGE OPEN!");
     } else {
